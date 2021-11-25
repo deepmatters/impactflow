@@ -30,10 +30,10 @@ app.jinja_env.filters['datetimefilter'] = datetimefilter
 
 # Defind img convert function to eval string saved in db as list
 def img_convert(img_url):
-    if len(img_url) > 0:
+    if len(img_url) > 2:  # 2 mean empty bracket []. This happens when img is deleted.
         img_list = ast.literal_eval(img_url)
         img = img_list[0]  # Select only the 1st img
-    else:
+    else:  # If img_url is an empty bracket, or None
         img = None
     return img
 

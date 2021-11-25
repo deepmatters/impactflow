@@ -34,7 +34,7 @@
                         <a class="no-decoration" href="/project/{{ project.id }}">
                             <div class="homecard-inner-flex-wrapper">
                                 <div class="homecard-inner-flex-img">
-                                    {% if project.img_url %}
+                                    {% if project.img_url|length > 2 %}
                                         <img class="homecard" src="{{ project.img_url|img_convert }}" alt="{{ project.json['title'] }} logo">
                                     {% else %}
                                         <img class="homecard" src="/static/impactflow-logo.png" alt="Placeholder logo">
