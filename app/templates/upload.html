@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <div class="main-wrapper">
+        <div id="csrf">{{ form.csrf_token }}</div>
+        <div id="projectId" style="display:none">{{ project.id }}</div>
+        
+        <h1>อับโหลดภาพ Logo Upload</h1>
+        <ul>
+            <li>รองรับไฟล์ภาพนามสกุล png, jpg, jpeg, gif, heic เท่านั้น Accept png, jpg, jpeg, gif, heic only</li>
+            <!-- <li>สามารถอับโหลดทีละหลายภาพโดยการกด Shift หรือ Ctrl ระหว่างเลือกไฟล์</li> -->
+            <li>เมื่อเลือกไฟล์แล้ว ระบบจะอับโหลดให้ทันที หากต้องการเปลี่ยนไฟล์สามารถเลือกใหม่ได้ ระบบจะอับโหลดทับไฟล์เดิม When the file is selected, it will be uploaded instantly. If you want to change the file, just select the new file. The previous file will be automatically replaced.</li>
+        </ul>
+        <p>กด Browse ด้านล่างเพื่อเลือกไฟล์ที่จะอับโหลด Click Browse to upload</p>
+        <form id="fileUploader">
+            <!-- <input id="fileInput" type="file" multiple> -->
+            <input id="fileInput" type="file">
+        </form>
+        <h2>สถานะการอับโหลด</h2>
+        <p>:: <span id="uploadStatus">ยังไม่มีไฟล์ที่จะอับโหลด No file selected</span></p>
+        <div id="fileRepo"></div>
+        <br>
+        <div id="fileResult"></div>
+        <div class="spacer-big"></div>
+        <button type="button" class="button" onclick="fileUrlsSubmit()">บันทึกและกลับไปหน้าเนื้อหา<br>Save and return</button>
+    </div>
+</main>
+<script src="/static/file-uploader.js"></script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main-wrapper">
+    <p><a href="/">< กลับไปหน้าหลัก Back to Home</a></p>
+    <div class="spacer-big"></div>
+    <div id="formApp">
+        <div id="csrf">{{ form.csrf_token }}</div>
+        <h1>สร้างโครงการใหม่ Project Creation</h1>
+        <p>ชื่อโครงการ/องค์กร Project/Organisation Name</p>
+        <input id="title" type="text">
+        <br>
+        <p>เป้าหมาย Objectives</p>
+        <textarea id="objectives"></textarea>
+        <br><br>
+        <p>คำอธิบายโดยย่อ Summary</p>
+        <textarea id="summary"></textarea>
+        <br><br>
+        <p>ระยะเวลา Duration (เดือน Month)</p>
+        <p id="durationGuide" class="red-em" style="display: none;">กรุณาใส่จำนวนเต็มเท่านั้น Please input whole numbers only.</p>
+        <input id="duration" type="number" placeholder="จำนวนเดือน Num of Month">
+        <p>งบประมาณ Budget (บาท Baht)</p>
+        <p id="budgetGuide" class="red-em" style="display: none;">กรุณาใส่จำนวนเงินโดยไม่ต้องมีจุลภาค (,) สามารถใส่จุดทศนิยมได้ Please input numbers without comma (,). Can use period (.).</p>
+        <input id="budget" type="number" placeholder="จำนวนบาท Amt in Baht">
+        <p>ผู้รับผิดชอบ Team</p>
+        <input id="team1Name" type="text" placeholder="ชื่อ Name"><input id="team1Position" type="text" placeholder="ตำแหน่ง Position">
+        <div class="clear"></div>
+        <div id="teamWrapper"></div>
+        <button class="form-button" type="button" onclick="teamAdd()">+</button>&nbsp;
+        <button class="form-button" type="button" onclick="teamMinus()">-</button>
+        <div class="spacer-big"></div>
+        <p>ท่านต้องการเผยแพร่โครงการและ Impact Model ให้ผู้อื่นเห็นหรือไม่ Do you want to share this project and its impact model to the public?</p>
+        <input type="checkbox" id="published" name="publish-checkbox" value="published" checked>
+        <label for="publish-checkbox"> เผยแพร่ Share</label><br>
+        <br>
+        <div class="button-wrapper">
+            <button id="formSubmit" class="button" type="button" onclick="fetchSubmit()">บันทึกข้อมูล<br>Submit</button>
+        </div>
+        <br>
+    </div>
+</main>
+<script src="/static/project-create.js"></script>
+{% endblock %}

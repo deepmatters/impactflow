@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <div class="login-wrapper">
+        <h1>สมัครสมาชิก Sign-up</h1>
+        <form method="POST" action="/signup">
+            {{ form.csrf_token }}
+            <div class="input-wrapper">
+                {{ form.name(size=23, placeholder="ชื่อ-นามสกุล Name", autofocus=true, class_="full-width") }}<br>
+                {{ form.email(size=23, placeholder="อีเมล Email") }}<br>
+                {{ form.password(size=23, placeholder="รหัสผ่านที่ต้องการ Password") }}<br>
+                {{ form.password_check(size=23, placeholder="ยืนยันรหัสผ่าน Confirm password") }}<br>
+            </div>
+            <div class="button-wrapper">
+                {{ form.submit(class_="button") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

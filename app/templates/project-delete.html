@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <p><a href="/project/{{ project.id }}">< กลับไปหน้าโครงการ Back to Project</a></p>
+    <div class="spacer-big"></div>
+    <div class="login-wrapper">
+        <h1>ยืนยันการลบโครงการ Project Deletion Confirmation</h1>
+        <p>คุณแน่ใจหรือไม่ที่จะลบโครงการ Are you sure you want to delete project: {{ project['json']['title'] }}</p>
+        <p class="red-em">หากลบโครงการ ข้อมูลที่เกี่ยวกับโครงการนี้ รวมทั้ง Impact Model จะหายหมด If deleted, all related information, including the Impact Model, will also be deleted.</p>
+        <p>[ <a href="/project/{{ project.id }}/delete/confirm">แน่ใจ ลบโครงการนี้ทันที Confirm project deletion</a> ]</p>
+        <p>[ <a href="/project/{{ project.id }}">ยกเลิกการลบโครงการ Cancel project deletion</a> ]</p>
+    </div>
+</div>
+{% endblock %}

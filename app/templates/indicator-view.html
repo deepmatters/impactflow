@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <p><a href="/">< กลับไปหน้าหลัก Back to Home</a></p>
+    <div class="spacer-big"></div>
+    <div class="main-flex-wrapper">
+        <div class="main-flex-left">
+            <h1>Indicator Bank</h1>
+            <div class="caution-zone">
+                <p>Notice: this page is best viewed on a desktop screen only.</p>
+            </div>
+            <br>
+            <div class="passed-zone">
+                <p><strong>Indicator bank update instruction</strong></p>
+                <p>If you as an admin want to update the indicator bank, please follow these steps:</p>
+                <ol>
+                    <li>Prepare an Excel or a CSV file with 1 sheet. Label the columns of the 1st row (From A1, B1, and so on) as <code>category</code>, <code>subcategory</code>, <code>indicator_en</code>, <code>indicator_th</code>, <code>source_en</code>, <code>source_th</code> respectively. Note all column names do not use capital letters.</li>
+                    <li>From Row 2 enter indicator information with respect to the corresponding column name.</li>
+                    <li>Save and send the file to chitpong [at] changefusion [dot] org. We will replace the indicator data in the database with the new one.</li>
+                </ol>
+            </div>
+            <div class="spacer-big"></div>
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>Sub-category</th>
+                    <th>Indicator EN</th>
+                    <th>Source EN</th>
+                    <th>Indicator TH</th>
+                    <th>Source TH</th>
+                </tr>
+                {% for indicator in indicators %}
+                    <tr>
+                        <td>{{ indicator['category'] }}</td>
+                        <td>{{ indicator['subcategory'] }}</td>
+                        <td>{{ indicator['indicator_en'] }}</td>
+                        <td>{{ indicator['source_en'] }}</td>
+                        <td>{{ indicator['indicator_th'] }}</td>
+                        <td>{{ indicator['source_th'] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

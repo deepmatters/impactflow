@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <div class="main-wrapper">
+        <h1>Impact Flow</h1>
+        <p>เครื่องมือสร้าง Impact Model สำหรับโครงการเพื่อสังคมหรือสิ่งแวดล้อมของคุณ</p>
+        <p>A tool to create Impact Models for you social impact projects</p>
+        <div class="spacer-big"></div>
+        {% if not current_user.is_authenticated %}
+            <div class="info-box">
+                <div class="align-center">
+                    Welcome! Please&nbsp;&nbsp;<a class="no-decoration" href="/login"><button class="button">Login</button></a>&nbsp;&nbsp;to create, view, and edit your Impact Model.
+                </div>
+                
+            </div>
+        {% else %}
+            <div class="info-box">
+                <div class="align-center">
+                    Hello {{ current_user.name }}<br>
+                    <a class="no-decoration" href="/project-create"><button class="button">กดสร้าง Impact Model<br>Create an Impact Model</button></a>
+                </div>
+            </div>
+        {% endif %}
+        <br>
+        {% if current_user.is_authenticated %}
+            <h2>My Impact Model</h2>
+            {% if not projects %}
+                <p>No Impact Model [<a href="/project-create">Create an Impact Model</a>]</p>
+            {% endif %}
+            <div class="homecard-flex-wrapper">
+                {% for project in projects %}
+                    <div class="homecard-flex">
+                        <a class="no-decoration" href="/project/{{ project.id }}">
+                            <div class="homecard-inner-flex-wrapper">
+                                <div class="homecard-inner-flex-img">
+                                    {% if project.img_url %}
+                                        <img class="homecard" src="{{ project.img_url|img_convert }}" alt="{{ project.json['title'] }} logo">
+                                    {% else %}
+                                        <img class="homecard" src="/static/impactflow-logo.png" alt="Placeholder logo">
+                                    {% endif %}
+                                </div>
+                                <div class="homecard-inner-flex-content">
+                                    <h2>{{ project.json['title'] }}</h2>
+                                    <p>{{ project.json['objectives']|truncate(100) }}</p>
+                                    {% if project.json['published'] %}
+                                        <span class="shared">เผยแพร่ Shared</span>
+                                    {% else %}
+                                        <span class="private">ไม่เผยแพร่ Private</span>
+                                    {% endif %}
+                                    <br><br>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <br>
+        <hr>
+        <br>
+        <h2>Shared Impact Models</h2>
+        {% for project_published in projects_published %}
+            <p><a href="/project/{{ project_published.id }}">{{ project_published.json['title'] }}</a> <span class="gray-small">created {{ project_published.create_dt|datetimefilter }}</span></p>
+        {% endfor %}
+        <br>
+        {% if current_user.is_authenticated %}
+            {% if current_user.role == 'admin' %}
+            <hr>
+            <br>
+            <h2>Private Impact Models</h2>
+            <span class="admin">Viewable by Admin only</span>
+                {% for project_unpublished in projects_unpublished %}
+                    <p><a href="/project/{{ project_unpublished.id }}">{{ project_unpublished.json['title'] }}</a> <span class="gray-small">created {{ project_unpublished.create_dt|datetimefilter }}</span></p>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

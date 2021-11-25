@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <p><a href="/project/{{ project.id }}">< กลับไปหน้าโครงการ Back to Project</a></p>
+    <div class="spacer-big"></div>
+    <div class="login-wrapper">
+        <h1>ยืนยันการลบผู้มีส่วนได้เสีย Project Stakeholder Deletion Confirmation</h1>
+        <p>คุณแน่ใจหรือไม่ที่จะลบผู้มีส่วนได้เสีย Are you sure you want to delete stakeholder: {{ stakeholder['json']['stakeholder'] }}</p>
+        <p class="red-em">หากลบผู้มีส่วนได้เสีย ข้อมูลที่เกี่ยวกับผู้มีส่วนได้เสียนี้ รวมทั้งกิจกรรมที่เกี่ยวข้อง จะหายหมด If deleted, all related information, including the associated activity, will also be deleted.</p>
+        <p>[ <a href="/project/{{ project.id }}/{{ stakeholder.id }}/delete/confirm">แน่ใจ ลบผู้มีส่วนได้เสียนี้ทันที Confirm stakeholder deletion</a> ]</p>
+        <p>[ <a href="/project/{{ project.id }}">ยกเลิกการลบผู้มีส่วนได้เสีย Cancel stakeholder deletion</a> ]</p>
+    </div>
+</div>
+{% endblock %}

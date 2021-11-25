@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <p><a href="/project/{{ project.id }}">< กลับไปหน้าโครงการ Back to Project</a></p>
+    <div class="spacer-big"></div>
+    <div class="main-flex-wrapper">
+        <div class="main-flex-left">
+            <p>โครงการ Project: {{ project['json']['title'] }}</p>
+            <p>ผู้มีส่วนได้เสีย Stakeholder: {{ stakeholder['json']['stakeholder'] }}</p>
+            <h1>กิจกรรม Activity: {{ activity['json']['activity'] }}</h1>
+            {% if activity.mod_dt %}
+                <p class="gray-small">Created: {{ activity.create_dt|datetimefilter }} | Last edit: {{ activity.mod_dt|datetimefilter }}</p>
+            {% else %}
+                <p class="gray-small">Created: {{ activity.create_dt|datetimefilter }}</p>
+            {% endif %}
+            <h2>กิจกรรม Activity</h2>
+            <p>{{ activity['json']['activity'] }}</p>
+            <h2>ผลผลิต Output</h2>
+            <p>{{ activity['json']['output'] }}</p>
+            <p>จำนวน Amount: {{ activity['json']['outputAmount'] }}</p>
+            <p>หน่วย Unit: {{ activity['json']['outputUnit'] }}</p>
+            <h2>ผลลัพธ์ Outcome</h2>
+            <p>หมวดหมู่ Category: {{ activity['json']['outcomeCategory'] }}</p>
+            <p>ผลลัพธ์ Outcome: {{ activity['json']['outcome'] }}</p>
+            <p>จำนวน Amount: {{ activity['json']['outcomeAmount'] }}</p>
+            <p>หน่วย Unit: {{ activity['json']['outcomeUnit'] }}</p>
+            <h2>ผลกระทบ Impact</h2>
+            <p>{{ activity['json']['impact'] }}</p>
+            <br>
+            {% if editable %}
+                <div class="passed-zone">
+                    <div class="spacer-small"></div>
+                    <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/edit"><button class="button">แก้ไขกิจกรรมและผลกระทบนี้<br>Edit activity and impact</button></a>&nbsp;&nbsp;
+                    <span class="caution"><a href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/delete">ลบกิจกรรมและผลกระทบนี้ Delete this activity and impact</a></span>
+                </div>
+                <br>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

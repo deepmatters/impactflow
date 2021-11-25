@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="social impact, impact assessment">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {% if request.path.split('/')[1] == 'project' %}
+        {% if project.img_url %}
+            <meta property="og:image" content="{{ project.img_url|img_convert }}">
+        {% else %}
+            <meta property="og:image" content="{{ url_for('static', filename='impactflow-logo.png') }}">
+        {% endif %}
+        <meta name="description" content="{{ project['json']['objectives'] }}">
+        <title>{{ project['json']['title'] }}</title>
+    {% else %}
+        <meta property="og:image" content="{{ url_for('static', filename='impactflow-logo.png') }}">
+        <meta name="description" content="Impact Flow เครื่องมือสร้าง Impact Model สำหรับโครงการเพื่อสังคมหรือสิ่งแวดล้อมของคุณ">
+        <title>Impact Flow</title>
+    {% endif %}
+</head>
+<body>
+    <div class="body-wrapper">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message">
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <header>
+            <div class="header-flex-wrap">
+                <div class="header-logo-block">
+                    <a href="/"><img src="/static/impactflow-logo.svg" alt="Impact Flow"></a>
+                </div>
+                <div class="header-nav-block">
+                    {% if not current_user.is_authenticated %}
+                        <span class="nav-item"><a class="no-decoration" href="/login">ล็อกอิน<br>LOGIN</a></span>
+                    {% else%}
+                        <span class="nav-item"><a class="no-decoration" href="/">โครงการของฉัน<br>MY PROJECTS</a></span>
+                        <span class="nav-item"><a class="no-decoration" href="/profile">โปรไฟล์ของฉัน<br>MY PROFILE</a></span>
+                    {% endif %}
+                    <span class="nav-item"><a class="no-decoration" href="/about">เกี่ยวกับเรา<br>ABOUT</a></span>
+                </div>
+            </div>
+        </header>
+        {% block content %}{% endblock %}
+        <footer>
+            <div class="footer-wrapper">
+                <div class="footer-item">
+                    <h3>IMPACT FLOW</h3>
+                    <p>Developed by ChangeVentures</p>
+                </div>
+                <div class="footer-item">
+                    <p><a href="/about">เกี่ยวกับเรา ABOUT</a></p>
+                    {% if not current_user.is_authenticated %}
+                        <p><a href="/login">ล็อกอิน LOGIN</a></p>
+                    {% else%}
+                        <p><a href="/">โครงการของฉัน MY PROJECTS</a></p>
+                        <p><a href="/profile">โปรไฟล์ของฉัน MY PROFILE</a></p>
+                        <p><a href="/logout">ออกจากระบบ LOGOUT</a></p>
+                    {% endif %}
+                </div>
+                <div class="footer-item">
+                    <div class="align-center">
+                        <img class="undp-logo" src="/static/undp-logo.jpg" alt="UNDP logo">
+                        <img class="cv-logo" src="/static/changeventures-logo.jpg" alt="ChangeVentures logo">
+                    </div>
+                </div>
+                
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
