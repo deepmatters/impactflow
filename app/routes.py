@@ -29,11 +29,12 @@ def datetimefilter(value, format="%d-%m-%Y %H:%M:%S"):
 app.jinja_env.filters['datetimefilter'] = datetimefilter
 
 # Defind img convert function to eval string saved in db as list
+# In Jinja2, when testing if having img, USE {% if db_object.img_url|length > 2 %}
 def img_convert(img_url):
     if len(img_url) > 2:  # 2 mean empty bracket []. This happens when img is deleted.
         img_list = ast.literal_eval(img_url)
         img = img_list[0]  # Select only the 1st img
-    else:  # If img_url is an empty bracket, or None
+    else:  # If img_url is an empty bracket (len = 2), or None
         img = None
     return img
 

@@ -57,8 +57,8 @@ function searchSubmit() {
         console.log(`Search term loose mode (OR): ${searchTermOr}`)
 
         // Build search RegEx
-        let searchRegexAnd = new RegExp(searchTermAnd, 'g')
-        let searchRegexOr = new RegExp(searchTermOr, 'g')
+        let searchRegexAnd = new RegExp(searchTermAnd, 'gi')
+        let searchRegexOr = new RegExp(searchTermOr, 'gi')
 
         console.log(`Search Regex strict mode (AND): ${searchRegexAnd}`)
         console.log(`Search Regex loose mode (OR): ${searchRegexOr}`)

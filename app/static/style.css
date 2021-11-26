@@ -892,6 +892,10 @@ button.search-clear-button:hover {
         width: 40%;
     }
 
+    input[type=text].search-box {
+        width: 62%;
+    }
+
     .header-flex-wrap {
         padding: 10px 15px 0px 15px;
     }
