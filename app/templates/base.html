@@ -18,7 +18,11 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     {% if request.path.split('/')[1] == 'project' %}
         {% if project.img_url %}
-            <meta property="og:image" content="{{ project.img_url|img_convert }}">
+            {% if project.img_url|length > 2 %}
+                <meta property="og:image" content="{{ project.img_url|img_convert }}">
+            {% else %}
+                <meta property="og:image" content="{{ url_for('static', filename='impactflow-logo.png') }}">
+            {% endif %}
         {% else %}
             <meta property="og:image" content="{{ url_for('static', filename='impactflow-logo.png') }}">
         {% endif %}
