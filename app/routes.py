@@ -1,9 +1,11 @@
 from flask import render_template, redirect, url_for, flash, request, json, jsonify
-from app import app, db, mail
-from app.forms import SignupForm, LoginForm, ForgetForm, PasswordChangeForm, PasswordResetForm, ProjectForm, StakeholderForm, ActivityForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Project, Stakeholder, Activity
 from flask_mail import Message
+
+from app import app, db, mail
+from app.models import User, Project, Stakeholder, Activity
+from app.forms import SignupForm, LoginForm, ForgetForm, PasswordChangeForm, PasswordResetForm, ProjectForm, StakeholderForm, ActivityForm
+
 import pymongo
 import random
 from datetime import datetime
@@ -339,7 +341,32 @@ def project(project_id):
         else:
             imgs = None
 
-        return render_template('project.html', project=project, imgs=imgs, stakeholders=stakeholders, activities=activities, editable=editable)
+        # Generate sdg dict
+        sdg_list = [i['sdg'] for i in project.json['impact']]
+
+        sdg_dict = {
+            'Goal 1: No Poverty': '/static/TheGlobalGoals_Icons_Color_Goal_1.png', 
+            'Goal 2: Zero Hunger': '/static/TheGlobalGoals_Icons_Color_Goal_2.png', 
+            'Goal 3: Good Health and Well-being': '/static/TheGlobalGoals_Icons_Color_Goal_3.png', 
+            'Goal 4: Quality Education': '/static/TheGlobalGoals_Icons_Color_Goal_4.png', 
+            'Goal 5: Gender Equality': '/static/TheGlobalGoals_Icons_Color_Goal_5.png', 
+            'Goal 6: Clean Water and Sanitation': '/static/TheGlobalGoals_Icons_Color_Goal_6.png', 
+            'Goal 7: Affordable and Clean Energy': '/static/TheGlobalGoals_Icons_Color_Goal_7.png', 
+            'Goal 8: Decent Work and Economic Growth': '/static/TheGlobalGoals_Icons_Color_Goal_8.png', 
+            'Goal 9: Industry, Innovation and Infrastructure': '/static/TheGlobalGoals_Icons_Color_Goal_9.png', 
+            'Goal 10: Reduced Inequality': '/static/TheGlobalGoals_Icons_Color_Goal_10.png', 
+            'Goal 11: Sustainable Cities and Communities': '/static/TheGlobalGoals_Icons_Color_Goal_11.png', 
+            'Goal 12: Responsible Consumption and Production': '/static/TheGlobalGoals_Icons_Color_Goal_12.png', 
+            'Goal 13: Climate Action': '/static/TheGlobalGoals_Icons_Color_Goal_13.png', 
+            'Goal 14: Life Below Water': '/static/TheGlobalGoals_Icons_Color_Goal_14.png', 
+            'Goal 15: Life on Land': '/static/TheGlobalGoals_Icons_Color_Goal_15.png', 
+            'Goal 16: Peace and Justice Strong Institutions': '/static/TheGlobalGoals_Icons_Color_Goal_16.png', 
+            'Goal 17: Partnerships to achieve the Goal': '/static/TheGlobalGoals_Icons_Color_Goal_17.png'
+        }
+
+        sdg_dict_sel = {k:v for (k, v) in sdg_dict.items() if k in sdg_list}
+
+        return render_template('project.html', project=project, imgs=imgs, sdg_dict_sel=sdg_dict_sel, stakeholders=stakeholders, activities=activities, editable=editable)
 
 @app.route('/project/<int:project_id>/edit', methods=('GET', 'POST'))
 @login_required
@@ -846,11 +873,3 @@ def indicator_api():
             })
 
         return jsonify(indicators)
-
-"""
-Static
-"""
-
-@app.route('/about')
-def about():
-    return render_template('about.html')

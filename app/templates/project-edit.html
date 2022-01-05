@@ -13,9 +13,11 @@
         <p>ชื่อโครงการ/องค์กร Project/Organisation Name</p>
         <input id="title" type="text" value="{{ project['json']['title'] }}">
         <br>
-        <p>เป้าหมาย Objectives</p>
-        <textarea id="objectives">{{ project['json']['objectives'] }}</textarea>
-        <br><br>
+        <p>เป้าหมาย Impact Goals</p>
+        <div id="impactWrapper"></div>
+        <button class="form-button" type="button" onclick="impactAdd()">+</button>&nbsp;
+        <button class="form-button" type="button" onclick="impactMinus()">-</button>
+        <div class="spacer-big"></div>
         <p>คำอธิบายโดยย่อ Summary</p>
         <textarea id="summary">{{ project['json']['summary'] }}</textarea>
         <br><br>

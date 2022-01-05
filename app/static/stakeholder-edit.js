@@ -31,7 +31,7 @@ if (data.degree === 'ผู้รับประโยชน์ทางตร�
 
 if (data.importance === 'สูง High') {
     importance1.checked = true
-} else if (data.importance === 'ปกติ Normal') {
+} else if (data.importance === 'ปานกลาง Medium') {
     importance2.checked = true
 } else if (data.importance === 'น้อย Low') {
     importance3.checked = true

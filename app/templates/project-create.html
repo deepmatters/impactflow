@@ -10,9 +10,33 @@
         <p>ชื่อโครงการ/องค์กร Project/Organisation Name</p>
         <input id="title" type="text">
         <br>
-        <p>เป้าหมาย Objectives</p>
-        <textarea id="objectives"></textarea>
-        <br><br>
+        <p>เป้าหมาย Impact Goals</p>
+        <select name="sdg1" id="sdg1" onchange="filterTarget(1)">
+            <option value="" disabled selected>--- เลือก SDG Goal. Choose an SDG Goal. ---</option>
+            <option value="Goal 1: No Poverty">Goal 1: No Poverty</option>
+            <option value="Goal 2: Zero Hunger">Goal 2: Zero Hunger</option>
+            <option value="Goal 3: Good Health and Well-being">Goal 3: Good Health and Well-being</option>
+            <option value="Goal 4: Quality Education">Goal 4: Quality Education</option>
+            <option value="Goal 5: Gender Equality">Goal 5: Gender Equality</option>
+            <option value="Goal 6: Clean Water and Sanitation">Goal 6: Clean Water and Sanitation</option>
+            <option value="Goal 7: Affordable and Clean Energy">Goal 7: Affordable and Clean Energy</option>
+            <option value="Goal 8: Decent Work and Economic Growth">Goal 8: Decent Work and Economic Growth</option>
+            <option value="Goal 9: Industry, Innovation and Infrastructure">Goal 9: Industry, Innovation and Infrastructure</option>
+            <option value="Goal 10: Reduced Inequality">Goal 10: Reduced Inequality</option>
+            <option value="Goal 11: Sustainable Cities and Communities">Goal 11: Sustainable Cities and Communities</option>
+            <option value="Goal 12: Responsible Consumption and Production">Goal 12: Responsible Consumption and Production</option>
+            <option value="Goal 13: Climate Action">Goal 13: Climate Action</option>
+            <option value="Goal 14: Life Below Water">Goal 14: Life Below Water</option>
+            <option value="Goal 15: Life on Land">Goal 15: Life on Land</option>
+            <option value="Goal 16: Peace and Justice Strong Institutions">Goal 16: Peace and Justice Strong Institutions</option>
+            <option value="Goal 17: Partnerships to achieve the Goal">Goal 17: Partnerships to achieve the Goal</option>
+        </select>
+        <div id="target1"></div>
+        <br>
+        <div id="impactWrapper"></div>
+        <button class="form-button" type="button" onclick="impactAdd()">+</button>&nbsp;
+        <button class="form-button" type="button" onclick="impactMinus()">-</button>
+        <div class="spacer-big"></div>
         <p>คำอธิบายโดยย่อ Summary</p>
         <textarea id="summary"></textarea>
         <br><br>

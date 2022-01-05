@@ -23,8 +23,19 @@
             {% else %}
                 <p class="gray-small">Created: {{ project.create_dt|datetimefilter }}</p>
             {% endif %}
-            <h2>เป้าหมาย Objectives</h2>
-            <p>{{ project['json']['objectives'] }}</p>
+            <h2>เป้าหมาย Impact Goals</h2>
+            {% for k in sdg_dict_sel.keys() %}
+                <img class="sdg-icons" src="{{ sdg_dict_sel.get(k) }}" alt="SDG {{ k }}">
+            {% endfor %}
+            
+            {% for impact in project['json']['impact'] %}
+                <p>{{ impact['sdg'] }}</p>
+                <ul>
+                    {% for target in impact['target'] %}
+                        <li>{{ target }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
             <h2>ภาพรวม Summary</h2>
             <p>{{ project['json']['summary'] }}</p>
             <p>ระยะเวลา Duration: {{ project['json']['duration'] }} เดือน Month</p>

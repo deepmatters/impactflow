@@ -190,7 +190,7 @@ a.no-decoration {
 
 .caution a:link, .caution a:visited {
     display: inline-block;
-    color: #e05254;
+    color: #999999;
     font-size: 0.9em;
     background-color: none;
     margin: 0px 15px 0px 0px;
@@ -198,7 +198,7 @@ a.no-decoration {
 
 .caution a:hover, .caution a:active {
     display: inline-block;
-    color: #e05254;
+    color: #4d4d4d;
     font-size: 0.9em;
     background-color: none;
     margin: 0px 15px 0px 0px;
@@ -660,10 +660,10 @@ img.undp-logo {
     padding: 5px;
 }
 
-img.cv-logo {
+img.cf-logo {
     width: auto;
-    max-height: 100px;
-    padding: 5px;
+    max-height: 35px;
+    padding: 14px 5px;
 }
 
 /* Project */
@@ -713,6 +713,11 @@ img.org-logo {
 
 .placeholder {
     opacity: 0.66;
+}
+
+img.sdg-icons {
+    max-height: 100px;
+    padding: 5px;
 }
 
 /* Stakeholder */

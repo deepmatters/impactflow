@@ -57,7 +57,6 @@
                         <span class="nav-item"><a class="no-decoration" href="/">โครงการของฉัน<br>MY PROJECTS</a></span>
                         <span class="nav-item"><a class="no-decoration" href="/profile">โปรไฟล์ของฉัน<br>MY PROFILE</a></span>
                     {% endif %}
-                    <span class="nav-item"><a class="no-decoration" href="/about">เกี่ยวกับเรา<br>ABOUT</a></span>
                 </div>
             </div>
         </header>
@@ -69,7 +68,6 @@
                     <p>Developed by ChangeVentures</p>
                 </div>
                 <div class="footer-item">
-                    <p><a href="/about">เกี่ยวกับเรา ABOUT</a></p>
                     {% if not current_user.is_authenticated %}
                         <p><a href="/login">ล็อกอิน LOGIN</a></p>
                     {% else%}
@@ -81,7 +79,7 @@
                 <div class="footer-item">
                     <div class="align-center">
                         <img class="undp-logo" src="/static/undp-logo.jpg" alt="UNDP logo">
-                        <img class="cv-logo" src="/static/changeventures-logo.jpg" alt="ChangeVentures logo">
+                        <img class="cf-logo" src="/static/cf-logo.png" alt="ChangeFusion logo">
                     </div>
                 </div>
                 
