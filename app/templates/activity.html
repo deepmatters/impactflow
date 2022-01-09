@@ -16,7 +16,7 @@
             {% endif %}
             <h2>กิจกรรม Activity</h2>
             <p>{{ activity['json']['activity'] }}</p>
-            <h2>ผลผลิต Output</h2>
+            <!-- <h2>ผลผลิต Output</h2>
             <p>{{ activity['json']['output'] }}</p>
             <p>จำนวน Amount: {{ activity['json']['outputAmount'] }}</p>
             <p>หน่วย Unit: {{ activity['json']['outputUnit'] }}</p>
@@ -26,13 +26,13 @@
             <p>จำนวน Amount: {{ activity['json']['outcomeAmount'] }}</p>
             <p>หน่วย Unit: {{ activity['json']['outcomeUnit'] }}</p>
             <h2>ผลกระทบ Impact</h2>
-            <p>{{ activity['json']['impact'] }}</p>
+            <p>{{ activity['json']['impact'] }}</p> -->
             <br>
             {% if editable %}
                 <div class="passed-zone">
                     <div class="spacer-small"></div>
-                    <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/edit"><button class="button">แก้ไขกิจกรรมและผลกระทบนี้<br>Edit activity and impact</button></a>&nbsp;&nbsp;
-                    <span class="caution"><a href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/delete">ลบกิจกรรมและผลกระทบนี้ Delete this activity and impact</a></span>
+                    <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/edit"><button class="button">แก้ไขกิจกรรมนี้<br>Edit this activity</button></a>&nbsp;&nbsp;
+                    <span class="caution"><a href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/delete">ลบกิจกรรมนี้ Delete this activity</a></span>
                 </div>
                 <br>
             {% endif %}

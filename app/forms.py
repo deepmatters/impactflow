@@ -39,3 +39,9 @@ class StakeholderForm(FlaskForm):
 
 class ActivityForm(FlaskForm):
     submit = SubmitField('ส่งข้อมูล Submit')
+
+class OutputForm(FlaskForm):
+    submit = SubmitField('ส่งข้อมูล Submit')
+
+class OutcomeForm(FlaskForm):
+    submit = SubmitField('ส่งข้อมูล Submit')

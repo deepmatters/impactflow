@@ -3,8 +3,8 @@ from flask_login import current_user, login_user, logout_user, login_required
 from flask_mail import Message
 
 from app import app, db, mail
-from app.models import User, Project, Stakeholder, Activity
-from app.forms import SignupForm, LoginForm, ForgetForm, PasswordChangeForm, PasswordResetForm, ProjectForm, StakeholderForm, ActivityForm
+from app.models import User, Project, Stakeholder, Activity, Output, Outcome
+from app.forms import SignupForm, LoginForm, ForgetForm, PasswordChangeForm, PasswordResetForm, ProjectForm, StakeholderForm, ActivityForm, OutputForm, OutcomeForm
 
 import pymongo
 import random
@@ -314,16 +314,36 @@ def project_create():
 @app.route('/project/<int:project_id>')
 def project(project_id):
     project = Project.query.filter(Project.id == project_id).first()
-    stakeholders = Stakeholder.query.filter(Stakeholder.project_id == project_id).order_by(Stakeholder.create_dt.asc()).all()
+    stakeholders = Stakeholder.query.filter(Stakeholder.project_id == project_id).order_by(Stakeholder.id.asc()).all()
 
+    # Get activities for each stakeholder
     activities = []
 
     for stakeholder in stakeholders:
-        activities_raw = Activity.query.filter(Activity.stakeholder_id == stakeholder.id).order_by(Activity.create_dt.asc()).all()
+        activities_raw = Activity.query.filter(Activity.stakeholder_id == stakeholder.id).order_by(Activity.id.asc()).all()
 
         for activity in activities_raw:
             activities.append([activity.stakeholder_id, activity])
 
+    # Get outputs for each activity
+    outputs = []
+
+    for activity in activities:
+        outputs_raw = Output.query.filter(Output.activity_id == activity[1].id).order_by(Output.id.asc()).all()
+
+        for output in outputs_raw:
+            outputs.append([output.activity_id, output])
+
+    # Get outcomes for each output
+    outcomes = []
+
+    for output in outputs:
+        outcomes_raw = Outcome.query.filter(Outcome.output_id == output[1].id).order_by(Outcome.id.asc()).all()
+
+        for outcome in outcomes_raw:
+            outcomes.append([outcome.output_id, outcome])
+
+    # Editability check
     editable = False
 
     if current_user.is_authenticated:
@@ -366,7 +386,7 @@ def project(project_id):
 
         sdg_dict_sel = {k:v for (k, v) in sdg_dict.items() if k in sdg_list}
 
-        return render_template('project.html', project=project, imgs=imgs, sdg_dict_sel=sdg_dict_sel, stakeholders=stakeholders, activities=activities, editable=editable)
+        return render_template('project.html', project=project, imgs=imgs, sdg_dict_sel=sdg_dict_sel, stakeholders=stakeholders, activities=activities, outputs=outputs, outcomes=outcomes, editable=editable)
 
 @app.route('/project/<int:project_id>/edit', methods=('GET', 'POST'))
 @login_required
@@ -455,28 +475,37 @@ def stakeholder_create(project_id):
     project = Project.query.filter(Project.id == project_id).first()
 
     form = StakeholderForm()
+    
+    editable = False
 
-    if request.method == 'POST':
-        json_data = request.get_json()  # Convert JSON to Python dict
-        now = datetime.now()
+    if current_user.is_authenticated:
+        if project.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
 
-        stakeholder = Stakeholder(
-            project_id=project_id, 
-            user_id=current_user.id,
-            create_dt=now,
-            published=json_data['published'],
-            json=json_data
-        )
+    if editable:
+        if request.method == 'POST':
+            json_data = request.get_json()  # Convert JSON to Python dict
+            now = datetime.now()
 
-        db.session.add(stakeholder)
-        db.session.commit()
-        flash("สร้างผู้มีส่วนได้เสียสำเร็จแล้ว Created a new stakeholder successfully.")
+            stakeholder = Stakeholder(
+                project_id=project_id, 
+                user_id=current_user.id,
+                create_dt=now,
+                published=json_data['published'],
+                json=json_data
+            )
 
-        print(json.dumps(json_data, sort_keys=False, indent=4, ensure_ascii=False))
+            db.session.add(stakeholder)
+            db.session.commit()
+            flash("สร้างผู้มีส่วนได้เสียสำเร็จแล้ว Created a new stakeholder successfully.")
 
-        return redirect('/')
+            print(json.dumps(json_data, sort_keys=False, indent=4, ensure_ascii=False))
+
+            return redirect('/')
+        else:
+            return render_template('stakeholder-create.html', form=form, project=project)
     else:
-        return render_template('stakeholder-create.html', form=form, project=project)
+        return render_template('owner-error.html', project=project)
 
 @app.route('/project/<int:project_id>/<int:stakeholder_id>')
 def stakeholder(project_id, stakeholder_id):
@@ -577,7 +606,7 @@ def stakeholder_delete_confirm(project_id, stakeholder_id):
         return render_template('owner-error.html', project=project)
 
 """
-Activity and Impact
+Activity
 """
 
 @app.route('/project/<int:project_id>/<int:stakeholder_id>/activity-create', methods=('GET', 'POST'))
@@ -588,27 +617,36 @@ def activity_create(project_id, stakeholder_id):
 
     form = ActivityForm()
 
-    if request.method == 'POST':
-        json_data = request.get_json()  # Convert JSON to Python dict
-        now = datetime.now()
+    editable = False
 
-        activity = Activity(
-            stakeholder_id=stakeholder_id, 
-            user_id=current_user.id,
-            create_dt=now,
-            published=json_data['published'],
-            json=json_data
-        )
+    if current_user.is_authenticated:
+        if project.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
 
-        db.session.add(activity)
-        db.session.commit()
-        flash("สร้างกิจกรรมและผลกระทบสำเร็จแล้ว Created a new activity and impact successfully.")
+    if editable:
+        if request.method == 'POST':
+            json_data = request.get_json()  # Convert JSON to Python dict
+            now = datetime.now()
 
-        print(json.dumps(json_data, sort_keys=False, indent=4, ensure_ascii=False))
+            activity = Activity(
+                stakeholder_id=stakeholder_id, 
+                user_id=current_user.id,
+                create_dt=now,
+                published=json_data['published'],
+                json=json_data
+            )
 
-        return redirect('/')
+            db.session.add(activity)
+            db.session.commit()
+            flash("สร้างกิจกรรมสำเร็จแล้ว Created a new activity successfully.")
+
+            print(json.dumps(json_data, sort_keys=False, indent=4, ensure_ascii=False))
+
+            return redirect('/')
+        else:
+            return render_template('activity-create.html', form=form, project=project, stakeholder=stakeholder)
     else:
-        return render_template('activity-create.html', form=form, project=project, stakeholder=stakeholder)
+        return render_template('owner-error.html', project=project)
 
 @app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>')
 def activity(project_id, stakeholder_id, activity_id):
@@ -654,11 +692,11 @@ def activity_edit(project_id, stakeholder_id, activity_id):
             activity.json = json_data
 
             db.session.commit()
-            flash("แก้ไขกิจกรรมและผลกระทบสำเร็จแล้ว Edit the activity and impact successfully.")
+            flash("แก้ไขกิจกรรมสำเร็จแล้ว Edit the activity successfully.")
 
             print(json.dumps(json_data, sort_keys=False, indent=4, ensure_ascii=False))
 
-            return "แก้ไขกิจกรรมและผลกระทบสำเร็จแล้ว"
+            return "แก้ไขกิจกรรมสำเร็จแล้ว"
 
         else:
             return render_template('owner-error.html', project=project)
@@ -706,7 +744,310 @@ def activity_delete_confirm(project_id, stakeholder_id, activity_id):
         db.session.delete(activity)
         db.session.commit()
 
-        flash("ลบกิจกรรมและผลกระทบเรียบร้อยแล้ว Deleted the activity and impact successfully.")
+        flash("ลบกิจกรรมเรียบร้อยแล้ว Deleted the activity successfully.")
+        return redirect('/project/' + str(project_id))
+    else:
+        return render_template('owner-error.html', project=project)
+
+"""
+Output
+"""
+
+@app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>/output-create', methods=('GET', 'POST'))
+@login_required
+def output_create(project_id, stakeholder_id, activity_id):
+    project = Project.query.filter(Project.id == project_id).first()
+    stakeholder = Stakeholder.query.filter(Stakeholder.id == stakeholder_id).first()
+    activity = Activity.query.filter(Activity.id == activity_id).first()
+
+    form = OutputForm()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if project.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    if editable:
+        if request.method == 'POST':
+            json_data = request.get_json()  # Convert JSON to Python dict
+            now = datetime.now()
+
+            output = Output(
+                activity_id=activity_id, 
+                user_id=current_user.id,
+                create_dt=now,
+                published=json_data['published'],
+                json=json_data
+            )
+
+            db.session.add(output)
+            db.session.commit()
+            flash("สร้างผลผลิตสำเร็จแล้ว Created a new output successfully.")
+
+            print(json.dumps(json_data, sort_keys=False, indent=4, ensure_ascii=False))
+
+            return redirect('/')
+        else:
+            return render_template('output-create.html', form=form, project=project, stakeholder=stakeholder, activity=activity)
+    else:
+        return render_template('owner-error.html', project=project)
+
+@app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>/<int:output_id>')
+def output(project_id, stakeholder_id, activity_id, output_id):
+    project = Project.query.filter(Project.id == project_id).first()
+    stakeholder = Stakeholder.query.filter(Stakeholder.id == stakeholder_id).first()
+    activity = Activity.query.filter(Activity.id == activity_id).first()
+    output = Output.query.filter(Output.id == output_id).first()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if output.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    # Limit the view of unpublished project to owner or admin only
+    if project.published == False and editable == False:
+        return render_template('owner-error.html', project=project)
+    else:
+        return render_template('output.html', project=project, stakeholder=stakeholder, activity=activity, output=output, editable=editable)
+
+@app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>/<int:output_id>/edit', methods=('GET', 'POST'))
+@login_required
+def output_edit(project_id, stakeholder_id, activity_id, output_id):
+    project = Project.query.filter(Project.id == project_id).first()
+    stakeholder = Stakeholder.query.filter(Stakeholder.id == stakeholder_id).first()
+    activity = Activity.query.filter(Activity.id == activity_id).first()
+    output = Output.query.filter(Output.id == output_id).first()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if output.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    form = OutputForm()
+
+    if request.method == 'POST':
+        if editable:
+            json_data = request.get_json()  # Convert JSON to Python dict
+            now = datetime.now()
+
+            output.mod_user_id = current_user.id
+            output.mod_dt = now
+            output.published = json_data['published']
+            output.json = json_data
+
+            db.session.commit()
+            flash("แก้ไขผลผลิตสำเร็จแล้ว Edit the output successfully.")
+
+            print(json.dumps(json_data, sort_keys=False, indent=4, ensure_ascii=False))
+
+            return "แก้ไขผลผลิตสำเร็จแล้ว"
+
+        else:
+            return render_template('owner-error.html', project=project)
+    else:
+        if editable:
+            data = json.dumps(output.json, sort_keys=False, indent=4, ensure_ascii=False)
+
+            return render_template('output-edit.html', project=project, stakeholder=stakeholder, activity=activity, output=output, form=form, data=data)
+        else:
+            return render_template('owner-error.html', project=project)
+
+@app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>/<int:output_id>/delete')
+@login_required
+def output_delete(project_id, stakeholder_id, activity_id, output_id):
+    project = Project.query.filter(Project.id == project_id).first()
+    stakeholder = Stakeholder.query.filter(Stakeholder.id == stakeholder_id).first()
+    activity = Activity.query.filter(Activity.id == activity_id).first()
+    output = Output.query.filter(Output.id == output_id).first()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if output.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    if editable:
+        return render_template('output-delete.html', project=project, project_id=project_id, stakeholder=stakeholder, stakeholder_id=stakeholder_id, activity=activity, activity_id=activity_id, output=output, output_id=output_id)
+    else:
+        return render_template('owner-error.html', project=project)
+
+
+@app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>/<int:output_id>/delete/confirm')
+@login_required
+def output_delete_confirm(project_id, stakeholder_id, activity_id, output_id):
+    project = Project.query.filter(Project.id == project_id).first()
+    stakeholder = Stakeholder.query.filter(Stakeholder.id == stakeholder_id).first()
+    activity = Activity.query.filter(Activity.id == activity_id).first()
+    output = Output.query.filter(Output.id == output_id).first()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if output.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    if editable:
+        db.session.delete(output)
+        db.session.commit()
+
+        flash("ลบผลผลิตเรียบร้อยแล้ว Deleted the output successfully.")
+        return redirect('/project/' + str(project_id))
+    else:
+        return render_template('owner-error.html', project=project)
+
+"""
+Outcome
+"""
+
+@app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>/<int:output_id>/outcome-create', methods=('GET', 'POST'))
+@login_required
+def outcome_create(project_id, stakeholder_id, activity_id, output_id):
+    project = Project.query.filter(Project.id == project_id).first()
+    stakeholder = Stakeholder.query.filter(Stakeholder.id == stakeholder_id).first()
+    activity = Activity.query.filter(Activity.id == activity_id).first()
+    output = Output.query.filter(Output.id == output_id).first()
+
+    form = OutcomeForm()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if project.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    if editable:
+        if request.method == 'POST':
+            json_data = request.get_json()  # Convert JSON to Python dict
+            now = datetime.now()
+
+            outcome = Outcome(
+                output_id=output_id, 
+                user_id=current_user.id,
+                create_dt=now,
+                published=json_data['published'],
+                json=json_data
+            )
+
+            db.session.add(outcome)
+            db.session.commit()
+            flash("สร้างผลลัพธ์สำเร็จแล้ว Created a new outcome successfully.")
+
+            print(json.dumps(json_data, sort_keys=False, indent=4, ensure_ascii=False))
+
+            return redirect('/')
+        else:
+            return render_template('outcome-create.html', form=form, project=project, stakeholder=stakeholder, activity=activity, output=output)
+    else:
+        return render_template('owner-error.html', project=project)
+
+@app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>/<int:output_id>/<int:outcome_id>')
+def outcome(project_id, stakeholder_id, activity_id, output_id, outcome_id):
+    project = Project.query.filter(Project.id == project_id).first()
+    stakeholder = Stakeholder.query.filter(Stakeholder.id == stakeholder_id).first()
+    activity = Activity.query.filter(Activity.id == activity_id).first()
+    output = Output.query.filter(Output.id == output_id).first()
+    outcome = Outcome.query.filter(Outcome.id == outcome_id).first()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if outcome.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    # Limit the view of unpublished project to owner or admin only
+    if project.published == False and editable == False:
+        return render_template('owner-error.html', project=project)
+    else:
+        return render_template('outcome.html', project=project, stakeholder=stakeholder, activity=activity, output=output, outcome=outcome, editable=editable)
+
+@app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>/<int:output_id>/<int:outcome_id>/edit', methods=('GET', 'POST'))
+@login_required
+def outcome_edit(project_id, stakeholder_id, activity_id, output_id, outcome_id):
+    project = Project.query.filter(Project.id == project_id).first()
+    stakeholder = Stakeholder.query.filter(Stakeholder.id == stakeholder_id).first()
+    activity = Activity.query.filter(Activity.id == activity_id).first()
+    output = Output.query.filter(Output.id == output_id).first()
+    outcome = Outcome.query.filter(Outcome.id == outcome_id).first()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if outcome.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    form = OutcomeForm()
+
+    if request.method == 'POST':
+        if editable:
+            json_data = request.get_json()  # Convert JSON to Python dict
+            now = datetime.now()
+
+            outcome.mod_user_id = current_user.id
+            outcome.mod_dt = now
+            outcome.published = json_data['published']
+            outcome.json = json_data
+
+            db.session.commit()
+            flash("แก้ไขผลลัพธ์สำเร็จแล้ว Edit the outcome successfully.")
+
+            print(json.dumps(json_data, sort_keys=False, indent=4, ensure_ascii=False))
+
+            return "แก้ไขผลลัพธ์สำเร็จแล้ว"
+
+        else:
+            return render_template('owner-error.html', project=project)
+    else:
+        if editable:
+            data = json.dumps(output.json, sort_keys=False, indent=4, ensure_ascii=False)
+
+            return render_template('outcome-edit.html', project=project, stakeholder=stakeholder, activity=activity, output=output, outcome=outcome, form=form, data=data)
+        else:
+            return render_template('owner-error.html', project=project)
+
+@app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>/<int:output_id>/<int:outcome_id>/delete')
+@login_required
+def outcome_delete(project_id, stakeholder_id, activity_id, output_id, outcome_id):
+    project = Project.query.filter(Project.id == project_id).first()
+    stakeholder = Stakeholder.query.filter(Stakeholder.id == stakeholder_id).first()
+    activity = Activity.query.filter(Activity.id == activity_id).first()
+    output = Output.query.filter(Output.id == output_id).first()
+    outcome = Outcome.query.filter(Outcome.id == outcome_id).first()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if outcome.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    if editable:
+        return render_template('outcome-delete.html', project=project, project_id=project_id, stakeholder=stakeholder, stakeholder_id=stakeholder_id, activity=activity, activity_id=activity_id, output=output, output_id=output_id, outcome=outcome, outcome_id=outcome_id)
+    else:
+        return render_template('owner-error.html', project=project)
+
+
+@app.route('/project/<int:project_id>/<int:stakeholder_id>/<int:activity_id>/<int:output_id>/<int:outcome_id>/delete/confirm')
+@login_required
+def outcome_delete_confirm(project_id, stakeholder_id, activity_id, output_id, outcome_id):
+    project = Project.query.filter(Project.id == project_id).first()
+    stakeholder = Stakeholder.query.filter(Stakeholder.id == stakeholder_id).first()
+    activity = Activity.query.filter(Activity.id == activity_id).first()
+    output = Output.query.filter(Output.id == output_id).first()
+    outcome = Outcome.query.filter(Outcome.id == outcome_id).first()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if outcome.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    if editable:
+        db.session.delete(outcome)
+        db.session.commit()
+
+        flash("ลบผลลัพธ์เรียบร้อยแล้ว Deleted the outcome successfully.")
         return redirect('/project/' + str(project_id))
     else:
         return render_template('owner-error.html', project=project)

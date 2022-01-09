@@ -6,6 +6,7 @@
   }
 
 html, body {
+    background-color: #f2f2f2;
     font-family: IBMPlexSansThai, sans-serif;
     font-size: 0.95em;
     margin: 0px;
@@ -232,15 +233,23 @@ a.no-decoration {
 }
 
 table {
+    table-layout: fixed;
+    width: 100%;
+    min-width: 600px;
     font-size: 0.85em;
     border-collapse: collapse;
     border-spacing: 0px 10px;
+    border-bottom: 1px solid #cccccc;
 }
 
 th {
-    border-bottom: 1px solid #cccccc;
     text-align: left;
     padding: 7px;
+}
+
+th.activity {
+    width: 33%;
+    border-top: 1px solid #cccccc;
 }
 
 td {
@@ -249,7 +258,8 @@ td {
 }
 
 tr {
-    border-bottom: 1px solid #e6e6e6;
+    border-left: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
 }
 
 /* Video */
@@ -367,21 +377,34 @@ textarea {
     margin-top: 10px;
 }
 
-.button {
+button.button {
     font-family: IBMPlexSansThai, sans-serif;
     font-size: 0.85em;
     text-align: center;
     color: #FFFFFF;
     padding: 10px 25px 10px 25px;
     background-color: #e05254;
-    opacity: 0.9;
+    opacity: 0.8;
     border: none;
     border-radius: 8px;
     box-shadow: 0px 0px 3px #cccccc;
     margin: 5px 0px;
 }
 
-.button:hover {
+button.add-model {
+    font-family: IBMPlexSansThai, sans-serif;
+    font-size: 0.85em;
+    text-align: center;
+    color: #4d4d4d;
+    width: 100%;
+    padding: 10px 25px 10px 25px;
+    background-color: #e6e6e6;
+    opacity: 0.8;
+    border: 1px dashed #cccccc;
+    margin: 5px 0px 10px 0px;
+}
+
+.button:hover, .add-model:hover {
     opacity: 1;
     transition: opacity 0.3s;
 }
@@ -720,20 +743,21 @@ img.sdg-icons {
     padding: 5px;
 }
 
-/* Stakeholder */
+/* Impact Model */
 
 td.stakeholder {
-    width: 30%;
+    border-top: 1px solid #cccccc;
+    /* vertical-align: middle; */
 }
 
 .stakeholder-wrapper {
-    background-color: #ffffff;
-    padding: 10px 5px 5px 5px;
-    border: 1px solid #cccccc;
+    background-color: #f2f2f2;
+    /* padding: 10px 5px 5px 5px; */
+    /* border: 1px solid #cccccc; */
     margin: 5px 5px 5px 0px;
 }
 
-.stakeholder-degree {
+.impact-type {
     background-color: #f2f2f2;
     font-size: 0.75em;
     color: #999999;
@@ -741,18 +765,17 @@ td.stakeholder {
 }
 
 td.activity {
-    width: 70%;
+    width: 33%;
+    overflow: hidden;
     padding-top: 7px;
+    /* vertical-align: middle; */
 }
 
-/* Activity and Impact */
-
 .activity-wrapper {
-    display: flex;
     background-color: #ffffff;
-    padding: 0px 5px 0px 5px;
+    padding: 0px 5px;
     border: 1px solid #cccccc;
-    margin: 5px 5px 5px 0px;
+    margin: 5px 0px 5px 0px;
 }
 
 .activity-part {
@@ -937,14 +960,6 @@ button.search-clear-button:hover {
 
     .uploader-wrapper {
         width: 90%;
-    }
-
-    td.stakeholder {
-        width: 50%;
-    }
-
-    td.activity {
-        width: 50%;
     }
 
     .footer-wrapper {

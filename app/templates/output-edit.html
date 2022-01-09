@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main-wrapper">
+    <p><a href="/project/{{ project.id }}">< กลับไปหน้าโครงการ Back to Project</a></p>
+    <div class="spacer-big"></div>
+    <div id="formApp">
+        <div id="csrf">{{ form.csrf_token }}</div>
+        <div id="projectId" style="display: none;">{{ project.id }}</div>
+        <div id="stakeholderId" style="display: none;">{{ stakeholder.id }}</div>
+        <div id="activityId" style="display: none;">{{ activity.id }}</div>
+        <div id="outputId" style="display: none;">{{ output.id }}</div>
+        <div id="data" style="display:none">{{ data }}</div>
+
+        <h1>แก้ไขผลผลิต Edit an Output</h1>
+        <p>ผลผลิต Output</p>
+        <p class="help-text">อธิบายผลผลิตที่เกิดจากกิจกรรมนี้ Describe an expected output from this activity.</p>
+        <textarea id="output" type="text" placeholder="ผลผลิต Output">{{ output['json']['output'] }}</textarea><br><br>
+        <hr><br>
+
+        <p class="blue-em">--- ค้นหาตัวชี้วัดมาตรฐาน Search our standard indicators bank ---</p>
+        <input type="text" id="searchBox" class="search-box" placeholder="พิมพ์คำสำคัญ Type keywords" onkeyup="searchSubmit()">
+        <button type="button" class="search-button" onclick="searchSubmit()">Search</button>
+        <br>
+        
+        <div id="searchResultNumWrapper" style="display:none">
+            <button type="button" class="search-clear-button" onclick="searchClear()">เคลียร์ผลการค้นหา Clear results</button>
+            <p>ผลการค้นหา Result <span id="searchResultNum">0</span> รายการ entries</p>
+        </div>
+        <div id="searchResult" class="search-result"></div>
+        <div class="spacer-big"></div>
+
+        <p class="blue-em">--- หรือพิมพ์ตัวชี้วัดเอง Or use your own indicator ---</p>
+        <input id="indicatorCategory" type="text" value="{{ output['json']['indicatorCategory'] }}" placeholder="หมวดหมู่ Category" style="display: none;">
+        <textarea id="indicator" type="text" placeholder="ตัวชี้วัด Indicator">{{ output['json']['indicator'] }}</textarea><br><br>
+        <input id="indicatorBaseline" type="number" value="{{ output['json']['indicatorBaseline'] }}" placeholder="จำนวนเริ่ม Baseline amount">
+        <input id="indicatorTarget" type="number" value="{{ output['json']['indicatorTarget'] }}" placeholder="จำนวนเป้าหมาย Target amount">
+        <input id="indicatorUnit" type="text" value="{{ output['json']['indicatorUnit'] }}" placeholder="หน่วย Unit">
+        <hr><br>
+        
+        <div class="button-wrapper">
+            <button id="formSubmit" class="button" type="button" onclick="fetchSubmit()">บันทึกข้อมูล<br>Submit</button>
+        </div>
+        <br>
+    </div>
+</main>
+<script src="/static/output-edit.js"></script>
+{% endblock %}

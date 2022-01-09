@@ -5,11 +5,11 @@
     <p><a href="/project/{{ project.id }}">< กลับไปหน้าโครงการ Back to Project</a></p>
     <div class="spacer-big"></div>
     <div class="login-wrapper">
-        <h1>ยืนยันการลบกิจกรรมและผลกระทบ Project Activity and Impact Deletion Confirmation</h1>
-        <p>คุณแน่ใจหรือไม่ที่จะลบกิจกรรมและผลกระทบ Are you sure you want to delete activity and impact: {{ activity['json']['activity'] }}</p>
-        <p class="red-em">หากลบกิจกรรมและผลกระทบ ข้อมูลที่เกี่ยวกับกิจกรรมและผลกระทบนี้จะหายหมด If deleted, all related information will be deleted.</p>
-        <p>[ <a href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/delete/confirm">แน่ใจ ลบกิจกรรมและผลกระทบนี้ทันที Confirm activity and impact deletion</a> ]</p>
-        <p>[ <a href="/project/{{ project.id }}">ยกเลิกการลบกิจกรรมและผลกระทบ Cancel activity and impact deletion</a> ]</p>
+        <h1>ยืนยันการลบกิจกรรม Project Activity Deletion Confirmation</h1>
+        <p>คุณแน่ใจหรือไม่ที่จะลบกิจกรรม Are you sure you want to delete activity: {{ activity['json']['activity'] }}</p>
+        <p class="red-em">หากลบกิจกรรม ข้อมูลที่เกี่ยวกับกิจกรรมนี้จะหายหมด If deleted, all related information will be deleted.</p>
+        <p>[ <a href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/delete/confirm">แน่ใจ ลบกิจกรรมนี้ทันที Confirm activity deletion</a> ]</p>
+        <p>[ <a href="/project/{{ project.id }}">ยกเลิกการลบกิจกรรม Cancel activity deletion</a> ]</p>
     </div>
 </div>
 {% endblock %}

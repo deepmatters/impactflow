@@ -62,6 +62,31 @@ class Activity(db.Model):
     def __repr__(self):
         return '<Activity {}>'.format(self.id)
 
+class Output(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    activity_id = db.Column(db.Integer, db.ForeignKey('activity.id', ondelete="CASCADE"))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    create_dt = db.Column(db.DateTime, default=datetime.utcnow)
+    mod_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Who edited last
+    mod_dt = db.Column(db.DateTime)  # When it was last edited
+    published = db.Column(db.Boolean)
+    json = db.Column(db.JSON)
+
+    def __repr__(self):
+        return '<Output {}>'.format(self.id)
+
+class Outcome(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    output_id = db.Column(db.Integer, db.ForeignKey('output.id', ondelete="CASCADE"))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    create_dt = db.Column(db.DateTime, default=datetime.utcnow)
+    mod_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Who edited last
+    mod_dt = db.Column(db.DateTime)  # When it was last edited
+    published = db.Column(db.Boolean)
+    json = db.Column(db.JSON)
+
+    def __repr__(self):
+        return '<Outcome {}>'.format(self.id)
 """
 # To create a database, run the following:
 $ export FLASK_APP=appname.py (set env var so flask cmd know where the app is)

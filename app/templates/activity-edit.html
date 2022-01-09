@@ -16,39 +16,6 @@
         <p class="help-text">อธิบายกิจกรรมที่จะทำกับผู้มีส่วนได้เสียกลุ่มนี้ Describe an activity to be done with this stakeholder.</p>
         <textarea id="activity" type="text" placeholder="กิจกรรม Activity">{{ activity['json']['activity'] }}</textarea><br><br>
         <hr><br>
-
-        <p>ผลผลิต Output</p>
-        <p class="help-text">อธิบายผลผลิตที่เกิดจากกิจกรรมข้างบน Describe an expected output from the above activity.</p>
-        <textarea id="output" type="text" placeholder="ผลผลิต Output">{{ activity['json']['output'] }}</textarea><br><br>
-        <input id="outputAmount" type="number" value="{{ activity['json']['outputAmount'] }}" placeholder="จำนวน Amount">
-        <input id="outputUnit" type="text" value="{{ activity['json']['outputUnit'] }}" placeholder="หน่วย Unit">
-        <hr><br>
-
-        <p>ผลลัพธ์ Outcome</p>
-        <p class="help-text">อธิบายผลลัพธ์ที่เกิดจากผลผลิตข้างบน Describe an expected outcome from the above output.</p>
-
-        <p class="blue-em">--- ค้นหาตัวชี้วัดมาตรฐาน Search our standard indicators bank ---</p>
-        <input type="text" id="searchBox" class="search-box" placeholder="พิมพ์คำสำคัญ Type keywords" onkeyup="searchSubmit()">
-        <button type="button" class="search-button" onclick="searchSubmit()">ค้นหา Search</button>
-        <br>
-        
-        <div id="searchResultNumWrapper" style="display:none">
-            <button type="button" class="search-clear-button" onclick="searchClear()">เคลียร์ผลการค้นหา Clear results</button>
-            <p>ผลการค้นหา Result <span id="searchResultNum">0</span> รายการ entries</p>
-        </div>
-        <div id="searchResult" class="search-result"></div>
-        <div class="spacer-big"></div>
-
-        <p class="blue-em">--- หรือพิมพ์ตัวชี้วัดเอง Or use your own indicator ---</p>
-        <input id="outcomeCategory" type="text" value="{{ activity['json']['outcomeCategory'] }}" placeholder="หมวดหมู่ Category"><br>
-        <textarea id="outcome" type="text" placeholder="ผลลัพธ์ Outcome">{{ activity['json']['outcome'] }}</textarea><br><br>
-        <input id="outcomeAmount" type="number" value="{{ activity['json']['outcomeAmount'] }}" placeholder="จำนวน Amount">
-        <input id="outcomeUnit" type="text" value="{{ activity['json']['outcomeUnit'] }}" placeholder="หน่วย Unit">
-        <hr><br>
-
-        <p>ผลกระทบ Impact</p>
-        <p class="help-text">อธิบายผลกระทบทางสังคมที่เกิดจากผลลัพธ์ข้างบน Describe an expected impact from the above outcome.</p>
-        <textarea id="impact" type="text" placeholder="ผลกระทบ Impact">{{ activity['json']['impact'] }}</textarea><br><br>
         
         <div class="button-wrapper">
             <button id="formSubmit" class="button" type="button" onclick="fetchSubmit()">บันทึกข้อมูล<br>Submit</button>

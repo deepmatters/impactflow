@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <p><a href="/project/{{ project.id }}">< กลับไปหน้าโครงการ Back to Project</a></p>
+    <div class="spacer-big"></div>
+    <div class="main-flex-wrapper">
+        <div class="main-flex-left">
+            <p>โครงการ Project: {{ project['json']['title'] }}</p>
+            <p>ผู้มีส่วนได้เสีย Stakeholder: {{ stakeholder['json']['stakeholder'] }}</p>
+            <p>กิจกรรม Activity: {{ activity['json']['activity'] }}</p>
+            <p>ผลผลิต Output: {{ output['json']['output'] }}</p>
+            <h1>ผลลัพธ์ Outcome: {{ outcome['json']['outcome'] }}</h1>
+            {% if outcome.mod_dt %}
+                <p class="gray-small">Created: {{ outcome.create_dt|datetimefilter }} | Last edit: {{ outcome.mod_dt|datetimefilter }}</p>
+            {% else %}
+                <p class="gray-small">Created: {{ outcome.create_dt|datetimefilter }}</p>
+            {% endif %}
+            <h2>ผลลัพธ์ Outcome</h2>
+            <p>{{ outcome['json']['outcome'] }}</p>
+            <h2>ตัวชี้วัด Indicator</h2>
+            <p>หมวดหมู่ Category: {{ outcome['json']['indicatorCategory'] }}</p>
+            <p>ตัวชี้วัด Indicator: {{ outcome['json']['indicator'] }}</p>
+            <p>จำนวนเริ่ม Baseline Amount: {{ outcome['json']['indicatorBaseline'] }}</p>
+            <p>จำนวนเป้าหมาย Target Amount: {{ outcome['json']['indicatorTarget'] }}</p>
+            <p>หน่วย Unit: {{ outcome['json']['indicatorUnit'] }}</p>
+            
+            <br>
+            {% if editable %}
+                <div class="passed-zone">
+                    <div class="spacer-small"></div>
+                    <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/{{ output.id }}/{{ outcome.id }}/edit"><button class="button">แก้ไขผลลัพธ์นี้<br>Edit this outcome</button></a>&nbsp;&nbsp;
+                    <span class="caution"><a href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/{{ output.id }}/{{ outcome.id }}/delete">ลบผลลัพธ์นี้ Delete this outcome</a></span>
+                </div>
+                <br>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

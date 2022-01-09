@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <p><a href="/project/{{ project.id }}">< กลับไปหน้าโครงการ Back to Project</a></p>
+    <div class="spacer-big"></div>
+    <div class="login-wrapper">
+        <h1>ยืนยันการลบผลผลิต Project Output Deletion Confirmation</h1>
+        <p>คุณแน่ใจหรือไม่ที่จะลบผลผลิต Are you sure you want to delete output: {{ output['json']['output'] }}</p>
+        <p class="red-em">หากลบผลผลิต ข้อมูลที่เกี่ยวกับผลผลิตนี้จะหายหมด If deleted, all related information will be deleted.</p>
+        <p>[ <a href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/{{ output.id }}/delete/confirm">แน่ใจ ลบผลผลิตนี้ทันที Confirm output deletion</a> ]</p>
+        <p>[ <a href="/project/{{ project.id }}">ยกเลิกการลบผลผลิต Cancel output deletion</a> ]</p>
+    </div>
+</div>
+{% endblock %}

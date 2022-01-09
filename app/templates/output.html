@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <p><a href="/project/{{ project.id }}">< กลับไปหน้าโครงการ Back to Project</a></p>
+    <div class="spacer-big"></div>
+    <div class="main-flex-wrapper">
+        <div class="main-flex-left">
+            <p>โครงการ Project: {{ project['json']['title'] }}</p>
+            <p>ผู้มีส่วนได้เสีย Stakeholder: {{ stakeholder['json']['stakeholder'] }}</p>
+            <p>กิจกรรม Activity: {{ activity['json']['activity'] }}</p>
+            <h1>ผลผลิต Output: {{ output['json']['output'] }}</h1>
+            {% if output.mod_dt %}
+                <p class="gray-small">Created: {{ output.create_dt|datetimefilter }} | Last edit: {{ output.mod_dt|datetimefilter }}</p>
+            {% else %}
+                <p class="gray-small">Created: {{ output.create_dt|datetimefilter }}</p>
+            {% endif %}
+            <h2>ผลผลิต Output</h2>
+            <p>{{ output['json']['output'] }}</p>
+            <h2>ตัวชี้วัด Indicator</h2>
+            <p>หมวดหมู่ Category: {{ output['json']['indicatorCategory'] }}</p>
+            <p>ตัวชี้วัด Indicator: {{ output['json']['indicator'] }}</p>
+            <p>จำนวนเริ่ม Baseline Amount: {{ output['json']['indicatorBaseline'] }}</p>
+            <p>จำนวนเป้าหมาย Target Amount: {{ output['json']['indicatorTarget'] }}</p>
+            <p>หน่วย Unit: {{ output['json']['indicatorUnit'] }}</p>
+            
+            <br>
+            {% if editable %}
+                <div class="passed-zone">
+                    <div class="spacer-small"></div>
+                    <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/{{ output.id }}/edit"><button class="button">แก้ไขผลผลิตนี้<br>Edit this output</button></a>&nbsp;&nbsp;
+                    <span class="caution"><a href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/{{ output.id }}/delete">ลบผลผลิตนี้ Delete this output</a></span>
+                </div>
+                <br>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

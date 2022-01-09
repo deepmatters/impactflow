@@ -68,68 +68,105 @@
     {% else %}
         <table>
             <tr>
-                <th>ผู้มีส่วนได้เสีย<br>Stakeholders</th>
-                <th>กิจกรรม | ผลผลิต | ผลลัพธ์ | ผลกระทบ<br>Activities | Outputs | Outcomes | Impact</th>
+                <th class="activity">กิจกรรม Activities</th>
+                <th class="activity">ผลผลิต Outputs</th>
+                <th class="activity">ผลลัพธ์ Outcomes</th>
             </tr>
-            {% for stakeholder in stakeholders %}
-                <tr>
-                    <td class="stakeholder">
-                        <div class="stakeholder-wrapper">
-                            <div class="stakeholder-degree">{{ stakeholder['json']['degree'] }}</div>
-                            <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}"><h3>{{ stakeholder['json']['stakeholder'] }}</h3></a>
-                            ความสำคัญ Importance: {{ stakeholder['json']['importance'] }}<br>
-                            คำอธิบาย Description: {{ stakeholder['json']['description'] }}<br>
-                            <div class="spacer-big"></div>
-                            {% if editable %}
-                                [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/delete">ลบ Delete</a> ]
-                            {% endif %}
-                        </div>
-                    </td>
-                    <td class="activity">
-                        {% for activity in activities %}
-                            {% if activity[0] == stakeholder.id %}
-                                <div class="activity-wrapper">
-                                    <div class="activity-part">
-                                        <p class="stakeholder-degree">กิจกรรม Activity</p>
-                                        <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}"><h3>{{ activity[1]['json']['activity'] }}</h3></a>
+        {% for stakeholder in stakeholders %}
+            <tr>
+                <td class="stakeholder" colspan="3">
+                    <div class="stakeholder-wrapper">
+                        <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}"><h1>{{ stakeholder['json']['stakeholder'] }}</h1></a>
+                        <p class="gray-small">{{ stakeholder['json']['degree'] }} | ความสำคัญ Importance: {{ stakeholder['json']['importance'] }}</p>
+                        <p>{{ stakeholder['json']['description'] }}</p>
+                        {% if editable %}
+                            [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/delete">ลบ Delete</a> ]
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="activity">
+                    {% for activity in activities %}
+                        {% if activity[0] == stakeholder.id %}
+                            <div class="activity-wrapper">
+                                <p class="impact-type" style="background-color: {{ activity[1]['json']['bgcolor'] }};">กิจกรรม Activity ({{ stakeholder['json']['stakeholder'] }})</p>
+                                <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}"><h3>{{ activity[1]['json']['activity'] }}</h3></a>
+                                {% if editable %}
+                                    [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/delete">ลบ Delete</a> ]
+                                {% endif %}
+                                <div class="spacer-big"></div>            
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if editable %}
+                        <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/activity-create"><button class="add-model">+ เพิ่มกิจกรรม Add an activity ({{ stakeholder['json']['stakeholder'] }})</button></a>
+                    {% endif %}
+                </td>
+                <td class="activity">
+                    {% for activity in activities %}
+                        {% if activity[0] == stakeholder.id %}
+                            {% for output in outputs %}
+                                {% if output[0] == activity[1].id %}
+                                    <div class="activity-wrapper">
+                                        <p class="impact-type" style="background-color: {{ activity[1]['json']['bgcolor'] }};">ผลผลิต Output ({{ activity[1]['json']['activity'] }})</p>
+                                        <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}"><h3>{{ output[1]['json']['output'] }}</h3></a>
+                                        <!-- <p>{{ output[1]['json']['indicatorCategory'] }}</p> -->
+                                        <p>{{ output[1]['json']['indicator'] }}</p>
+                                        <p>จำนวนเริ่ม Baseline Amount: {{ output[1]['json']['indicatorBaseline'] }} {{ output[1]['json']['indicatorUnit'] }}<br>
+                                        จำนวนเป้าหมาย Target Amount: {{ output[1]['json']['indicatorTarget'] }} {{ output[1]['json']['indicatorUnit'] }}</p>
                                         {% if editable %}
-                                            [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/delete">ลบ Delete</a> ]
+                                            [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/delete">ลบ Delete</a> ]
                                         {% endif %}
                                         <div class="spacer-big"></div>
                                     </div>
-                                    <div class="activity-part">
-                                        <p class="stakeholder-degree">ผลผลิต Output</p>
-                                        <p>{{ activity[1]['json']['output'] }}</p>
-                                        <p>จำนวน Amount: {{ activity[1]['json']['outputAmount'] }} {{ activity[1]['json']['outputUnit'] }}</p>
-                                    </div>
-                                    <div class="activity-part">
-                                        <p class="stakeholder-degree">ผลลัพธ์ Outcome</p>
-                                        <p>{{ activity[1]['json']['outcomeCategory'] }}</p>
-                                        <p>{{ activity[1]['json']['outcome'] }}</p>
-                                        <p>จำนวน Amount: {{ activity[1]['json']['outcomeAmount'] }} {{ activity[1]['json']['outcomeUnit'] }}</p>
-                                    </div>
-                                    <div class="activity-part">
-                                        <p class="stakeholder-degree">ผลกระทบ Impact</p>
-                                        <p>{{ activity[1]['json']['impact'] }}</p>
-                                    </div>
-                                </div>
+                                {% endif %}
+                            {% endfor %}
+                            {% if editable %}
+                                <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/output-create"><button class="add-model" style="color: #4d4d4d; background-color: {{ activity[1]['json']['bgcolor'] }};">+ เพิ่มผลผลิต Add an output ({{ activity[1]['json']['activity'] }})</button></a>
                             {% endif %}
-                        {% endfor %}
-                        {% if editable %}
-                            <p>สร้าง Impact model ต่อโดยการเพิ่มกิจกรรมและผลกระทบสำหรับผู้มีส่วนได้เสียนี้ Continue developing the impact model by adding activity and impact for this stakeholder.</p>
-                            <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/activity-create"><button class="button">เพิ่มกิจกรรมและผลกระทบ<br>Add activity and impact</button></a>
                         {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if editable %}
-                <tr>
-                    <td class="stakeholder">
-                        <a class="no-decoration" href="/project/{{ project.id }}/stakeholder-create"><button class="button">เพิ่มผู้มีส่วนได้เสีย<br>Add a stakeholder</button></a>
-                        <div class="spacer-small"></div>
-                    </td>
-                </tr>
-            {% endif %}
+                    {% endfor %}
+                    
+                </td>
+                <td class="activity">
+                    {% for activity in activities %}
+                        {% if activity[0] == stakeholder.id %}
+                            {% for output in outputs %}
+                                {% if output[0] == activity[1].id %}
+                                    {% for outcome in outcomes %}
+                                        {% if outcome[0] == output[1].id %}
+                                            <div class="activity-wrapper">
+                                                <p class="impact-type" style="background-color: {{ activity[1]['json']['bgcolor'] }};">ผลลัพธ์ Outcome ({{ output[1]['json']['output'] }})</p>
+                                                <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/{{ outcome[1].id }}"><h3>{{ outcome[1]['json']['outcome'] }}</h3></a>
+                                                <p>{{ outcome[1]['json']['indicator'] }}</p>
+                                                <p>จำนวนเริ่ม Baseline Amount: {{ outcome[1]['json']['indicatorBaseline'] }} {{ outcome[1]['json']['indicatorUnit'] }}<br>
+                                                จำนวนเป้าหมาย Target Amount: {{ outcome[1]['json']['indicatorTarget'] }} {{ outcome[1]['json']['indicatorUnit'] }}</p>
+                                                {% if editable %}
+                                                    [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/{{ outcome[1].id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/{{ outcome[1].id }}/delete">ลบ Delete</a> ]
+                                                {% endif %}
+                                                <div class="spacer-big"></div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if editable %}
+                                        <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/outcome-create"><button class="add-model" style="color: #4d4d4d; background-color: {{ activity[1]['json']['bgcolor'] }};">+ เพิ่มผลลัพธ์ Add an outcome ({{ output[1]['json']['output'] }})</button></a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        {% if editable %}
+            <tr style="border-top: 1px solid #cccccc;">
+                <td>
+                    <a class="no-decoration" href="/project/{{ project.id }}/stakeholder-create"><button class="add-model">+ เพิ่มผู้มีส่วนได้เสีย Add a stakeholder</button></a>
+                    <div class="spacer-small"></div>
+                </td>
+            </tr>
+        {% endif %}
         </table>
         
     {% endif %}
