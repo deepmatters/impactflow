@@ -11,6 +11,7 @@
         <input id="title" type="text">
         <br>
         <p>เป้าหมาย Impact Goals</p>
+        <textarea id="objective1" placeholder="ระบุเป้าหมายที่ 1 แล้วเลือก SDG Goal ที่สอดคล้องกับเป้าหมายนี้ Specify objective #1 then select an SDG goal that corresponds to this objective."></textarea>
         <select name="sdg1" id="sdg1" onchange="filterTarget(1)">
             <option value="" disabled selected>--- เลือก SDG Goal. Choose an SDG Goal. ---</option>
             <option value="Goal 1: No Poverty">Goal 1: No Poverty</option>
@@ -39,7 +40,6 @@
         <div class="spacer-big"></div>
         <p>คำอธิบายโดยย่อ Summary</p>
         <textarea id="summary"></textarea>
-        <br><br>
         <p>ระยะเวลา Duration (เดือน Month)</p>
         <p id="durationGuide" class="red-em" style="display: none;">กรุณาใส่จำนวนเต็มเท่านั้น Please input whole numbers only.</p>
         <input id="duration" type="number" placeholder="จำนวนเดือน Num of Month">

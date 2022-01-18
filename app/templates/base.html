@@ -16,6 +16,7 @@
     <meta name="keywords" content="social impact, impact assessment">
     <link rel="stylesheet" type="text/css" href="/static/style.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
     {% if request.path.split('/')[1] == 'project' %}
         {% if project.img_url %}
             {% if project.img_url|length > 2 %}
@@ -45,7 +46,7 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <header>
+        <header class="no-print">
             <div class="header-flex-wrap">
                 <div class="header-logo-block">
                     <a href="/"><img src="/static/impactflow-logo.svg" alt="Impact Flow"></a>
@@ -61,7 +62,7 @@
             </div>
         </header>
         {% block content %}{% endblock %}
-        <footer>
+        <footer class="no-print">
             <div class="footer-wrapper">
                 <div class="footer-item">
                     <h3>IMPACT FLOW</h3>

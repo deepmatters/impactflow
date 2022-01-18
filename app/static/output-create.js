@@ -93,29 +93,29 @@ function searchSubmit() {
             }
         })
 
-        // If strict mode doesn't return any value, reapply using loose mode
-        if (searchArray.length == 0) {
-            searchObj.forEach((obj, i) => {
-                // Then iterate over each object and test regex match
-                for (const [key, value] of Object.entries(obj)) {
-                    if (key == 'content') {
-                        if (String(value).match(searchRegexOr) != null) {
-                            // Calculate search ranking (num of combined occurrences of search term)
-                            let termMatchNum = 0
+        // // If strict mode doesn't return any value, reapply using loose mode
+        // if (searchArray.length == 0) {
+        //     searchObj.forEach((obj, i) => {
+        //         // Then iterate over each object and test regex match
+        //         for (const [key, value] of Object.entries(obj)) {
+        //             if (key == 'content') {
+        //                 if (String(value).match(searchRegexOr) != null) {
+        //                     // Calculate search ranking (num of combined occurrences of search term)
+        //                     let termMatchNum = 0
         
-                            termMatchNum = String(value).match(searchRegexOr).length
+        //                     termMatchNum = String(value).match(searchRegexOr).length
         
-                            // Create search result array of objects
-                            searchArray.push({
-                                obj: searchObj[i], 
-                                matchNum: termMatchNum, 
-                                mode: 'loose'
-                            })
-                        }
-                    }   
-                }
-            })
-        }
+        //                     // Create search result array of objects
+        //                     searchArray.push({
+        //                         obj: searchObj[i], 
+        //                         matchNum: termMatchNum, 
+        //                         mode: 'loose'
+        //                     })
+        //                 }
+        //             }   
+        //         }
+        //     })
+        // }
 
         // Sort the search result array by matchNum
         // We want results with high occurrences to appear first
@@ -169,16 +169,11 @@ function searchSubmit() {
                     <div class="spacer-big"></div>
                     <span class="blue-em">${result.obj.category}</span><br>
                     ${result.obj.subcategory}<br>
-                    <ul>
-                        <li>ENG: <strong>${result.obj.indicator_en}</strong> (${result.obj.source_en})</li>
-                        <li>TH: <strong>${result.obj.indicator_th}</strong> (${result.obj.source_th})</li>
-                    </ul>
+                    <p><strong>${result.obj.indicator_en}</strong> (${result.obj.source_en})</p>
                 </div>
                 <button class="button" onclick="searchFill(${i})">เลือกใช้ตัวชี้วัดนี้ Use this indicator</button>
                 <div class="spacer-small"></div>
             `
-
-            // TO FIX: FIND A WAY TO PUT result.obj AS FUNCTION ARGUMENT
 
             count += 1
         })

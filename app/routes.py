@@ -14,6 +14,7 @@ import boto3
 import pytz
 import os
 import ast
+from sqlalchemy.orm.attributes import flag_modified
 
 # Define a function to check file extension for file upload
 def allowed_file(filename):
@@ -41,6 +42,27 @@ def img_convert(img_url):
     return img
 
 app.jinja_env.filters['img_convert'] = img_convert
+
+"""
+Error handling
+
+Don't forget to output header page variable for each content type
+"""
+@app.errorhandler(404)
+def page_not_found(e):
+    if request.path.split('/')[1] == 'project':
+        return render_template('404.html', project=[]), 404
+    else:
+        return render_template('404.html'), 404
+    
+@app.errorhandler(500)
+def internal_server_error(e):
+    if request.path.split('/')[1] == 'project':
+        print('This is 500 error from /project')
+        return render_template('500.html', project=[]), 500
+    else:
+        print('This is 500 error')
+        return render_template('500.html'), 500
 
 @app.route('/')
 def home():
@@ -343,6 +365,43 @@ def project(project_id):
         for outcome in outcomes_raw:
             outcomes.append([outcome.output_id, outcome])
 
+    # Find a list of project's impact that haven't been checked in outcome stage
+
+    # 1. Create a unique list of outcomes' impactCheck fields to check against project data's impact
+    outcomes_forcheck = []
+
+    for output in outputs:
+        outcomes_raw = Outcome.query.filter(Outcome.output_id == output[1].id).order_by(Outcome.id.asc()).all()
+
+        for outcome in outcomes_raw:
+            outcomes_forcheck.append(outcome)
+
+    outcome_impact_check = []
+
+    for outcome in outcomes_forcheck:
+        for impact in outcome.json['impactCheck']:
+            outcome_impact_check.append(impact)
+
+    outcome_impact_set = set(outcome_impact_check)
+
+    # 2. Create a list of impact from project data
+    project_impact = []
+
+    for impact in project.json['impact']:
+        project_impact.append(impact['objective'])
+
+    project_impact_set = set(project_impact)
+
+    # 3. Find symetric difference between outcome_impact_set and project_impact_set
+    impact_diff = project_impact_set.symmetric_difference(outcome_impact_set)
+
+    # 4. Reorder impact diff by creating a new list against project_impact
+    impact_diff_ordered = []
+
+    for impact in project_impact:
+        if impact in impact_diff:
+            impact_diff_ordered.append(impact)
+
     # Editability check
     editable = False
 
@@ -361,32 +420,7 @@ def project(project_id):
         else:
             imgs = None
 
-        # Generate sdg dict
-        sdg_list = [i['sdg'] for i in project.json['impact']]
-
-        sdg_dict = {
-            'Goal 1: No Poverty': '/static/TheGlobalGoals_Icons_Color_Goal_1.png', 
-            'Goal 2: Zero Hunger': '/static/TheGlobalGoals_Icons_Color_Goal_2.png', 
-            'Goal 3: Good Health and Well-being': '/static/TheGlobalGoals_Icons_Color_Goal_3.png', 
-            'Goal 4: Quality Education': '/static/TheGlobalGoals_Icons_Color_Goal_4.png', 
-            'Goal 5: Gender Equality': '/static/TheGlobalGoals_Icons_Color_Goal_5.png', 
-            'Goal 6: Clean Water and Sanitation': '/static/TheGlobalGoals_Icons_Color_Goal_6.png', 
-            'Goal 7: Affordable and Clean Energy': '/static/TheGlobalGoals_Icons_Color_Goal_7.png', 
-            'Goal 8: Decent Work and Economic Growth': '/static/TheGlobalGoals_Icons_Color_Goal_8.png', 
-            'Goal 9: Industry, Innovation and Infrastructure': '/static/TheGlobalGoals_Icons_Color_Goal_9.png', 
-            'Goal 10: Reduced Inequality': '/static/TheGlobalGoals_Icons_Color_Goal_10.png', 
-            'Goal 11: Sustainable Cities and Communities': '/static/TheGlobalGoals_Icons_Color_Goal_11.png', 
-            'Goal 12: Responsible Consumption and Production': '/static/TheGlobalGoals_Icons_Color_Goal_12.png', 
-            'Goal 13: Climate Action': '/static/TheGlobalGoals_Icons_Color_Goal_13.png', 
-            'Goal 14: Life Below Water': '/static/TheGlobalGoals_Icons_Color_Goal_14.png', 
-            'Goal 15: Life on Land': '/static/TheGlobalGoals_Icons_Color_Goal_15.png', 
-            'Goal 16: Peace and Justice Strong Institutions': '/static/TheGlobalGoals_Icons_Color_Goal_16.png', 
-            'Goal 17: Partnerships to achieve the Goal': '/static/TheGlobalGoals_Icons_Color_Goal_17.png'
-        }
-
-        sdg_dict_sel = {k:v for (k, v) in sdg_dict.items() if k in sdg_list}
-
-        return render_template('project.html', project=project, imgs=imgs, sdg_dict_sel=sdg_dict_sel, stakeholders=stakeholders, activities=activities, outputs=outputs, outcomes=outcomes, editable=editable)
+        return render_template('project.html', project=project, imgs=imgs, stakeholders=stakeholders, activities=activities, outputs=outputs, outcomes=outcomes, impact_diff_ordered=impact_diff_ordered, editable=editable)
 
 @app.route('/project/<int:project_id>/edit', methods=('GET', 'POST'))
 @login_required
@@ -464,6 +498,37 @@ def project_delete_confirm(project_id):
         return redirect('/')
     else:
         return render_template('owner-error.html', project=project)
+
+@app.route('/project/<int:project_id>/publish/<string:mode>')
+@login_required
+def project_share_toggle(project_id, mode):
+    project = Project.query.filter(Project.id == project_id).first()
+
+    editable = False
+
+    if current_user.is_authenticated:
+        if project.user_id == current_user.id or current_user.role == 'admin':
+            editable = True
+
+    if editable:
+        if mode == 'on':
+            project.json['published'] = True
+            project.published = True
+
+            flag_modified(project, "json")
+            db.session.add(project)
+            db.session.commit()
+
+            return redirect('/project/' + str(project_id))
+        elif mode == 'off':
+            project.json['published'] = False
+            project.published = False
+            
+            flag_modified(project, "json")
+            db.session.add(project)
+            db.session.commit()
+
+            return redirect('/project/' + str(project_id))
 
 """
 Stakeholder
@@ -939,7 +1004,10 @@ def outcome_create(project_id, stakeholder_id, activity_id, output_id):
 
             return redirect('/')
         else:
-            return render_template('outcome-create.html', form=form, project=project, stakeholder=stakeholder, activity=activity, output=output)
+            # Dump project's json to be used for objectives check
+            data_project = json.dumps(project.json, sort_keys=False, indent=4, ensure_ascii=False)
+
+            return render_template('outcome-create.html', form=form, project=project, stakeholder=stakeholder, activity=activity, output=output, data_project=data_project)
     else:
         return render_template('owner-error.html', project=project)
 
@@ -1001,9 +1069,12 @@ def outcome_edit(project_id, stakeholder_id, activity_id, output_id, outcome_id)
             return render_template('owner-error.html', project=project)
     else:
         if editable:
-            data = json.dumps(output.json, sort_keys=False, indent=4, ensure_ascii=False)
+            data = json.dumps(outcome.json, sort_keys=False, indent=4, ensure_ascii=False)
 
-            return render_template('outcome-edit.html', project=project, stakeholder=stakeholder, activity=activity, output=output, outcome=outcome, form=form, data=data)
+            # Dump project's json to be used for objectives check
+            data_project = json.dumps(project.json, sort_keys=False, indent=4, ensure_ascii=False)
+
+            return render_template('outcome-edit.html', project=project, stakeholder=stakeholder, activity=activity, output=output, outcome=outcome, form=form, data=data, data_project=data_project)
         else:
             return render_template('owner-error.html', project=project)
 
@@ -1207,10 +1278,8 @@ def indicator_api():
                 "category": result['category'], 
                 "subcategory": result['subcategory'], 
                 "indicator_en": result['indicator_en'], 
-                "indicator_th": result['indicator_th'], 
                 "source_en": result['source_en'], 
-                "source_th": result['source_th'], 
-                "content": result['subcategory'] + " : " + result['indicator_en'] + " (" + result['source_en'] + ") " + result['indicator_th'] + " (" + result['source_th'] + ")"
+                "content": result['subcategory'] + " : " + result['indicator_en'] + " (" + result['source_en'] + ")"
             })
 
         return jsonify(indicators)

@@ -6,6 +6,7 @@ let formData = {}
 
 // Define form elements by id
 const title = document.getElementById('title')
+const objective1 = document.getElementById('objective1')
 const sdg1 = document.getElementById('sdg1')
 const target1 = document.getElementById('target1')
 const impactWrapper = document.getElementById('impactWrapper')
@@ -829,16 +830,20 @@ function filterTarget(impact) {
 let impactNum = 1  // Initial number of impact
 
 function impactAdd() {
+    const childNodeObjective = document.createElement('textarea')
     const childNodeSdg = document.createElement('select')
     const childNodeTarget = document.createElement('div')
     const childNodeBr = document.createElement('br')
 
+    childNodeObjective.setAttribute('id', `objective${impactNum+1}`)
+    childNodeObjective.setAttribute('placeholder', `ระบุเป้าหมายที่ ${impactNum+1} แล้วเลือก SDG Goal ที่สอดคล้องกับเป้าหมายนี้ Specify objective #${impactNum+1} then select an SDG goal that corresponds to this objective.`)
     childNodeSdg.setAttribute('id', `sdg${impactNum+1}`)
     childNodeSdg.setAttribute('name', `sdg${impactNum+1}`)
     childNodeSdg.setAttribute('onchange', `filterTarget(${impactNum+1})`)
     childNodeTarget.setAttribute('id', `target${impactNum+1}`)
     childNodeBr.setAttribute('id', `impact${impactNum+1}Br`)
 
+    impactWrapper.append(childNodeObjective)
     impactWrapper.append(childNodeSdg)
 
     document.getElementById(`sdg${impactNum+1}`).innerHTML = `
@@ -870,6 +875,7 @@ function impactAdd() {
 
 function impactMinus() {
     if (impactNum > 1) {
+        impactWrapper.removeChild(document.getElementById(`objective${impactNum}`))
         impactWrapper.removeChild(document.getElementById(`sdg${impactNum}`))
         impactWrapper.removeChild(document.getElementById(`target${impactNum}`))
         impactWrapper.removeChild(document.getElementById(`impact${impactNum}Br`))
@@ -969,6 +975,7 @@ function fetchSubmit() {
             })
 
             impactArray.push({
+                objective: document.getElementById(`objective${i}`).value, 
                 sdg: document.getElementById(`sdg${i}`).value, 
                 target: target 
             })
@@ -1020,6 +1027,7 @@ window.onload = clearInputs()
 
 function clearInputs() {
     title.value = ''
+    objective1.value = ''
     sdg1.value = '' 
     summary.value = ''
     duration.value = ''

@@ -92,29 +92,29 @@ function searchSubmit() {
             }
         })
 
-        // If strict mode doesn't return any value, reapply using loose mode
-        if (searchArray.length == 0) {
-            searchObj.forEach((obj, i) => {
-                // Then iterate over each object and test regex match
-                for (const [key, value] of Object.entries(obj)) {
-                    if (key == 'content') {
-                        if (String(value).match(searchRegexOr) != null) {
-                            // Calculate search ranking (num of combined occurrences of search term)
-                            let termMatchNum = 0
+        // // If strict mode doesn't return any value, reapply using loose mode
+        // if (searchArray.length == 0) {
+        //     searchObj.forEach((obj, i) => {
+        //         // Then iterate over each object and test regex match
+        //         for (const [key, value] of Object.entries(obj)) {
+        //             if (key == 'content') {
+        //                 if (String(value).match(searchRegexOr) != null) {
+        //                     // Calculate search ranking (num of combined occurrences of search term)
+        //                     let termMatchNum = 0
         
-                            termMatchNum = String(value).match(searchRegexOr).length
+        //                     termMatchNum = String(value).match(searchRegexOr).length
         
-                            // Create search result array of objects
-                            searchArray.push({
-                                obj: searchObj[i], 
-                                matchNum: termMatchNum, 
-                                mode: 'loose'
-                            })
-                        }
-                    }   
-                }
-            })
-        }
+        //                     // Create search result array of objects
+        //                     searchArray.push({
+        //                         obj: searchObj[i], 
+        //                         matchNum: termMatchNum, 
+        //                         mode: 'loose'
+        //                     })
+        //                 }
+        //             }   
+        //         }
+        //     })
+        // }
 
         // Sort the search result array by matchNum
         // We want results with high occurrences to appear first
@@ -168,10 +168,7 @@ function searchSubmit() {
                     <div class="spacer-big"></div>
                     <span class="blue-em">${result.obj.category}</span><br>
                     ${result.obj.subcategory}<br>
-                    <ul>
-                        <li>ENG: <strong>${result.obj.indicator_en}</strong> (${result.obj.source_en})</li>
-                        <li>TH: <strong>${result.obj.indicator_th}</strong> (${result.obj.source_th})</li>
-                    </ul>
+                    <p><strong>${result.obj.indicator_en}</strong> (${result.obj.source_en})</p>
                 </div>
                 <button class="button" onclick="searchFill(${i})">เลือกใช้ตัวชี้วัดนี้ Use this indicator</button>
                 <div class="spacer-small"></div>
@@ -217,6 +214,8 @@ const outputId = document.getElementById('outputId').innerHTML
 const outcomeId = document.getElementById('outcomeId').innerHTML
 const dataJson = document.getElementById('data').innerHTML
 const data = JSON.parse(dataJson)
+const dataProjectJson = document.getElementById('dataProject').innerHTML
+const dataProject = JSON.parse(dataProjectJson)
 
 // Define blank form data to be used later by fetch function
 let formData = {}
@@ -228,9 +227,54 @@ const indicator = document.getElementById('indicator')
 const indicatorBaseline = document.getElementById('indicatorBaseline')
 const indicatorTarget = document.getElementById('indicatorTarget')
 const indicatorUnit = document.getElementById('indicatorUnit')
+const impactCheckWrapper = document.getElementById('impactCheckWrapper')
+
+// Project's objectives check
+
+function displayTargets() {
+    let i = 0
+
+    dataProject.impact.forEach((sdg => {
+        // console.log(sdg)
+        const objectiveCheckbox = document.createElement('input')
+        const objectiveCheckboxLabel = document.createElement('label')
+
+        objectiveCheckbox.setAttribute('type', 'checkbox')
+        objectiveCheckbox.setAttribute('id', `objective${i}`)
+        objectiveCheckbox.setAttribute('name', 'objectiveCheckboxes')
+        objectiveCheckbox.setAttribute('value', `${sdg.objective}`)
+
+        objectiveCheckboxLabel.setAttribute('for', `objective${i}`)
+        objectiveCheckboxLabel.setAttribute('id', `objectiveLabel${i}`)
+
+        impactCheckWrapper.appendChild(objectiveCheckbox)
+        impactCheckWrapper.appendChild(objectiveCheckboxLabel)
+
+        document.getElementById(`objectiveLabel${i}`).innerHTML = `${sdg.objective}`
+
+        i += 1
+    }))
+}
+
+displayTargets()
+
+// Prefill objective check data
+if (data.impactCheck.length > 0) {
+    data.impactCheck.forEach((impact) => {
+        document.querySelector(`input[type='checkbox'][value='${impact}']`).checked = true
+    })
+}
 
 // Form submission
 function fetchSubmit() {
+    // Prep impactCheckArray
+    let impactCheckArray = []
+    const objectiveCheckboxes = document.querySelectorAll(`input[name="objectiveCheckboxes"]:checked`)
+
+    objectiveCheckboxes.forEach((checkbox) => {
+        impactCheckArray.push(checkbox.value)
+    })
+
     // Build final formData
     formData = {
         outcome: outcome.value, 
@@ -239,6 +283,7 @@ function fetchSubmit() {
         indicatorBaseline: indicatorBaseline.value, 
         indicatorTarget: indicatorTarget.value, 
         indicatorUnit: indicatorUnit.value, 
+        impactCheck: impactCheckArray, 
         published: true
     }
 

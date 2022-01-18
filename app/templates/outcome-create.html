@@ -10,6 +10,7 @@
         <div id="stakeholderId" style="display: none;">{{ stakeholder.id }}</div>
         <div id="activityId" style="display: none;">{{ activity.id }}</div>
         <div id="outputId" style="display: none;">{{ output.id }}</div>
+        <div id="dataProject" style="display:none">{{ data_project }}</div>
 
         <h1>เพิ่มผลลัพธ์ Add an Outcome</h1>
         <p>ผลลัพธ์ Outcome</p>
@@ -35,6 +36,10 @@
         <input id="indicatorBaseline" type="number" placeholder="จำนวนเริ่ม Baseline amount">
         <input id="indicatorTarget" type="number" placeholder="จำนวนเป้าหมาย Target amount">
         <input id="indicatorUnit" type="text" placeholder="หน่วย Unit">
+        <hr><br>
+
+        <p>ผลลัพธ์นี้สอดคล้องกับเป้าหมายใดของโครงการ Which project's impact goals are compatible with this outcome?</p>
+        <div id="impactCheckWrapper"></div>
         <hr><br>
         
         <div class="button-wrapper">

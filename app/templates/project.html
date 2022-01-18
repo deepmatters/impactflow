@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="main-wrapper">
-    <p><a href="/">< กลับไปหน้าหลัก Back to Home</a></p>
-    <div class="spacer-big"></div>
+    <p class="no-print"><a href="/">< กลับไปหน้าหลัก Back to Home</a></p>
+    <div class="spacer-big no-print"></div>
     {% if imgs %}
         <img class="org-logo" src="{{ imgs[0] }}" alt="{{ project.title }} logo">
     {% else %}
@@ -12,11 +12,13 @@
     <div class="main-flex-wrapper">
         <div class="main-flex-left">
             <h1>{{ project['json']['title'] }}</h1>
-            {% if project['json']['published'] %}
-                <span class="shared">เผยแพร่ Shared</span> 
-                <span class="url">https://impactflow.org/project/{{ project.id }}</span>
+            <span class="url">https://impactflow.org/project/{{ project.id }}</span>
+            {% if project.published == True %}
+                <span class="shared no-print">เผยแพร่ Shared</span>
+                <span class="share-toggle-off no-print"><a href="/project/{{ project.id }}/publish/off">เปลี่ยนเป็นไม่เผยแพร่ Unshare</a></span>
             {% else %}
-                <span class="private">ไม่เผยแพร่ Private</span>
+                <span class="private no-print">ไม่เผยแพร่ Private</span>
+                <span class="share-toggle-on no-print"><a href="/project/{{ project.id }}/publish/on">เปลี่ยนเป็นเผยแพร่ Share</a></span>
             {% endif %}
             {% if project.mod_dt %}
                 <p class="gray-small">Created: {{ project.create_dt|datetimefilter }} | Last edit: {{ project.mod_dt|datetimefilter }}</p>
@@ -24,18 +26,62 @@
                 <p class="gray-small">Created: {{ project.create_dt|datetimefilter }}</p>
             {% endif %}
             <h2>เป้าหมาย Impact Goals</h2>
-            {% for k in sdg_dict_sel.keys() %}
-                <img class="sdg-icons" src="{{ sdg_dict_sel.get(k) }}" alt="SDG {{ k }}">
+
+            {% for impact in project['json']['impact'] %}
+                <p class="impact-objective"><strong>{{ impact['objective'] }}</strong></p>
+
+                {% if impact['sdg']|length > 2 %}
+                    <div class="impact-wrapper">
+                        <div class="impact-sdg">
+                            {% if impact['sdg'] == 'Goal 1: No Poverty' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_1.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 2: Zero Hunger' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_2.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 3: Good Health and Well-being' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_3.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 4: Quality Education' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_4.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 5: Gender Equality' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_5.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 6: Clean Water and Sanitation' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_6.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 7: Affordable and Clean Energy' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_7.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 8: Decent Work and Economic Growth' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_8.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 9: Industry, Innovation and Infrastructure' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_9.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 10: Reduced Inequality' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_10.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 11: Sustainable Cities and Communities' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_11.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 12: Responsible Consumption and Production' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_12.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 13: Climate Action' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_13.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 14: Life Below Water' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_14.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 15: Life on Land' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_15.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 16: Peace and Justice Strong Institutions' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_16.png" alt="{{ impact['sdg'] }}">
+                            {% elif impact['sdg'] == 'Goal 17: Partnerships to achieve the Goal' %}
+                                <img class="sdg-icons" src="/static/TheGlobalGoals_Icons_Color_Goal_17.png" alt="{{ impact['sdg'] }}">
+                            {% endif %}
+                        </div>
+                        <div class="impact-content">
+                            <span>{{ impact['sdg'] }}</span>
+                            <ul>
+                                {% for target in impact['target'] %}
+                                    <li>{{ target }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+                <br>
             {% endfor %}
             
-            {% for impact in project['json']['impact'] %}
-                <p>{{ impact['sdg'] }}</p>
-                <ul>
-                    {% for target in impact['target'] %}
-                        <li>{{ target }}</li>
-                    {% endfor %}
-                </ul>
-            {% endfor %}
             <h2>ภาพรวม Summary</h2>
             <p>{{ project['json']['summary'] }}</p>
             <p>ระยะเวลา Duration: {{ project['json']['duration'] }} เดือน Month</p>
@@ -48,22 +94,41 @@
             </ul>
             <br>
             {% if editable %}
-                <div class="passed-zone">
-                    <div class="spacer-small"></div>
+                <div class="passed-zone no-print">
                     <a class="no-decoration" href="/project/{{ project.id }}/edit"><button class="button-edit">แก้ไขข้อมูลโครงการนี้<br>Edit project's info</button></a>&nbsp;&nbsp;
                     <a class="no-decoration" href="/project/{{ project.id }}/upload"><button class="button-edit">อับโหลดภาพโลโก้<br>Upload a logo</button></a>&nbsp;&nbsp;
                     <span class="caution"><a href="/project/{{ project.id }}/delete">ลบโครงการนี้ Delete this project</a></span>
                 </div>
                 <br>
+                <div class="passed-zone no-print">
+                    <button id="print" class="button-edit" type="button" onclick="projectPrint()">พิมพ์โครงการ Print the project</button><br>
+                    <span class="gray-small">หากต้องการเซฟเป็นไฟล์ PDF ให้กดปุ่มแล้วเลือก Save to PDF แทนที่จะเลือกเครื่องพิมพ์ Please select 'Save to PDF' if you want a PDF file.</span>
+                </div>
+                <br>
             {% endif %}
         </div>
     </div>
-    
+    <hr><br>
     <h2>โมเดลผลกระทบทางสังคม Impact Model</h2>
+    {% if editable %}
+        {% if outcomes|length > 0 %}
+            {% if impact_diff_ordered|length > 0 %}
+                <div class="caution-zone no-print">
+                    <p>ยังมีเป้าหมายบางเป้าหมายของโครงการที่ยังไม่ถูกเชื่อมโยงกับผลลัพธ์ใดๆ เลย กรุณาตรวจสอบว่าผลลัพธ์ได้เชื่อมโยงกับเป้าหมายด้านล่างนี้ The following project's goals are not currently achieved by any outcome. Please make sure there's at least one outcome that is compatible with these goals:</p>
+                    <ul>
+                        {% for diff in impact_diff_ordered %}
+                            <li>{{ diff }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <br>
+            {% endif %}
+        {% endif %}
+    {% endif %}
     {% if not stakeholders %}
         {% if editable %}
-            <p>เริ่มสร้าง Impact model โดยการเพิ่มผู้มีส่วนได้เสีย Start creating an impact model by adding a stakeholder.</p>
-            <a class="no-decoration" href="/project/{{ project.id }}/stakeholder-create"><button class="button">เพิ่มผู้มีส่วนได้เสีย<br>Add a stakeholder</button></a>
+            <p class="no-print">เริ่มสร้าง Impact model โดยการเพิ่มผู้มีส่วนได้เสีย Start creating an impact model by adding a stakeholder.</p>
+            <a class="no-decoration no-print" href="/project/{{ project.id }}/stakeholder-create"><button class="button">เพิ่มผู้มีส่วนได้เสีย<br>Add a stakeholder</button></a>
         {% endif %}
     {% else %}
         <table>
@@ -80,7 +145,9 @@
                         <p class="gray-small">{{ stakeholder['json']['degree'] }} | ความสำคัญ Importance: {{ stakeholder['json']['importance'] }}</p>
                         <p>{{ stakeholder['json']['description'] }}</p>
                         {% if editable %}
-                            [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/delete">ลบ Delete</a> ]
+                            <div class="no-print">
+                                [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/delete">ลบ Delete</a> ]
+                            </div>
                         {% endif %}
                     </div>
                 </td>
@@ -93,14 +160,18 @@
                                 <p class="impact-type" style="background-color: {{ activity[1]['json']['bgcolor'] }};">กิจกรรม Activity ({{ stakeholder['json']['stakeholder'] }})</p>
                                 <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}"><h3>{{ activity[1]['json']['activity'] }}</h3></a>
                                 {% if editable %}
-                                    [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/delete">ลบ Delete</a> ]
+                                    <div class="no-print">
+                                        [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/delete">ลบ Delete</a> ]
+                                    </div>
                                 {% endif %}
                                 <div class="spacer-big"></div>            
                             </div>
                         {% endif %}
                     {% endfor %}
                     {% if editable %}
-                        <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/activity-create"><button class="add-model">+ เพิ่มกิจกรรม Add an activity ({{ stakeholder['json']['stakeholder'] }})</button></a>
+                        <div class="no-print">
+                            <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/activity-create"><button class="add-model">+ เพิ่มกิจกรรม Add an activity ({{ stakeholder['json']['stakeholder'] }})</button></a>
+                        </div>
                     {% endif %}
                 </td>
                 <td class="activity">
@@ -111,19 +182,22 @@
                                     <div class="activity-wrapper">
                                         <p class="impact-type" style="background-color: {{ activity[1]['json']['bgcolor'] }};">ผลผลิต Output ({{ activity[1]['json']['activity'] }})</p>
                                         <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}"><h3>{{ output[1]['json']['output'] }}</h3></a>
-                                        <!-- <p>{{ output[1]['json']['indicatorCategory'] }}</p> -->
                                         <p>{{ output[1]['json']['indicator'] }}</p>
                                         <p>จำนวนเริ่ม Baseline Amount: {{ output[1]['json']['indicatorBaseline'] }} {{ output[1]['json']['indicatorUnit'] }}<br>
                                         จำนวนเป้าหมาย Target Amount: {{ output[1]['json']['indicatorTarget'] }} {{ output[1]['json']['indicatorUnit'] }}</p>
                                         {% if editable %}
-                                            [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/delete">ลบ Delete</a> ]
+                                            <div class="no-print">
+                                                [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/delete">ลบ Delete</a> ]
+                                            </div>
                                         {% endif %}
                                         <div class="spacer-big"></div>
                                     </div>
                                 {% endif %}
                             {% endfor %}
                             {% if editable %}
-                                <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/output-create"><button class="add-model" style="color: #4d4d4d; background-color: {{ activity[1]['json']['bgcolor'] }};">+ เพิ่มผลผลิต Add an output ({{ activity[1]['json']['activity'] }})</button></a>
+                                <div class="no-print">
+                                    <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/output-create"><button class="add-model" style="color: #4d4d4d; background-color: {{ activity[1]['json']['bgcolor'] }};">+ เพิ่มผลผลิต Add an output ({{ activity[1]['json']['activity'] }})</button></a>
+                                </div>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
@@ -142,15 +216,25 @@
                                                 <p>{{ outcome[1]['json']['indicator'] }}</p>
                                                 <p>จำนวนเริ่ม Baseline Amount: {{ outcome[1]['json']['indicatorBaseline'] }} {{ outcome[1]['json']['indicatorUnit'] }}<br>
                                                 จำนวนเป้าหมาย Target Amount: {{ outcome[1]['json']['indicatorTarget'] }} {{ outcome[1]['json']['indicatorUnit'] }}</p>
+                                                <p>สอดคล้องกับเป้าหมาย Compatible with impact goals:</p>
+                                                <ul>
+                                                    {% for target in outcome[1]['json']['impactCheck'] %}
+                                                        <li>{{ target }}</li>
+                                                    {% endfor %}
+                                                </ul>
                                                 {% if editable %}
-                                                    [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/{{ outcome[1].id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/{{ outcome[1].id }}/delete">ลบ Delete</a> ]
+                                                    <div class="no-print">
+                                                        [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/{{ outcome[1].id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/{{ outcome[1].id }}/delete">ลบ Delete</a> ]
+                                                    </div>
                                                 {% endif %}
                                                 <div class="spacer-big"></div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                     {% if editable %}
-                                        <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/outcome-create"><button class="add-model" style="color: #4d4d4d; background-color: {{ activity[1]['json']['bgcolor'] }};">+ เพิ่มผลลัพธ์ Add an outcome ({{ output[1]['json']['output'] }})</button></a>
+                                        <div class="no-print">
+                                            <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity[1].id }}/{{ output[1].id }}/outcome-create"><button class="add-model" style="color: #4d4d4d; background-color: {{ activity[1]['json']['bgcolor'] }};">+ เพิ่มผลลัพธ์ Add an outcome ({{ output[1]['json']['output'] }})</button></a>
+                                        </div>
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}
@@ -160,7 +244,7 @@
             </tr>
         {% endfor %}
         {% if editable %}
-            <tr style="border-top: 1px solid #cccccc;">
+            <tr class="no-print" style="border-top: 1px solid #cccccc;">
                 <td>
                     <a class="no-decoration" href="/project/{{ project.id }}/stakeholder-create"><button class="add-model">+ เพิ่มผู้มีส่วนได้เสีย Add a stakeholder</button></a>
                     <div class="spacer-small"></div>
@@ -171,4 +255,5 @@
         
     {% endif %}
 </div>
+<script src="/static/project-tool.js"></script>
 {% endblock %}

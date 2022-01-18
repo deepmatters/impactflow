@@ -12,6 +12,7 @@
         <div id="outputId" style="display: none;">{{ output.id }}</div>
         <div id="outcomeId" style="display: none;">{{ outcome.id }}</div>
         <div id="data" style="display:none">{{ data }}</div>
+        <div id="dataProject" style="display:none">{{ data_project }}</div>
 
         <h1>แก้ไขผลลัพธ์ Edit an Outcome</h1>
         <p>ผลลัพธ์ Outcome</p>
@@ -37,6 +38,10 @@
         <input id="indicatorBaseline" type="number" value="{{ outcome['json']['indicatorBaseline'] }}" placeholder="จำนวนเริ่ม Baseline amount">
         <input id="indicatorTarget" type="number" value="{{ outcome['json']['indicatorTarget'] }}" placeholder="จำนวนเป้าหมาย Target amount">
         <input id="indicatorUnit" type="text" value="{{ outcome['json']['indicatorUnit'] }}" placeholder="หน่วย Unit">
+        <hr><br>
+
+        <p>ผลลัพธ์นี้สอดคล้องกับเป้าหมายใดของโครงการ Which project's impact goals are compatible with this outcome?</p>
+        <div id="impactCheckWrapper"></div>
         <hr><br>
         
         <div class="button-wrapper">

@@ -828,16 +828,20 @@ function filterTarget(impact) {
 
 // Prefill impact data
 if (data.impact[0].sdg === "") {  // If no impact, create a blank impact group
+    const childNodeObjective = document.createElement('textarea')
     const childNodeSdg = document.createElement('select')
     const childNodeTarget = document.createElement('div')
     const childNodeBr = document.createElement('br')
 
+    childNodeObjective.setAttribute('id', `objective1`)
+    childNodeObjective.setAttribute('placeholder', `ระบุเป้าหมายที่ 1 แล้วเลือก SDG Goal ที่สอดคล้องกับเป้าหมายนี้ Specify objective #1 then select an SDG goal that corresponds to this objective.`)
     childNodeSdg.setAttribute('id', `sdg1`)
     childNodeSdg.setAttribute('name', `sdg1`)
     childNodeSdg.setAttribute('onchange', `filterTarget(1)`)
     childNodeTarget.setAttribute('id', `target1`)
     childNodeBr.setAttribute('id', `impact1Br`)
 
+    impactWrapper.append(childNodeObjective)
     impactWrapper.append(childNodeSdg)
 
     document.getElementById(`sdg1`).innerHTML = `
@@ -865,16 +869,20 @@ if (data.impact[0].sdg === "") {  // If no impact, create a blank impact group
     impactWrapper.append(childNodeBr)
 } else {  // If there's at least 1 filled impact
     for (let i=1; i <= data.impact.length; i++) {  // For each impact
+        const childNodeObjective = document.createElement('textarea')
         const childNodeSdg = document.createElement('select')
         const childNodeTarget = document.createElement('div')
         const childNodeBr = document.createElement('br')
 
+        childNodeObjective.setAttribute('id', `objective${i}`)
+        childNodeObjective.setAttribute('placeholder', `ระบุเป้าหมายที่ ${i} แล้วเลือก SDG Goal ที่สอดคล้องกับเป้าหมายนี้ Specify objective #${i} then select an SDG goal that corresponds to this objective.`)
         childNodeSdg.setAttribute('id', `sdg${i}`)
         childNodeSdg.setAttribute('name', `sdg${i}`)
         childNodeSdg.setAttribute('onchange', `filterTarget(${i})`)
         childNodeTarget.setAttribute('id', `target${i}`)
         childNodeBr.setAttribute('id', `impact${i}Br`)
 
+        impactWrapper.append(childNodeObjective)
         impactWrapper.append(childNodeSdg)
 
         document.getElementById(`sdg${i}`).innerHTML = `
@@ -901,7 +909,8 @@ if (data.impact[0].sdg === "") {  // If no impact, create a blank impact group
         impactWrapper.append(childNodeTarget)
         impactWrapper.append(childNodeBr)
 
-        // Prefill option by data's value
+        // Prefill value
+        document.getElementById(`objective${i}`).value = data.impact[i-1].objective
         document.getElementById(`sdg${i}`).value = data.impact[i-1].sdg
 
         // Call filterTarget function to reveal target
@@ -967,16 +976,20 @@ if (data.published === true) {
 let impactNum = data.impact.length  // Initial number of impact from existing data
 
 function impactAdd() {
+    const childNodeObjective = document.createElement('textarea')
     const childNodeSdg = document.createElement('select')
     const childNodeTarget = document.createElement('div')
     const childNodeBr = document.createElement('br')
 
+    childNodeObjective.setAttribute('id', `objective${impactNum+1}`)
+    childNodeObjective.setAttribute('placeholder', `ระบุเป้าหมายที่ ${impactNum+1} แล้วเลือก SDG Goal ที่สอดคล้องกับเป้าหมายนี้ Specify objective #${impactNum+1} then select an SDG goal that corresponds to this objective.`)
     childNodeSdg.setAttribute('id', `sdg${impactNum+1}`)
     childNodeSdg.setAttribute('name', `sdg${impactNum+1}`)
     childNodeSdg.setAttribute('onchange', `filterTarget(${impactNum+1})`)
     childNodeTarget.setAttribute('id', `target${impactNum+1}`)
     childNodeBr.setAttribute('id', `impact${impactNum+1}Br`)
 
+    impactWrapper.append(childNodeObjective)
     impactWrapper.append(childNodeSdg)
 
     document.getElementById(`sdg${impactNum+1}`).innerHTML = `
@@ -1008,6 +1021,7 @@ function impactAdd() {
 
 function impactMinus() {
     if (impactNum > 1) {
+        impactWrapper.removeChild(document.getElementById(`objective${impactNum}`))
         impactWrapper.removeChild(document.getElementById(`sdg${impactNum}`))
         impactWrapper.removeChild(document.getElementById(`target${impactNum}`))
         impactWrapper.removeChild(document.getElementById(`impact${impactNum}Br`))
@@ -1107,6 +1121,7 @@ function fetchSubmit() {
             })
 
             impactArray.push({
+                objective: document.getElementById(`objective${i}`).value, 
                 sdg: document.getElementById(`sdg${i}`).value, 
                 target: target 
             })
