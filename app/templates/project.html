@@ -15,10 +15,14 @@
             <span class="url">https://impactflow.org/project/{{ project.id }}</span>
             {% if project.published == True %}
                 <span class="shared no-print">เผยแพร่ Shared</span>
-                <span class="share-toggle-off no-print"><a href="/project/{{ project.id }}/publish/off">เปลี่ยนเป็นไม่เผยแพร่ Unshare</a></span>
+                {% if editable %}
+                    <span class="share-toggle-off no-print"><a href="/project/{{ project.id }}/publish/off">เปลี่ยนเป็นไม่เผยแพร่ Unshare</a></span>
+                {% endif %}
             {% else %}
                 <span class="private no-print">ไม่เผยแพร่ Private</span>
-                <span class="share-toggle-on no-print"><a href="/project/{{ project.id }}/publish/on">เปลี่ยนเป็นเผยแพร่ Share</a></span>
+                {% if editable %}
+                    <span class="share-toggle-on no-print"><a href="/project/{{ project.id }}/publish/on">เปลี่ยนเป็นเผยแพร่ Share</a></span>
+                {% endif %}
             {% endif %}
             {% if project.mod_dt %}
                 <p class="gray-small">Created: {{ project.create_dt|datetimefilter }} | Last edit: {{ project.mod_dt|datetimefilter }}</p>
