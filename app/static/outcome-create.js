@@ -175,8 +175,6 @@ function searchSubmit() {
                 <div class="spacer-small"></div>
             `
 
-            // TO FIX: FIND A WAY TO PUT result.obj AS FUNCTION ARGUMENT
-
             count += 1
         })
 

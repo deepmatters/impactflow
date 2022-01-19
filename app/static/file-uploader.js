@@ -41,7 +41,7 @@ fileInput.addEventListener('change', e => {
     })
 
     // Update upload status to DOM
-    document.getElementById('uploadStatus').innerHTML = 'กำลังอับโหลด...'
+    document.getElementById('uploadStatus').innerHTML = 'กำลังอับโหลด Uploading...'
 
     // Post all file at once
     fetch('/project/' + projectId + '/file-post', {
@@ -66,7 +66,7 @@ fileInput.addEventListener('change', e => {
                     <div class="uploader-tool">
                         <div class="uploader-tool-vertical-center">
                             <button class="uploader" onclick="moveUp(${i.uploadedFileId})"><div class="arrow-up"></div></button><br>
-                            <span class="arrow-text">สลับที่</span><br>
+                            <span class="arrow-text">สลับที่<br>Swap</span><br>
                             <button class="uploader" onclick="moveDown(${i.uploadedFileId})"><div class="arrow-down"></div></button>
                         </div>
                     </div>
@@ -82,15 +82,15 @@ fileInput.addEventListener('change', e => {
         })
 
         if (fileUrlArray.length > 0) {
-            document.getElementById('uploadStatus').innerHTML = 'อับโหลดเสร็จสิ้น'
+            document.getElementById('uploadStatus').innerHTML = 'อับโหลดเสร็จสิ้น Upload completed'
         } else {
-            document.getElementById('uploadStatus').innerHTML = 'ไม่มีไฟล์ที่อับโหลดได้ กรุณาเลือกไฟล์ใหม่ที่ระบบรองรับ'
+            document.getElementById('uploadStatus').innerHTML = 'ไม่มีไฟล์ที่อับโหลดได้ กรุณาเลือกไฟล์ใหม่ที่ระบบรองรับ No uploadable file. Please select file with acceptable formats.'
         }
 
         console.log('file URL array:', fileUrlArray);
     })
     .catch(error => {
-        document.getElementById('uploadStatus').innerHTML = 'ขออภัย อับโหลดไม่สำเร็จ กรุณาลองใหม่'
+        document.getElementById('uploadStatus').innerHTML = 'ขออภัย อับโหลดไม่สำเร็จ กรุณาลองใหม่ Sorry, upload failed. Please try again.'
         console.error('Error:', error);
     });
 })

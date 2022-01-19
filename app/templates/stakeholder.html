@@ -13,7 +13,7 @@
             {% else %}
                 <p class="gray-small">Created: {{ stakeholder.create_dt|datetimefilter }}</p>
             {% endif %}
-            <h2>ประเภทของผู้มีส่วนได้เสียนี้ Degree of benefit</h2>
+            <h2>ประเภทของผู้มีส่วนได้เสียนี้ Type of beneficiary</h2>
             <p>{{ stakeholder['json']['degree'] }}</p>
             <h2>ระดับความสำคัญของผู้มีส่วนได้เสียนี้ Degree of importance</h2>
             <p>{{ stakeholder['json']['importance'] }}</p>
@@ -28,35 +28,6 @@
                 </div>
                 <br>
             {% endif %}
-            <hr>
-            <h2>กิจกรรมและผลกระทบสำหรับผู้มีส่วนได้เสียนี้ Activities and Impacts for this stakeholder</h2>
-            {% for activity in activities %}
-                <div class="activity-wrapper">
-                    <div class="activity-part">
-                        <p class="stakeholder-degree">กิจกรรม Activity</p>
-                        <a class="no-decoration" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}"><h3>{{ activity['json']['activity'] }}</h3></a>
-                        {% if editable %}
-                            [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/edit">แก้ไข Edit</a> ] [ <a class="gray-small" href="/project/{{ project.id }}/{{ stakeholder.id }}/{{ activity.id }}/delete">ลบ Delete</a> ]
-                        {% endif %}
-                    </div>
-                    <div class="activity-part">
-                        <p class="stakeholder-degree">ผลผลิต Output</p>
-                        <p>{{ activity['json']['output'] }}</p>
-                        <p>จำนวน Amount: {{ activity['json']['outputAmount'] }} {{ activity['json']['outputUnit'] }}</p>
-                    </div>
-                    <div class="activity-part">
-                        <p class="stakeholder-degree">ผลลัพธ์ Outcome</p>
-                        <p>{{ activity['json']['outcomeCategory'] }}</p>
-                        <p>{{ activity['json']['outcome'] }}</p>
-                        <p>จำนวน Amount: {{ activity['json']['outcomeAmount'] }} {{ activity['json']['outcomeUnit'] }}</p>
-                    </div>
-                    <div class="activity-part">
-                        <p class="stakeholder-degree">ผลกระทบ Impact</p>
-                        <p>{{ activity['json']['impact'] }}</p>
-                    </div>
-                </div>
-                <div class="spacer-big"></div>
-            {% endfor %}
         </div>
     </div>
 </div>

@@ -4,31 +4,31 @@ from wtforms.validators import DataRequired
 from flask_pagedown.fields import PageDownField
 
 class SignupForm(FlaskForm):
-    name = StringField('ชื่อ: ', validators=[DataRequired()])
-    email = EmailField('อีเมล: ', validators=[DataRequired()])
-    password = PasswordField('รหัสผ่าน: ', validators=[DataRequired()])
-    password_check = PasswordField('ยืนยันรหัสผ่าน: ', validators=[DataRequired()])
+    name = StringField('ชื่อ Name: ', validators=[DataRequired()])
+    email = EmailField('อีเมล Email: ', validators=[DataRequired()])
+    password = PasswordField('รหัสผ่าน Password: ', validators=[DataRequired()])
+    password_check = PasswordField('ยืนยันรหัสผ่าน Confirm password: ', validators=[DataRequired()])
     submit = SubmitField('สมัครสมาชิก Sign-up')
 
 class LoginForm(FlaskForm):
-    email = EmailField('อีเมล: ', validators=[DataRequired()])
-    password = PasswordField('รหัสผ่าน: ', validators=[DataRequired()])
+    email = EmailField('อีเมล Email: ', validators=[DataRequired()])
+    password = PasswordField('รหัสผ่าน Password: ', validators=[DataRequired()])
     submit = SubmitField('ล็อกอิน Login')
 
 class ForgetForm(FlaskForm):
-    email = EmailField('อีเมล: ', validators=[DataRequired()])
+    email = EmailField('อีเมล Email: ', validators=[DataRequired()])
     submit = SubmitField('ขอรหัสผ่านใหม่ Request new password')
 
 class PasswordChangeForm(FlaskForm):
-    password_current = PasswordField('รหัสผ่านปัจจุบัน: ', validators=[DataRequired()])
-    password_new = PasswordField('รหัสผ่านใหม่: ', validators=[DataRequired()])
-    password_new_check = PasswordField('ยืนยันรหัสผ่านใหม่: ', validators=[DataRequired()])
+    password_current = PasswordField('รหัสผ่านปัจจุบัน Current password: ', validators=[DataRequired()])
+    password_new = PasswordField('รหัสผ่านใหม่ New password: ', validators=[DataRequired()])
+    password_new_check = PasswordField('ยืนยันรหัสผ่านใหม่ Confirm new password: ', validators=[DataRequired()])
     submit = SubmitField('เปลี่ยนรหัสผ่าน Change password')
 
 class PasswordResetForm(FlaskForm):
-    password_reset_id = StringField('Password Reset ID: ', validators=[DataRequired()])
-    password_new = PasswordField('รหัสผ่านใหม่: ', validators=[DataRequired()])
-    password_new_check = PasswordField('ยืนยันรหัสผ่านใหม่: ', validators=[DataRequired()])
+    password_reset_id = StringField('Password reset ID: ', validators=[DataRequired()])
+    password_new = PasswordField('รหัสผ่านใหม่ New password: ', validators=[DataRequired()])
+    password_new_check = PasswordField('ยืนยันรหัสผ่านใหม่ Confirm new password: ', validators=[DataRequired()])
     submit = SubmitField('เปลี่ยนรหัสผ่าน Change password')
 
 class ProjectForm(FlaskForm):
