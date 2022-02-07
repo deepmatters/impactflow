@@ -8,54 +8,123 @@
         <div id="csrf">{{ form.csrf_token }}</div>
         <h1>สร้างโครงการใหม่ Project Creation</h1>
         <p>ชื่อโครงการ/องค์กร Project/Organisation Name</p>
-        <input id="title" type="text">
-        <br>
+        <div class="form-part-wrapper">
+            <div class="form-part-left">
+                <p class="gray-small">เพื่อหลีกเลี่ยงความสับสน หากองค์กรของคุณมีความคิดริเริ่มที่สร้างผลกระทบมากมาย วิธีที่ดีที่สุดคือสร้างโปรไฟล์โครงการแยกกันสำหรับแต่ละโครงการ If your organization has multiple impact generating projects, it is recommended to build separate project profiles for each to avoid confusion.</p>
+                <input id="title" type="text">
+                <br>
+            </div>
+            <div class="form-part-right">
+                <p class="gray-small">ตัวอย่าง Example</p>
+                <p>คนจับปลา (Fisherfolks)</p>
+            </div>
+        </div>
+        
         <p>เป้าหมาย Impact Goals</p>
-        <textarea id="objective1" placeholder="ระบุเป้าหมายที่ 1 แล้วเลือก SDG Goal ที่สอดคล้องกับเป้าหมายนี้ Specify objective #1 then select an SDG goal that corresponds to this objective."></textarea>
-        <select name="sdg1" id="sdg1" onchange="filterTarget(1)">
-            <option value="" disabled selected>--- เลือก SDG Goal. Choose an SDG Goal. ---</option>
-            <option value="Goal 1: No Poverty">Goal 1: No Poverty</option>
-            <option value="Goal 2: Zero Hunger">Goal 2: Zero Hunger</option>
-            <option value="Goal 3: Good Health and Well-being">Goal 3: Good Health and Well-being</option>
-            <option value="Goal 4: Quality Education">Goal 4: Quality Education</option>
-            <option value="Goal 5: Gender Equality">Goal 5: Gender Equality</option>
-            <option value="Goal 6: Clean Water and Sanitation">Goal 6: Clean Water and Sanitation</option>
-            <option value="Goal 7: Affordable and Clean Energy">Goal 7: Affordable and Clean Energy</option>
-            <option value="Goal 8: Decent Work and Economic Growth">Goal 8: Decent Work and Economic Growth</option>
-            <option value="Goal 9: Industry, Innovation and Infrastructure">Goal 9: Industry, Innovation and Infrastructure</option>
-            <option value="Goal 10: Reduced Inequality">Goal 10: Reduced Inequality</option>
-            <option value="Goal 11: Sustainable Cities and Communities">Goal 11: Sustainable Cities and Communities</option>
-            <option value="Goal 12: Responsible Consumption and Production">Goal 12: Responsible Consumption and Production</option>
-            <option value="Goal 13: Climate Action">Goal 13: Climate Action</option>
-            <option value="Goal 14: Life Below Water">Goal 14: Life Below Water</option>
-            <option value="Goal 15: Life on Land">Goal 15: Life on Land</option>
-            <option value="Goal 16: Peace and Justice Strong Institutions">Goal 16: Peace and Justice Strong Institutions</option>
-            <option value="Goal 17: Partnerships to achieve the Goal">Goal 17: Partnerships to achieve the Goal</option>
-        </select>
-        <div id="target1"></div>
-        <br>
-        <div id="impactWrapper"></div>
-        <button class="form-button" type="button" onclick="impactAdd()">+</button>&nbsp;
-        <button class="form-button" type="button" onclick="impactMinus()">-</button>
-        <div class="spacer-big"></div>
+        <div class="form-part-wrapper">
+            <div class="form-part-left">
+                <p class="gray-small">อธิบายเป้าหมายผลกระทบของโครงการ /องค์กร อะไรคือผลกระทบสูงสุดที่โครงการ/องค์กรต้องการให้บรรลุ? Describe the impact goals of the project / the organization. What are the ultimate impacts the project / the organization aims to achieve?</p>
+                <textarea id="objective1" placeholder="ระบุเป้าหมายที่ 1 แล้วเลือก SDG Goal ที่สอดคล้องกับเป้าหมายนี้ Specify objective #1 then select an SDG goal that corresponds to this objective."></textarea>
+                <select name="sdg1" id="sdg1" onchange="filterTarget(1)">
+                    <option value="" disabled selected>--- เลือก SDG Goal. Choose an SDG Goal. ---</option>
+                    <option value="Goal 1: No Poverty">Goal 1: No Poverty</option>
+                    <option value="Goal 2: Zero Hunger">Goal 2: Zero Hunger</option>
+                    <option value="Goal 3: Good Health and Well-being">Goal 3: Good Health and Well-being</option>
+                    <option value="Goal 4: Quality Education">Goal 4: Quality Education</option>
+                    <option value="Goal 5: Gender Equality">Goal 5: Gender Equality</option>
+                    <option value="Goal 6: Clean Water and Sanitation">Goal 6: Clean Water and Sanitation</option>
+                    <option value="Goal 7: Affordable and Clean Energy">Goal 7: Affordable and Clean Energy</option>
+                    <option value="Goal 8: Decent Work and Economic Growth">Goal 8: Decent Work and Economic Growth</option>
+                    <option value="Goal 9: Industry, Innovation and Infrastructure">Goal 9: Industry, Innovation and Infrastructure</option>
+                    <option value="Goal 10: Reduced Inequality">Goal 10: Reduced Inequality</option>
+                    <option value="Goal 11: Sustainable Cities and Communities">Goal 11: Sustainable Cities and Communities</option>
+                    <option value="Goal 12: Responsible Consumption and Production">Goal 12: Responsible Consumption and Production</option>
+                    <option value="Goal 13: Climate Action">Goal 13: Climate Action</option>
+                    <option value="Goal 14: Life Below Water">Goal 14: Life Below Water</option>
+                    <option value="Goal 15: Life on Land">Goal 15: Life on Land</option>
+                    <option value="Goal 16: Peace and Justice Strong Institutions">Goal 16: Peace and Justice Strong Institutions</option>
+                    <option value="Goal 17: Partnerships to achieve the Goal">Goal 17: Partnerships to achieve the Goal</option>
+                </select>
+                <div id="target1"></div>
+                <br>
+                <div id="impactWrapper"></div>
+                <button class="form-button" type="button" onclick="impactAdd()">+</button>&nbsp;
+                <button class="form-button" type="button" onclick="impactMinus()">-</button>
+                <div class="spacer-big"></div>                
+            </div>
+            <div class="form-part-right">
+                <p class="gray-small">ตัวอย่าง Example</p>
+                <p>
+                    <ul>
+                        <li>เพื่อพัฒนาความเป็นอยู่ทางเศรษฐกิจของชาวประมงรายย่อยในภาคใต้ของประเทศไทย (SDG 14; 14.b)</li>
+                        <li>เพื่อส่งเสริมผู้หญิงจากครัวเรือนชาวประมงรายย่อยผ่านการจ้างงาน (SDG 5 - 5.5)</li>
+                        <li>อนุรักษ์ระบบนิเวศมหาสมุทรด้วยการประมงที่ยั่งยืน (SDG 14 - 14.2, 14.4)</li>
+                    </ul>
+                    <ul>
+                        <li>To improve economic well-being of small scale fishermen in Southern Thailand (SDG 14; 14.b)</li>
+                        <li>To empower women from small scale fishermen households through employment (SDG 5 - 5.5)</li>
+                        <li>To conserve ocean ecosystem through sustainable fishery (SDG 14 - 14.2, 14.4)</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+        
         <p>คำอธิบายโดยย่อ Summary</p>
-        <textarea id="summary"></textarea>
+        <div class="form-part-wrapper">
+            <div class="form-part-left">
+                <p class="gray-small">ให้รายละเอียดเกี่ยวกับขอบเขตของงาน ร่างปัญหาที่โครงการ/องค์กรพยายามแก้ไข กระบวนการดำเนินการและพันธมิตร ทรัพยากรและกิจกรรมที่เกี่ยวข้อง Provide details on the scope of work. Outline the problems the project / the organization is trying to solve, the execution process, and partners, resources and activities that are involved.</p>
+                <textarea id="summary"></textarea>                
+            </div>
+            <div class="form-part-right">
+                <p class="gray-small">ตัวอย่าง Example</p>
+                <p>คนจับปลา (Fisherfolks) เป็นองค์กรเพื่อสังคมที่นำโดยผู้หญิงที่ส่งเสริมการทำประมงอย่างยั่งยืน ห่วงโซ่คุณค่าที่ดีขึ้นสำหรับผลิตภัณฑ์อาหารทะเล และความจำเป็นในการรับประทานอาหารทะเลปลอดสารเคมี พวกเขาร่วมมือกับชาวประมงรายย่อยในท้องถิ่นในการอนุรักษ์มหาสมุทร ให้ความรู้แก่ชุมชนเกี่ยวกับการใช้อุปกรณ์ตกปลาอย่างเหมาะสม และแหล่งที่มาจากผู้ที่ปฏิบัติตามแนวทางที่กำหนดเท่านั้น และไม่ใช้สารเคมีในการจับโดย Fisherfolks ให้เงินมากกว่าราคาตลาด 5-20% นอกจากนี้ Fisherfolk ยังเสนอโอกาสในการฝึกอบรมและอาชีพให้กับผู้หญิงจากครอบครัวชาวประมงที่โรงงานแปรรูปอาหารทะเล</p>
+                <p>คนจับปลา (Fisherfolks) มีโรงงานแปรรูปอาหารทะเลในภาคใต้ 5 แห่ง ได้แก่ ประจวบ นครศรีธรรมราช สตูล พัทลุง และสงขลา เมื่อปลาที่จับมาได้แปรรูปเป็นอาหารทะเลแช่แข็ง ผลิตภัณฑ์ขั้นสุดท้ายจะจำหน่ายผ่านช่องทางการค้าในปัจจุบันและช่องทางโซเชียลมีเดียของ Fisherfolks เอง</p>
+                <p>20% ของกำไรทั้งหมดจะถูกส่งกลับไปยังกิจกรรมการอนุรักษ์ที่ดำเนินการโดยชาวประมงรายย่อยในเครือข่ายของ Fisherfolks</p>
+                <p>Fisherfolk is a woman led social enterprise that promotes sustainable fishery, a better value chain for seafood products, and the importance of consuming chemical free seafood. They work with local small scale fishermen on ocean conservation, educate them about the use of appropriate fishing equipment, and only source from those who abide by their rules and do not use chemical on their catch by paying them at 5-20% higher than market rate. Furthermore, Fisherfolk provides training and employment opportunities to women from fishermen households in their seafood processing facilities.</p>
+                <p>Fisherfolk has seafood processing facilities at 5 locations in Southern Thailand, namely Prachuap, Nakhon Si Thammarat, Satun, Pattalung and Songkhla. Once the sea catches are processed into frozen seafood, the final products are distributed through both modern trade channels and Fisherfolk’s own social media channels. 20% of the total profit would be redirected back to conservation activities that are carried out by the small scale fishermen in Fisherfolk’s network.</p>
+            </div>
+        </div>
+        
         <p>ระยะเวลา Duration (เดือน Month)</p>
-        <p id="durationGuide" class="red-em" style="display: none;">กรุณาใส่จำนวนเต็มเท่านั้น Please input whole numbers only.</p>
-        <input id="duration" type="number" placeholder="จำนวนเดือน Num of Month">
+        <div class="form-part-wrapper">
+            <div class="form-part-left">
+                <p id="durationGuide" class="red-em" style="display: none;">กรุณาใส่จำนวนเต็มเท่านั้น Please input whole numbers only.</p>
+                <input id="duration" type="number" placeholder="จำนวนเดือน Num of Month">                
+            </div>
+            <div class="form-part-right">
+                <p class="gray-small">ตัวอย่าง Example</p>
+                <p>12 เดือน (หมายเหตุ: กิจกรรมต่อเนื่องแต่ระยะเวลาอาจตามระยะเวลาการรายงานผล) 12 months (remark: ongoing activities but duration may follow impact reporting period)</p>
+            </div>
+        </div>
+        
         <p>งบประมาณ Budget (บาท Baht)</p>
-        <p id="budgetGuide" class="red-em" style="display: none;">กรุณาใส่จำนวนเงินโดยไม่ต้องมีจุลภาค (,) สามารถใส่จุดทศนิยมได้ Please input numbers without comma (,). Can use period (.).</p>
-        <input id="budget" type="number" placeholder="จำนวนบาท Amt in Baht">
+        <div class="form-part-wrapper">
+            <div class="form-part-left">
+                <p id="budgetGuide" class="red-em" style="display: none;">กรุณาใส่จำนวนเงินโดยไม่ต้องมีจุลภาค (,) สามารถใส่จุดทศนิยมได้ Please input numbers without comma (,). Can use period (.).</p>
+                <input id="budget" type="number" placeholder="จำนวนบาท Amt in Baht">                
+            </div>
+            <div class="form-part-right">
+                <p class="gray-small">ตัวอย่าง Example</p>
+                <p>ไม่เกี่ยวข้อง (ใช้ได้กับโครงการผลกระทบที่มีงบประมาณเฉพาะ) N/A (Applicable for impact projects with specific budget)</p>
+            </div>
+        </div>
+        
         <p>ผู้รับผิดชอบ Team</p>
-        <input id="team1Name" type="text" placeholder="ชื่อ Name"><input id="team1Position" type="text" placeholder="ตำแหน่ง Position">
-        <div class="clear"></div>
-        <div id="teamWrapper"></div>
-        <button class="form-button" type="button" onclick="teamAdd()">+</button>&nbsp;
-        <button class="form-button" type="button" onclick="teamMinus()">-</button>
-        <div class="spacer-big"></div>
+        <div class="form-part-block">
+            <input id="team1Name" type="text" placeholder="ชื่อ Name"><input id="team1Position" type="text" placeholder="ตำแหน่ง Position">
+            <div class="clear"></div>
+            <div id="teamWrapper"></div>
+            <button class="form-button" type="button" onclick="teamAdd()">+</button>&nbsp;
+            <button class="form-button" type="button" onclick="teamMinus()">-</button>
+            <div class="spacer-big"></div>
+        </div>
+        
         <p>ท่านต้องการเผยแพร่โครงการและ Impact Model ให้ผู้อื่นเห็นหรือไม่ Do you want to share this project and its impact model to the public?</p>
-        <input type="checkbox" id="published" name="publish-checkbox" value="published" checked>
-        <label for="publish-checkbox"> เผยแพร่ Share</label><br>
+        <div class="form-part-block">
+            <input type="checkbox" id="published" name="publish-checkbox" value="published" checked>
+            <label for="publish-checkbox"> เผยแพร่ Share</label>
+        </div>
+        
         <br>
         <div class="button-wrapper">
             <button id="formSubmit" class="button" type="button" onclick="fetchSubmit()">บันทึกข้อมูล<br>Submit</button>
