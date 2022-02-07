@@ -16,34 +16,71 @@
 
         <h1>แก้ไขผลลัพธ์ Edit the Outcome</h1>
         <p>ผลลัพธ์ Outcome</p>
-        <p class="gray-small">อธิบายผลลัพธ์ที่คาดหวังในระยะกลางถึงระยะยาวจากผลลัพธ์ที่ระบุไว้ Describe the mid- to long-term expected outcomes as a result of the output stated.</p>
-        <textarea id="outcome" type="text" placeholder="ผลลัพธ์ Outcome">{{ outcome['json']['outcome'] }}</textarea><br><br>
-        <hr><br>
-
-        <p class="blue-em">--- ค้นหาตัวชี้วัดมาตรฐาน Search our standard indicators bank ---</p>
-        <p class="gray-small">ระบุตัวชี้วัดที่ช่วยวัดผลผลิตที่ระบุ หรือสร้างตัวชี้วัดของคุณเองโดยใช้แบบฟอร์มด้านล่าง ขอแนะนำให้ตรวจสอบกับผู้มีส่วนได้ส่วนเสียอีกครั้งเพื่อประเมินความเหมาะสมของตัวชี้วัดที่เลือก ควรพิจารณาการปฏิบัติจริงของตัวชี้วัดในแง่ของการเก็บรวบรวมข้อมูลและค่าใช้จ่ายในการบริหารด้วย Identify indicator that helps measure the output stated or create your own indicator below. It is recommended to re-check with stakeholders to assess the suitability of the indicator selected. One should also consider the indicator’s practicality in terms of data collection and management costs.</p>
-        <input type="text" id="searchBox" class="search-box" placeholder="พิมพ์คำสำคัญ Type keywords" onkeyup="searchSubmit()">
-        <button type="button" class="search-button" onclick="searchSubmit()">Search</button>
-        <br>
-        
-        <div id="searchResultNumWrapper" style="display:none">
-            <button type="button" class="search-clear-button" onclick="searchClear()">เคลียร์ผลการค้นหา Clear results</button>
-            <p>ผลการค้นหา Result <span id="searchResultNum">0</span> รายการ entries</p>
+        <div class="form-part-wrapper">
+            <div class="form-part-left">
+                <p class="gray-small">อธิบายผลลัพธ์ที่คาดหวังในระยะกลางถึงระยะยาวจากผลลัพธ์ที่ระบุไว้ Describe the mid- to long-term expected outcomes as a result of the output stated.</p>
+                <textarea id="outcome" type="text" placeholder="ผลลัพธ์ Outcome">{{ outcome['json']['outcome'] }}</textarea><br><br>
+                <br>                
+            </div>
+            <div class="form-part-right">
+                <p class="gray-small">ตัวอย่าง Example</p>
+                <p>หนี้สินครัวเรือนลดลง</p>
+                <p>Decrease in household debt</p>
+            </div>
         </div>
-        <div id="searchResult" class="search-result"></div>
-        <div class="spacer-big"></div>
+        
 
-        <p class="blue-em">--- หรือพิมพ์ตัวชี้วัดเอง Or use your own indicator ---</p>
-        <input id="indicatorCategory" type="text" value="{{ outcome['json']['indicatorCategory'] }}" placeholder="หมวดหมู่ Category" style="display: none;">
-        <textarea id="indicator" type="text" placeholder="ตัวชี้วัด Indicator">{{ outcome['json']['indicator'] }}</textarea><br><br>
-        <input id="indicatorBaseline" type="number" value="{{ outcome['json']['indicatorBaseline'] }}" placeholder="จำนวนเริ่ม Baseline amount">
-        <input id="indicatorTarget" type="number" value="{{ outcome['json']['indicatorTarget'] }}" placeholder="จำนวนเป้าหมาย Target amount">
-        <input id="indicatorUnit" type="text" value="{{ outcome['json']['indicatorUnit'] }}" placeholder="หน่วย Unit">
-        <hr><br>
+        <p>ค้นหาตัวชี้วัดมาตรฐาน Search our standard indicators bank</p>
+        <div class="form-part-wrapper">
+            <div class="form-part-left">
+                <p class="gray-small">ระบุตัวชี้วัดที่ช่วยวัดผลผลิตที่ระบุ หรือสร้างตัวชี้วัดของคุณเองโดยใช้แบบฟอร์มด้านล่าง ขอแนะนำให้ตรวจสอบกับผู้มีส่วนได้ส่วนเสียอีกครั้งเพื่อประเมินความเหมาะสมของตัวชี้วัดที่เลือก ควรพิจารณาการปฏิบัติจริงของตัวชี้วัดในแง่ของการเก็บรวบรวมข้อมูลและค่าใช้จ่ายในการบริหารด้วย Identify indicator that helps measure the output stated or create your own indicator below. It is recommended to re-check with stakeholders to assess the suitability of the indicator selected. One should also consider the indicator’s practicality in terms of data collection and management costs.</p>
+                <input type="text" id="searchBox" class="search-box" placeholder="พิมพ์คำสำคัญ Type keywords" onkeyup="searchSubmit()">
+                <button type="button" class="search-button" onclick="searchSubmit()">Search</button>
+                <br>
+                
+                <div id="searchResultNumWrapper" style="display:none">
+                    <button type="button" class="search-clear-button" onclick="searchClear()">เคลียร์ผลการค้นหา Clear results</button>
+                    <p>ผลการค้นหา Result <span id="searchResultNum">0</span> รายการ entries</p>
+                </div>
+                <div id="searchResult" class="search-result"></div>
+                <div class="spacer-big"></div>
+        
+                <p class="blue-em">--- หรือพิมพ์ตัวชี้วัดเอง Or use your own indicator ---</p>
+                <input id="indicatorCategory" type="text" value="{{ outcome['json']['indicatorCategory'] }}" placeholder="หมวดหมู่ Category" style="display: none;">
+                <textarea id="indicator" type="text" placeholder="ตัวชี้วัด Indicator">{{ outcome['json']['indicator'] }}</textarea><br><br>
+                <input id="indicatorBaseline" type="number" value="{{ outcome['json']['indicatorBaseline'] }}" placeholder="จำนวนเริ่ม Baseline amount">
+                <input id="indicatorTarget" type="number" value="{{ outcome['json']['indicatorTarget'] }}" placeholder="จำนวนเป้าหมาย Target amount">
+                <input id="indicatorUnit" type="text" value="{{ outcome['json']['indicatorUnit'] }}" placeholder="หน่วย Unit">
+                <br>                
+            </div>
+            <div class="form-part-right">
+                <p class="gray-small">ตัวอย่าง Example</p>
+                <p>ระดับหนี้สินครัวเรือน - ต่อครัวเรือน</p>
+                <ul>
+                    <li>พื้นฐาน: 250,000 บาท</li>
+                    <li>เป้าหมาย: 150,000 บาท</li>
+                </ul>
 
+                <p>Level of household debt - per household</p>
+                <ul>
+                    <li>Baseline: 250,000 Baht</li>
+                    <li>Target: 150,000 Baht</li>
+                </ul>
+            </div>
+        </div>
+        
         <p>ผลลัพธ์นี้สอดคล้องกับเป้าหมายใดของโครงการ Which project's impact goals are compatible with this outcome?</p>
-        <div id="impactCheckWrapper"></div>
-        <hr><br>
+        <div class="form-part-wrapper">
+            <div class="form-part-left">
+                <div id="impactCheckWrapper"></div>
+                <br>                
+            </div>
+            <div class="form-part-right">
+                <p class="gray-small">ตัวอย่าง Example</p>
+                <p>เพื่อพัฒนาความเป็นอยู่ทางเศรษฐกิจของชาวประมงรายย่อยในภาคใต้ของประเทศไทย</p>
+                <p>To improve economic well-being of small scale fishermen in Southern Thailand</p>
+            </div>
+        </div>
         
         <div class="button-wrapper">
             <button id="formSubmit" class="button" type="button" onclick="fetchSubmit()">บันทึกข้อมูล<br>Submit</button>
