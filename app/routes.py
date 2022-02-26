@@ -77,6 +77,12 @@ def home():
 
         return render_template('home.html', projects_published=projects_published)
 
+@app.route('/project-all')
+def project_all():
+    projects_published = Project.query.filter(Project.published == True).order_by(Project.create_dt.desc()).all()
+
+    return render_template('project-all.html', projects_published=projects_published)
+
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -304,8 +310,9 @@ Profile
 @login_required
 def profile():
     user = User.query.filter_by(id=current_user.id).first()
+    projects = Project.query.filter(Project.user_id == user.id).order_by(Project.create_dt.desc()).all()
 
-    return render_template('profile.html', user=user)
+    return render_template('profile.html', user=user, projects=projects)
 
 """
 Project

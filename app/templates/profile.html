@@ -6,26 +6,54 @@
     <div class="spacer-big"></div>
     <h1>ข้อมูลของฉัน My Profile</h1>
     <div class="main-flex-wrapper">
-        <div class="main-flex-left">
-            <p>รหัสผู้ใช้ User ID: {{ user.id }}</p>
-            <p>ชื่อ Name: {{ user.name }}</p>
-            <p>อีเมล Email: {{ user.email }}</p>
-            <p>รหัสผ่าน Password: ******** [ <a href="/password-change">เปลี่ยนรหัสผ่าน Change password</a> ]</p>
-            <p>ประเภทการใช้งาน User type: {{ user.role }}</p>
-            <p>วันที่สร้างบัญชี Account creation date: {{ user.create_dt.strftime('%d-%m-%Y') }}</p>
-            <p>วันที่ล็อกอินครั้งล่าสุด Last log-in: {{ user.lastlogin_dt.strftime('%d-%m-%Y') }}</p>
-            <a class="no-decoration" href="/logout"><button class="button-main">Logout</button></a>
-            <br>
-        </div>
         <div class="main-flex-right">
-            {% if current_user.role == 'admin' %}
-                <h2>เครื่องมือของ Admin. Admin's Tools.</h2>
-                <a class="no-decoration" href="/indicator/view"><button class="button">จัดการ Indicator Bank<br>Manage indicator bank</button></a>
+            <h2 class="form-section-title">ข้อมูลของฉัน My Profile</h2>
+            <span class="gray-small">รหัสผู้ใช้ User ID</span><br>
+            {{ user.id }}<br><div class="spacer-big"></div>
+            <span class="gray-small">ชื่อ Name</span><br>
+            {{ user.name }}<br><div class="spacer-big"></div>
+            <span class="gray-small">อีเมล Email</span><br>
+            {{ user.email }}<br><div class="spacer-big"></div>
+            <span class="gray-small">รหัสผ่าน Password</span><br>
+            ********<br>
+            <a class="no-decoration" href="/password-change"><img src="/static/repassword.svg" alt="Change password"><span class="edit-text-link"> เปลี่ยนรหัสผ่าน Change password</a><br><div class="spacer-big"></div>
+            <span class="gray-small">ประเภทการใช้งาน User type</span><br>
+            {{ user.role }}<br><div class="spacer-big"></div>
+            <span class="gray-small">วันที่สร้างบัญชี Account creation date</span><br>
+            {{ user.create_dt.strftime('%d-%m-%Y') }}<br><div class="spacer-big"></div>
+            <span class="gray-small">วันที่ล็อกอินครั้งล่าสุด Last log-in</span><br>
+            {{ user.lastlogin_dt.strftime('%d-%m-%Y') }}<br><div class="spacer-big"></div>
             <br>
-            <div class="spacer-big"></div>
+            <a class="no-decoration" href="/logout"><img src="/static/account-logout.svg" alt="Logout"><span class="edit-text-link"> Logout</span></a>
+            <br><br>
+        </div>
+        <div class="main-flex-left">
+            <h2 class="form-section-title">โครงการของฉัน My Projects</h2>
+            <a class="no-decoration" href="/project-create"><button class="button">สร้าง Impact Model ใหม่<br>Create an Impact Model</button></a>&nbsp;&nbsp;
+            <a class="no-decoration" href="/"><button class="button">ดูโครงการของฉัน<br>My Projects</button></a><br><br>
+
+            {% for project in projects %}
+                <h2><a href="/project/{{ project.id }}">{{ project.json['title'] }}</a></h2>
+                {% if project.published == True %}
+                    <span class="shared no-print">เผยแพร่ Shared</span><br><div class="spacer-big"></div>
+                {% else %}
+                    <span class="private no-print">ไม่เผยแพร่ Private</span><br><div class="spacer-big"></div>
+                {% endif %}
+                <span class="gray-small">Created</span> &nbsp;&nbsp;&nbsp;<span class="black-small">{{ project.create_dt|datetimefilter }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {% if project.mod_dt %}
+                    <span class="gray-small">Modified</span> &nbsp;&nbsp;&nbsp;<span class="black-small">{{ project.mod_dt|datetimefilter }}</span>
+                {% endif %}
+                <hr>
+            {% endfor %}
+            
+            {% if current_user.role == 'admin' %}
+                <br>
+                <h2 class="form-section-title">Admin's Tool</h2>
+                <a class="no-decoration" href="/indicator/view"><button class="button">จัดการ Indicator Bank<br>Manage indicator bank</button></a>
+                <br>
+                <div class="spacer-big"></div>
             {% endif %}
-            <h2>เครื่องมือของสมาชิก Tools</h2>
-            <a class="no-decoration" href="/project-create"><button class="button">สร้าง Impact Model ใหม่<br>Create an Impact Model</button></a>
+            
             <br><br>
         </div>
     </div>

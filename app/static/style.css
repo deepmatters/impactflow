@@ -728,16 +728,16 @@ header {
 }
 
 .main-flex-left {
-    flex: 1 1 60%;
-    margin-right: 20px;
+    flex: 1 1 70%;
 }
 
 .main-flex-right {
-    flex: 1 1 40%;
+    flex: 1 1 30%;
     background-color: #FFFFFF;
     border-radius: 8px;
     box-shadow: 0px 0px 3px #cccccc;
     padding: 0px 15px 0px 20px;
+    margin-right: 20px;
 }
 
 .home-wrapper {
