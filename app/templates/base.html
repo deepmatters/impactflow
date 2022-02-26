@@ -46,50 +46,49 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <header class="no-print">
-            <div class="header-flex-wrap">
-                <div class="header-logo-block">
-                    <a href="/"><img src="/static/impactflow-logo.svg" alt="Impact Flow"></a>
-                </div>
-                <div class="header-nav-block">
-                    {% if not current_user.is_authenticated %}
-                        <span class="nav-item"><a class="no-decoration" href="/login">ล็อกอิน<br>LOGIN</a></span>
-                    {% else%}
-                        <span class="nav-item"><a class="no-decoration" href="/">โครงการของฉัน<br>MY PROJECTS</a></span>
-                        <span class="nav-item"><a class="no-decoration" href="/profile">โปรไฟล์ของฉัน<br>MY PROFILE</a></span>
-                    {% endif %}
-                </div>
-            </div>
-        </header>
-        {% block content %}{% endblock %}
-        <footer class="no-print">
-            <div class="footer-wrapper">
-                <div class="footer-item">
-                    <h3>IMPACT FLOW</h3>
-                    <p>Developed by ChangeFusion</p>
-                </div>
-                <div class="footer-item">
-                    {% if not current_user.is_authenticated %}
-                        <p><a href="/login">ล็อกอิน LOGIN</a></p>
-                    {% else%}
-                        <p><a href="/">โครงการของฉัน MY PROJECTS</a></p>
-                        <p><a href="/profile">โปรไฟล์ของฉัน MY PROFILE</a></p>
-                        <p><a href="/logout">ออกจากระบบ LOGOUT</a></p>
-                    {% endif %}
-                </div>
-                <div class="footer-item">
-                    <div class="align-center">
-                        <img class="undp-logo" src="/static/undp-logo.jpg" alt="UNDP logo">
-                        <img class="cf-logo" src="/static/cf-logo.png" alt="ChangeFusion logo">
+        <div class="header-bg-wrapper no-print">
+            <header class="no-print">
+                <div class="header-flex-wrap">
+                    <div class="header-logo-block">
+                        <a href="/"><img src="/static/impactflow-logo.svg" alt="Impact Flow"></a>
+                    </div>
+                    <div class="header-nav-block">
+                        {% if not current_user.is_authenticated %}
+                            <span class="nav-item"><a class="no-decoration" href="/about">About</a></span>
+                        {% else%}
+                            <span class="nav-item"><a class="no-decoration" href="/about">About</a></span>
+                            <span class="nav-item"><a class="no-decoration" href="/">My Projects</a></span>
+                        {% endif %}
+                    </div>
+                    <div class="header-nav-login">
+                        {% if not current_user.is_authenticated %}
+                            <a class="no-decoration" href="/login"><button class="button-main">Create Project | Login</button></a>
+                        {% else%}
+                            <a class="no-decoration" href="/profile"><button class="button-main">My Profile</button></a>
+                        {% endif %}
                     </div>
                 </div>
-                
-            </div>
-        </footer>
+            </header>
+        </div>
+        
+        <div class="header-bottom no-print"></div>
+        {% block content %}{% endblock %}
+        <div class="footer-bg-wrapper no-print">
+            <footer class="no-print">
+                <div class="footer-wrapper">
+                    <div class="align-center">
+                        <img class="impactflow-logo" src="/static/impactflow-logo.svg" alt="Impact Flow logo">
+                        <img class="undp-logo" src="/static/undp-logo.jpg" alt="UNDP logo">
+                        <img class="sec-logo" src="/static/sec-logo.png" alt="SEC logo">
+                        <img class="svj-logo" src="/static/svj-logo.svg" alt="SVJ logo">
+                        <img class="cf-logo" src="/static/cf-logo.png" alt="ChangeFusion logo">
+                        <br>
+                        <p class="gray-small">Developed by ChangeFusion</p><br>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        
     </div>
-<div id="currentPath" style="display: none;">{{ request.path }}</div>
-<div id="currentAddress" style="display: none;">{{ request.remote_addr }}</div>
-<script type="module" src="/static/websocket.js"></script>
-<script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
 </body>
 </html>

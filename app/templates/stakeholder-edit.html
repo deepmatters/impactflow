@@ -11,82 +11,102 @@
         <div id="data" style="display:none">{{ data }}</div>
 
         <h1>แก้ไขผู้มีส่วนได้เสีย Edit this Stakeholder</h1>
-        <p>ผู้มีส่วนได้เสีย Stakeholder</p>
-        <div class="form-part-wrapper">
-            <div class="form-part-left">
-                <p class="gray-small">แต่ละโครงการมักมีผู้มีส่วนได้ส่วนเสียมากกว่าหนึ่งราย โปรดสร้างผู้มีส่วนได้ส่วนเสียทีละราย และคุณสามารถเพิ่มผู้มีส่วนได้ส่วนเสียเพิ่มเติมได้ในหน้าสรุป Identify persons or groups who are directly or indirectly affected by an intervention, as well as those who may have stakes in the project and/or the ability to influence its outcome, either positively or negatively. It is common to have more than one stakeholder in each project. Please create stakeholder one at a time and you may add additional stakeholder(s) in the summary page.</p>
-                <input id="stakeholder" type="text" value="{{ stakeholder['json']['stakeholder'] }}">
-                <br>                
-            </div>
-            <div class="form-part-right">
-                <p class="gray-small">ตัวอย่าง Example</p>
-                <p>ชาวประมงรายย่อย</p>
-                <p>Small scale fishermen</p>
-            </div>
-        </div>
-        
-        <p>ประเภทของผู้มีส่วนได้เสียนี้ Type of beneficiary</p>
-        <div class="form-part-wrapper">
-            <div class="form-part-left">
-                <p class="gray-small">ผู้มีส่วนได้ส่วนเสียที่ระบุไว้ข้างต้นมีส่วนร่วมในโครงการอย่างไร? How is the stakeholder stated above involved in the project?</p>
-                <input id="degree1" type="radio" name="degree" value="ผู้รับประโยชน์ทางตรง Direct beneficiary">
-                <label for="degree1">ผู้รับประโยชน์ทางตรง Direct beneficiary</label>
-                <input id="degree2" type="radio" name="degree" value="ผู้รับประโยชน์ทางอ้อม Indirect beneficiary">
-                <label for="degree2">ผู้รับประโยชน์ทางอ้อม Indirect beneficiary</label>
-                <input id="degree3" type="radio" name="degree" value="ผู้เป็นปัจจัยความสำเร็จของโครงการ Project success enabler">
-                <label for="degree3">ผู้เป็นปัจจัยความสำเร็จของโครงการ Project success enabler</label>
-                <br>                
-            </div>
-            <div class="form-part-right">
-                <p class="gray-small">ตัวอย่าง Example</p>
-                <p>ผู้รับผลประโยชน์โดยตรง</p>
-                <p>Direct beneficiary</p>
-            </div>
-        </div>
-        
-        <p>ระดับความสำคัญของผู้มีส่วนได้เสียนี้ Degree of importance</p>
-        <div class="form-part-wrapper">
-            <div class="form-part-left">
-                <p class="gray-small">ระดับความสำคัญจะพิจารณาจากจำนวนผู้มีส่วนได้ส่วนเสียที่ได้รับผลกระทบจากโครงการและความสำคัญของผลลัพธ์จากมุมมองของผู้มีส่วนได้ส่วนเสีย Degree of importance is dependent on how much the stakeholder is affected by the project and how important the outcome is from the perspective of the stakeholder.</p>
-                <input id="importance1" type="radio" name="importance" value="สูง High">
-                <label for="importance1">สูง High</label>
-                <input id="importance2" type="radio" name="importance" value="ปานกลาง Medium">
-                <label for="importance2">ปานกลาง Medium</label>
-                <input id="importance3" type="radio" name="importance" value="น้อย Low">
-                <label for="importance3">น้อย Low</label>
-                <br>                
-            </div>
-            <div class="form-part-right">
-                <p class="gray-small">ตัวอย่าง Example</p>
-                <p>สูง</p>
-                <p>High</p>
-            </div>
-        </div>
-        
-        <p>คำอธิบาย Description</p>
-        <div class="form-part-wrapper">
-            <div class="form-part-left">
-                <p class="gray-small">อธิบายผู้มีส่วนได้ส่วนเสีย รวมถึงข้อมูลประชากร (ใคร ที่ไหน และจำนวนเท่าใด) ปัญหาที่พวกเขาเผชิญ สถานะปัจจุบันของพวกเขา และอื่นๆ Describe the stakeholder, including demography (who, where, how many), the problem they are facing, their current status, etc.</p>
-                <textarea id="description">{{ stakeholder['json']['description'] }}</textarea>
-                <br><br>                
-            </div>
-            <div class="form-part-right">
-                <p class="gray-small">ตัวอย่าง Example</p>
-                <p>ชาวประมงรายย่อย 500 คน กระจายอยู่ใน 5 แห่ง ได้แก่ ประจวบ นครศรีธรรมราช สตูล พัทลุง และสงขลา รายได้ต่ำและไม่แน่นอน เนื่องจาก</p>
-                <ol>
-                    <li>ปริมาณการจับทะเลที่ลดลงเนื่องจากการประมงเกินขนาดโดยเรือประมงพาณิชย์</li>
-                    <li>การผูกขาดราคาและการแสวงประโยชน์จากพ่อค้าคนกลาง</li>
-                </ol>
 
-                <p>500 small scale fishermen distributed in 5 locations, including Prachuap, Nakhon Si Thammarat, Satun, Pattalung and Songkhla.</p>
-                <p>Low and unstable income due to</p>
-                <ol>
-                    <li>diminishing amount of sea catches due to overfishing by commercial fishing boats</li>
-                    <li>price monopoly and exploitation by middlemen</li>
-                </ol>
+        <div class="form-section-wrapper">
+            <h2 class="form-section-title">ผู้มีส่วนได้เสีย Stakeholder</h2>
+            <div class="form-part-wrapper">
+                <div class="form-part-left">
+                    <p class="black-small">ผู้มีส่วนได้เสีย Stakeholder</p>
+                    <input id="stakeholder" type="text" value="{{ stakeholder['json']['stakeholder'] }}">
+                    <br>                
+                </div>
+                <div class="form-part-right">
+                    <p class="gray-small">ตัวอย่าง Example</p>
+                    <p>ชาวประมงรายย่อย</p>
+                    <p>Small scale fishermen</p>
+                </div>
             </div>
+            <hr>
+            <p class="black-small">คำแนะนำ Suggestion</p>
+            <p class="gray-small">แต่ละโครงการมักมีผู้มีส่วนได้ส่วนเสียมากกว่าหนึ่งราย โปรดสร้างผู้มีส่วนได้ส่วนเสียทีละราย และคุณสามารถเพิ่มผู้มีส่วนได้ส่วนเสียเพิ่มเติมได้ในหน้าสรุป Identify persons or groups who are directly or indirectly affected by an intervention, as well as those who may have stakes in the project and/or the ability to influence its outcome, either positively or negatively. It is common to have more than one stakeholder in each project. Please create stakeholder one at a time and you may add additional stakeholder(s) in the summary page.</p>
         </div>
         
+        <div class="form-section-wrapper">
+            <h2 class="form-section-title">ประเภทของผู้มีส่วนได้เสียนี้ Type of beneficiary</h2>
+            <div class="form-part-wrapper">
+                <div class="form-part-left">
+                    <p class="black-small">ประเภทของผู้มีส่วนได้เสียนี้ Type of beneficiary</p>
+                    <input id="degree1" type="radio" name="degree" value="ผู้รับประโยชน์ทางตรง Direct beneficiary">
+                    <label for="degree1">ผู้รับประโยชน์ทางตรง Direct beneficiary</label>
+                    <input id="degree2" type="radio" name="degree" value="ผู้รับประโยชน์ทางอ้อม Indirect beneficiary">
+                    <label for="degree2">ผู้รับประโยชน์ทางอ้อม Indirect beneficiary</label>
+                    <input id="degree3" type="radio" name="degree" value="ผู้เป็นปัจจัยความสำเร็จของโครงการ Project success enabler">
+                    <label for="degree3">ผู้เป็นปัจจัยความสำเร็จของโครงการ Project success enabler</label>
+                    <br>                
+                </div>
+                <div class="form-part-right">
+                    <p class="gray-small">ตัวอย่าง Example</p>
+                    <p>ผู้รับผลประโยชน์โดยตรง</p>
+                    <p>Direct beneficiary</p>
+                </div>
+            </div>
+            <hr>
+            <p class="black-small">คำแนะนำ Suggestion</p>
+            <p class="gray-small">ผู้มีส่วนได้ส่วนเสียที่ระบุไว้ข้างต้นมีส่วนร่วมในโครงการอย่างไร? How is the stakeholder stated above involved in the project?</p>
+        </div>
+        
+        <div class="form-section-wrapper">
+            <h2 class="form-section-title">ระดับความสำคัญของผู้มีส่วนได้เสียนี้ Degree of importance</h2>
+            <div class="form-part-wrapper">
+                <div class="form-part-left">
+                    <p class="black-small">ระดับความสำคัญของผู้มีส่วนได้เสียนี้ Degree of importance</p>
+                    <input id="importance1" type="radio" name="importance" value="สูง High">
+                    <label for="importance1">สูง High</label>
+                    <input id="importance2" type="radio" name="importance" value="ปานกลาง Medium">
+                    <label for="importance2">ปานกลาง Medium</label>
+                    <input id="importance3" type="radio" name="importance" value="น้อย Low">
+                    <label for="importance3">น้อย Low</label>
+                    <br>                
+                </div>
+                <div class="form-part-right">
+                    <p class="gray-small">ตัวอย่าง Example</p>
+                    <p>สูง</p>
+                    <p>High</p>
+                </div>
+            </div>
+            <hr>
+            <p class="black-small">คำแนะนำ Suggestion</p>
+            <p class="gray-small">ระดับความสำคัญจะพิจารณาจากจำนวนผู้มีส่วนได้ส่วนเสียที่ได้รับผลกระทบจากโครงการและความสำคัญของผลลัพธ์จากมุมมองของผู้มีส่วนได้ส่วนเสีย Degree of importance is dependent on how much the stakeholder is affected by the project and how important the outcome is from the perspective of the stakeholder.</p>
+        </div>
+
+        <div class="form-section-wrapper">
+            <h2 class="form-section-title">คำอธิบาย Description</h2>
+            <div class="form-part-wrapper">
+                <div class="form-part-left">
+                    <p class="black-small">คำอธิบาย Description</p>
+                    <textarea id="description">{{ stakeholder['json']['description'] }}</textarea>
+                    <br><br>                
+                </div>
+                <div class="form-part-right">
+                    <p class="gray-small">ตัวอย่าง Example</p>
+                    <p>ชาวประมงรายย่อย 500 คน กระจายอยู่ใน 5 แห่ง ได้แก่ ประจวบ นครศรีธรรมราช สตูล พัทลุง และสงขลา รายได้ต่ำและไม่แน่นอน เนื่องจาก</p>
+                    <ol>
+                        <li>ปริมาณการจับทะเลที่ลดลงเนื่องจากการประมงเกินขนาดโดยเรือประมงพาณิชย์</li>
+                        <li>การผูกขาดราคาและการแสวงประโยชน์จากพ่อค้าคนกลาง</li>
+                    </ol>
+
+                    <p>500 small scale fishermen distributed in 5 locations, including Prachuap, Nakhon Si Thammarat, Satun, Pattalung and Songkhla.</p>
+                    <p>Low and unstable income due to</p>
+                    <ol>
+                        <li>diminishing amount of sea catches due to overfishing by commercial fishing boats</li>
+                        <li>price monopoly and exploitation by middlemen</li>
+                    </ol>
+                </div>
+            </div>
+            <hr>
+            <p class="black-small">คำแนะนำ Suggestion</p>
+            <p class="gray-small">อธิบายผู้มีส่วนได้ส่วนเสีย รวมถึงข้อมูลประชากร (ใคร ที่ไหน และจำนวนเท่าใด) ปัญหาที่พวกเขาเผชิญ สถานะปัจจุบันของพวกเขา และอื่นๆ Describe the stakeholder, including demography (who, where, how many), the problem they are facing, their current status, etc.</p>
+        </div>        
         
         <div class="button-wrapper">
             <button id="formSubmit" class="button" type="button" onclick="fetchSubmit()">บันทึกข้อมูล<br>Submit</button>

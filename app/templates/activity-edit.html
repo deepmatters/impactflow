@@ -12,19 +12,24 @@
         <div id="data" style="display:none">{{ data }}</div>
 
         <h1>แก้ไขกิจกรรม Edit the Activity</h1>
-        <p>กิจกรรม Activity</p>
-        <div class="form-part-wrapper">
-            <div class="form-part-left">
-                <p class="gray-small">อธิบายการดำเนินการเพื่อจัดการกับข้อกังวลและข้อกำหนดของผู้มีส่วนได้ส่วนเสีย ตลอดจนกิจกรรมที่ผู้มีส่วนได้ส่วนเสียต้องมีส่วนร่วม Describe the interventions taken to address the problems and needs of the stakeholder or the activities that stakeholders have to participate in.</p>
-                <textarea id="activity" type="text" placeholder="กิจกรรม Activity">{{ activity['json']['activity'] }}</textarea><br><br>               
-            </div>
-            <div class="form-part-right">
-                <p class="gray-small">ตัวอย่าง Example</p>
-                <p>Fisherfolk ซื้อปลาที่จับได้จากชาวประมงรายย่อยในราคาสูงกว่าราคาตลาด 5-20%</p>
-                <p>Fisherfolk purchases sea catches from small scale fishermen at prices 5-20% higher than market rate</p>
-            </div>
-        </div>
         
+        <div class="form-section-wrapper">
+            <h2 class="form-section-title">กิจกรรม Activity</h2>
+            <div class="form-part-wrapper">
+                <div class="form-part-left">
+                    <p class="black-small">กิจกรรม Activity</p>
+                    <textarea id="activity" type="text" placeholder="กิจกรรม Activity">{{ activity['json']['activity'] }}</textarea><br>             
+                </div>
+                <div class="form-part-right">
+                    <p class="gray-small">ตัวอย่าง Example</p>
+                    <p>Fisherfolk ซื้อปลาที่จับได้จากชาวประมงรายย่อยในราคาสูงกว่าราคาตลาด 5-20%</p>
+                    <p>Fisherfolk purchases sea catches from small scale fishermen at prices 5-20% higher than market rate</p>
+                </div>
+            </div>
+            <hr>
+            <p class="black-small">คำแนะนำ Suggestion</p>
+            <p class="gray-small">อธิบายการดำเนินการเพื่อจัดการกับข้อกังวลและข้อกำหนดของผู้มีส่วนได้ส่วนเสีย ตลอดจนกิจกรรมที่ผู้มีส่วนได้ส่วนเสียต้องมีส่วนร่วม Describe the interventions taken to address the problems and needs of the stakeholder or the activities that stakeholders have to participate in.</p>
+        </div>
         
         <div class="button-wrapper">
             <button id="formSubmit" class="button" type="button" onclick="fetchSubmit()">บันทึกข้อมูล<br>Submit</button>

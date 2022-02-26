@@ -14,6 +14,8 @@
             <p>ประเภทการใช้งาน User type: {{ user.role }}</p>
             <p>วันที่สร้างบัญชี Account creation date: {{ user.create_dt.strftime('%d-%m-%Y') }}</p>
             <p>วันที่ล็อกอินครั้งล่าสุด Last log-in: {{ user.lastlogin_dt.strftime('%d-%m-%Y') }}</p>
+            <a class="no-decoration" href="/logout"><button class="button-main">Logout</button></a>
+            <br>
         </div>
         <div class="main-flex-right">
             {% if current_user.role == 'admin' %}

@@ -3,11 +3,12 @@
 {% block content %}
 <div class="main-wrapper">
     <div class="login-wrapper">
-        <h1>ลืมรหัสผ่าน Forget password</h1>
+        <h1 class="login">ลืมรหัสผ่าน Forget password</h1>
         <p>หากลืมรหัสผ่าน กรุณากรอกอีเมลที่เคยใช้สมัครสมาชิก เพื่อรับลิงก์ในการรีเซ็ตรหัสผ่านใหม่ทางอีเมล Please enter the email that you used to sign-up. We will send the instruction to reset the password to your email.</p>
         <form method="POST" action="/forget">
             {{ form.csrf_token }}
             <div class="input-wrapper">
+                {{ form.email.label }}
                 {{ form.email(size=23, placeholder="yourname@email.com", autofocus=true) }}<br>
             </div>
             <div class="button-wrapper">

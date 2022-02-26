@@ -2,21 +2,23 @@
 
 {% block content %}
 <main>
-    <div class="home-wrapper">
-        <div class="home-content">
-            <h1 class="header-home">Impact Flow</h1>
-            <div class="home-flex-wrapper">
-                <div class="home-left">
-                    <p>Impact Flow เป็นเครื่องมือจัดการผลกระทบสังคมในรูปแบบออนไลน์ซึ่งสนับสนุนองค์กรที่สร้างผลกระทบ รวมถึงองค์กรไม่แสวงหาผลกำไร วิสาหกิจเพื่อสังคม และแม้แต่โครงการ CSR ขององค์กร เพื่อการทำความเข้าใจ วางแผน และจัดการผลกระทบของตามเป้าหมายการพัฒนาอย่างยั่งยืน (SDG) อย่างมีประสิทธิภาพ พร้อมคำแนะนำทีละขั้นตอนอย่างละเอียด</p>
-                </div>
-                <div class="home-right">
-                    <p>Impact Flow is an online impact management tool that supports impact organizations, including non-profit organizations, social enterprises and even corporate CSR projects, in understanding, planning and managing their SDG impacts more effectively, with a comprehensive, step-by-step guide.</p>
+    <div class="main-wrapper">
+        <p><a href="/">< กลับไปหน้าหลัก Back to Home</a></p>
+        <div class="spacer-big"></div>
+        <div class="home-wrapper">
+            <div class="home-content">
+                <h1 class="header-home">Impact Flow</h1>
+                <div class="home-flex-wrapper">
+                    <div class="home-left">
+                        <p>Impact Flow เป็นเครื่องมือจัดการผลกระทบสังคมในรูปแบบออนไลน์ซึ่งสนับสนุนองค์กรที่สร้างผลกระทบ รวมถึงองค์กรไม่แสวงหาผลกำไร วิสาหกิจเพื่อสังคม และแม้แต่โครงการ CSR ขององค์กร เพื่อการทำความเข้าใจ วางแผน และจัดการผลกระทบของตามเป้าหมายการพัฒนาอย่างยั่งยืน (SDG) อย่างมีประสิทธิภาพ พร้อมคำแนะนำทีละขั้นตอนอย่างละเอียด</p>
+                    </div>
+                    <div class="home-right">
+                        <p>Impact Flow is an online impact management tool that supports impact organizations, including non-profit organizations, social enterprises and even corporate CSR projects, in understanding, planning and managing their SDG impacts more effectively, with a comprehensive, step-by-step guide.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="spacer-big"></div>
-    {% if not current_user.is_authenticated %}
+        <div class="spacer-big"></div>
         <div class="main-bg-wrapper">
             <div class="align-center">
                 <h1>Why Impact Flow?</h1>
@@ -86,106 +88,5 @@
                 </div>
             </div>
         </div>
-    {% endif %}
-    
-    {% if current_user.is_authenticated %}
-        <div class="main-bg-wrapper">
-            <div class="align-center">
-                <h1>My Impact Models</h1>
-            </div>
-            
-            {% if not projects %}
-                <div class="align-center">
-                    <a href="/project-create"><button class="button">Create an Impact Model</button></a>
-                </div>
-                <div class="spacer-big"></div>
-            {% else %}
-                <div class="align-center">
-                    <a href="/project-create"><button class="button">Create an Impact Model</button></a>
-                </div>
-                <div class="spacer-big"></div>
-            {% endif %}
-            <div class="homecard-flex-wrapper">
-                {% for project in projects %}
-                    <div class="homecard-flex">
-                        <a class="no-decoration" href="/project/{{ project.id }}">
-                            <div class="homecard-inner-flex-wrapper">
-                                <div class="homecard-inner-flex-img">
-                                    {% if project.img_url %}
-                                        {% if project.img_url|length > 2 %}
-                                            <img class="homecard" src="{{ project.img_url|img_convert }}" alt="{{ project.json['title'] }} logo">
-                                        {% else %}
-                                            <img class="homecard" src="/static/impactflow-logo.png" alt="Placeholder logo">
-                                        {% endif %}
-                                    {% else %}
-                                        <img class="homecard" src="/static/impactflow-logo.png" alt="Placeholder logo">
-                                    {% endif %}
-                                </div>
-                                <div class="homecard-inner-flex-content">
-                                    <h2>{{ project.json['title'] }}</h2>
-                                    <p>{{ project.json['objectives']|truncate(100) }}</p>
-                                    {% if project.json['published'] %}
-                                        <span class="shared">เผยแพร่ Shared</span>
-                                    {% else %}
-                                        <span class="private">ไม่เผยแพร่ Private</span>
-                                    {% endif %}
-                                    <br><br>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-            <br>
-        </div>
-        <br>
-    {% endif %}
-    
-    <div class="main-bg-wrapper">
-        <div class="align-center">
-            <h1>Shared Impact Models</h1>
-        </div>
-        <div class="homecard-flex-wrapper">
-            {% for project_published in projects_published %}
-                <div class="homecard-flex">
-                    <a class="no-decoration" href="/project/{{ project_published.id }}">
-                        <div class="homecard-inner-flex-wrapper">
-                            <div class="homecard-inner-flex-img">
-                                {% if project_published.img_url %}
-                                    {% if project_published.img_url|length > 2 %}
-                                        <img class="homecard" src="{{ project_published.img_url|img_convert }}" alt="{{ project_published.json['title'] }} logo">
-                                    {% else %}
-                                        <img class="homecard" src="/static/impactflow-logo.png" alt="Placeholder logo">
-                                    {% endif %}
-                                {% else %}
-                                    <img class="homecard" src="/static/impactflow-logo.png" alt="Placeholder logo">
-                                {% endif %}
-                            </div>
-                            <div class="homecard-inner-flex-content">
-                                <h2>{{ project_published.json['title'] }}</h2>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
-        
-        <br>
-        {% if current_user.is_authenticated %}
-            {% if current_user.role == 'admin' %}
-                <hr>
-                <br>
-                <div class="align-center">
-                    <h1>Private Impact Models</h1>
-                    <span class="admin">Viewable by Admin only</span>
-                </div>
-                {% for project_unpublished in projects_unpublished %}
-                    <p><a href="/project/{{ project_unpublished.id }}">{{ project_unpublished.json['title'] }}</a> <span class="gray-small">created {{ project_unpublished.create_dt|datetimefilter }}</span></p>
-                {% endfor %}
-            {% endif %}
-        {% endif %}
-    </div>
-    
 </main>
-<br>
 {% endblock %}

@@ -77,6 +77,10 @@ def home():
 
         return render_template('home.html', projects_published=projects_published)
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 """
 Login and user sub-system
 """
@@ -243,7 +247,7 @@ def login():
         db.session.commit()
 
         flash("ล็อกอินสำเร็จ Logged-in successfully")
-        return redirect('/profile')
+        return redirect('/')
 
     return render_template('login.html', form=form)
 

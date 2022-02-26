@@ -11,60 +11,71 @@
         <div id="activityId" style="display: none;">{{ activity.id }}</div>
 
         <h1>เพิ่มผลผลิต Add an Output</h1>
-        <p>ผลผลิต Output</p>
-        <div class="form-part-wrapper">
-            <div class="form-part-left">
-                <p class="gray-small">อธิบายผลกระทบหรือการเปลี่ยนแปลงที่เกิดขึ้นทันที หรือ ระยะสั้นซึ่งเป็นผลมาจากกิจกรรมที่ระบุ Describe the immediate, short-term results or changes based on the activity stated.</p>
-                <textarea id="output" type="text" placeholder="ผลผลิต Output"></textarea><br><br>
-                <br>                
-            </div>
-            <div class="form-part-right">
-                <p class="gray-small">ตัวอย่าง Example</p>
-                <p>รายได้เพิ่มขึ้น</p>
-                <p>Increase in income</p>
-            </div>
-        </div>
-        
 
-        <p>ค้นหาตัวชี้วัดมาตรฐาน Search our standard indicators bank</p>
-        <div class="form-part-wrapper">
-            <div class="form-part-left">
-                <p class="gray-small">ระบุตัวชี้วัดที่ช่วยวัดผลผลิตที่ระบุ หรือสร้างตัวชี้วัดของคุณเองโดยใช้แบบฟอร์มด้านล่าง ขอแนะนำให้ตรวจสอบกับผู้มีส่วนได้ส่วนเสียอีกครั้งเพื่อประเมินความเหมาะสมของตัวชี้วัดที่เลือก ควรพิจารณาการปฏิบัติจริงของตัวชี้วัดในแง่ของการเก็บรวบรวมข้อมูลและค่าใช้จ่ายในการบริหารด้วย Identify indicator that helps measure the output stated or create your own indicator below. It is recommended to re-check with stakeholders to assess the suitability of the indicator selected. One should also consider the indicator’s practicality in terms of data collection and management costs.</p>
-                <input type="text" id="searchBox" class="search-box" placeholder="พิมพ์คำสำคัญ Type keywords" onkeyup="searchSubmit()">
-                <button type="button" class="search-button" onclick="searchSubmit()">Search</button>
-                <br>
-                
-                <div id="searchResultNumWrapper" style="display:none">
-                    <button type="button" class="search-clear-button" onclick="searchClear()">เคลียร์ผลการค้นหา Clear results</button>
-                    <p>ผลการค้นหา Result <span id="searchResultNum">0</span> รายการ entries</p>
+        <div class="form-section-wrapper">
+            <h2 class="form-section-title">ผลผลิต Output</h2>
+            <div class="form-part-wrapper">
+                <div class="form-part-left">
+                    <p class="black-small">ผลผลิต Output</p>
+                    <textarea id="output" type="text" placeholder="ผลผลิต Output"></textarea><br>              
                 </div>
-                <div id="searchResult" class="search-result"></div>
-                <div class="spacer-big"></div>
-        
-                <p class="blue-em">--- หรือพิมพ์ตัวชี้วัดเอง Or use your own indicator ---</p>
-                <input id="indicatorCategory" type="text" placeholder="หมวดหมู่ Category" style="display: none;">
-                <textarea id="indicator" type="text" placeholder="ตัวชี้วัด Indicator"></textarea><br><br>
-                <input id="indicatorBaseline" type="number" placeholder="จำนวนเริ่ม Baseline amount">
-                <input id="indicatorTarget" type="number" placeholder="จำนวนเป้าหมาย Target amount">
-                <input id="indicatorUnit" type="text" placeholder="หน่วย Unit">
-                <br>                
+                <div class="form-part-right">
+                    <p class="gray-small">ตัวอย่าง Example</p>
+                    <p>รายได้เพิ่มขึ้น</p>
+                    <p>Increase in income</p>
+                </div>
             </div>
-            <div class="form-part-right">
-                <p class="gray-small">ตัวอย่าง Example</p>
-                <p>รายได้เฉลี่ยของเกษตรกรผู้ผลิตอาหาร รายย่อย จาแนกตามเพศ และสถานะพื้นเมือง (SDGs)</p>
-                <ul>
-                    <li>พื้นฐาน: 8,000 บาท</li>
-                    <li>เป้าหมาย: 10,000 บาท</li>
-                </ul>
-
-                <p>Average income of small-scale food producers, by sex and indigenous status (SDGs)</p>
-                <ul>
-                    <li>Baseline: 8,000 Baht</li>
-                    <li>Target: 10,000 Baht</li>
-                </ul>
-            </div>
+            <hr>
+            <p class="black-small">คำแนะนำ Suggestion</p>
+            <p class="gray-small">อธิบายผลกระทบหรือการเปลี่ยนแปลงที่เกิดขึ้นทันที หรือ ระยะสั้นซึ่งเป็นผลมาจากกิจกรรมที่ระบุ Describe the immediate, short-term results or changes based on the activity stated.</p>
         </div>
-        
+
+        <div class="form-section-wrapper">
+            <h2 class="form-section-title">ตัวชี้วัด Indicators</h2>
+            <div class="form-part-wrapper">
+                <div class="form-part-left">
+                    <p class="black-small">ค้นหาตัวชี้วัดมาตรฐาน Search our standard indicators bank</p>
+                    <input type="text" id="searchBox" class="search-box" placeholder="พิมพ์คำสำคัญ Type keywords" onkeyup="searchSubmit()">
+                    <button type="button" class="search-button" onclick="searchSubmit()" style="display: none;">Search</button>
+                    <br>
+                    
+                    <div id="searchResultNumWrapper" style="display:none">
+                        <button type="button" class="search-clear-button" onclick="searchClear()">เคลียร์ผลการค้นหา Clear results</button>
+                        <p>ผลการค้นหา Result <span id="searchResultNum">0</span> รายการ entries</p>
+                    </div>
+                    <div id="searchResult" class="search-result"></div>
+                    <div class="spacer-big"></div>
+            
+                    <p class="blue-em">--- หรือพิมพ์ตัวชี้วัดเอง Or use your own indicator ---</p>
+                    <input id="indicatorCategory" type="text" placeholder="หมวดหมู่ Category" style="display: none;">
+                    <textarea id="indicator" type="text" placeholder="ตัวชี้วัด Indicator"></textarea><br>
+                    <p class="black-small">จำนวนเริ่ม Baseline amount</p>
+                    <input id="indicatorBaseline" type="number" placeholder="จำนวนเริ่ม Baseline amount">
+                    <p class="black-small">จำนวนเป้าหมาย Target amount</p>
+                    <input id="indicatorTarget" type="number" placeholder="จำนวนเป้าหมาย Target amount">
+                    <p class="black-small">หน่วย Unit</p>
+                    <input id="indicatorUnit" type="text" placeholder="หน่วย Unit">
+                    <br>                
+                </div>
+                <div class="form-part-right">
+                    <p class="gray-small">ตัวอย่าง Example</p>
+                    <p>รายได้เฉลี่ยของเกษตรกรผู้ผลิตอาหาร รายย่อย จาแนกตามเพศ และสถานะพื้นเมือง (SDGs)</p>
+                    <ul>
+                        <li>พื้นฐาน: 8,000 บาท</li>
+                        <li>เป้าหมาย: 10,000 บาท</li>
+                    </ul>
+
+                    <p>Average income of small-scale food producers, by sex and indigenous status (SDGs)</p>
+                    <ul>
+                        <li>Baseline: 8,000 Baht</li>
+                        <li>Target: 10,000 Baht</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="black-small">คำแนะนำ Suggestion</p>
+            <p class="gray-small">ระบุตัวชี้วัดที่ช่วยวัดผลผลิตที่ระบุ หรือสร้างตัวชี้วัดของคุณเองโดยใช้แบบฟอร์มด้านล่าง ขอแนะนำให้ตรวจสอบกับผู้มีส่วนได้ส่วนเสียอีกครั้งเพื่อประเมินความเหมาะสมของตัวชี้วัดที่เลือก ควรพิจารณาการปฏิบัติจริงของตัวชี้วัดในแง่ของการเก็บรวบรวมข้อมูลและค่าใช้จ่ายในการบริหารด้วย Identify indicator that helps measure the output stated or create your own indicator below. It is recommended to re-check with stakeholders to assess the suitability of the indicator selected. One should also consider the indicator’s practicality in terms of data collection and management costs.</p>
+        </div>
         
         <div class="button-wrapper">
             <button id="formSubmit" class="button" type="button" onclick="fetchSubmit()">บันทึกข้อมูล<br>Submit</button>

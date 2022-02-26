@@ -3,19 +3,28 @@
 {% block content %}
 <div class="main-wrapper">
     <div class="login-wrapper">
-        <h1>ล็อกอิน Login</h1>
+        <h1 class="login">Sign in to your account</h1>
         <form method="POST" action="/login">
             {{ form.csrf_token }}
             <div class="input-wrapper">
+                {{ form.email.label }}
                 {{ form.email(size=23, placeholder="อีเมล Email", autofocus=true) }}<br>
+                {{ form.password.label }}
                 {{ form.password(size=23, placeholder="รหัสผ่าน Password") }}<br>
             </div>
             <div class="button-wrapper">
                 {{ form.submit(class_="button") }}
             </div>
         </form>
-        <p>[ <a href="/signup">สมัครสมาชิกใหม่ Sign-up</a> ]</p>
-        <p>[ <a href="/forget">ลืมรหัสผ่าน Forget password</a> ]</p>
+        <p class="gray-small"><a href="/forget">ลืมรหัสผ่าน Forget password</a></p>
+        <br>
+        <hr>
+        <div class="circle-with-text">
+            OR
+        </div>
+        <div class="spacer-big"></div>
+        <p class="login-link"><a href="/signup">สมัครสมาชิกใหม่ Sign-up</a></p>
+        
     </div>
 </div>
 {% endblock %}

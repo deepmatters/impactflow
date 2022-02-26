@@ -828,20 +828,41 @@ function filterTarget(impact) {
 
 // Prefill impact data
 if (data.impact[0].sdg === "") {  // If no impact, create a blank impact group
+    const childNodeObjectiveLabel = document.createElement('p')
     const childNodeObjective = document.createElement('textarea')
+    const childNodeSdgLabel = document.createElement('p')
     const childNodeSdg = document.createElement('select')
     const childNodeTarget = document.createElement('div')
     const childNodeBr = document.createElement('br')
+    const childNodeHr = document.createElement('hr')
+
+    childNodeObjectiveLabel.setAttribute('id', `objective1Label`)
+    childNodeObjectiveLabel.setAttribute('class', `black-small`)
 
     childNodeObjective.setAttribute('id', `objective1`)
     childNodeObjective.setAttribute('placeholder', `ระบุเป้าหมายที่ 1 แล้วเลือก SDG Goal ที่สอดคล้องกับเป้าหมายนี้ Specify objective #1 then select an SDG goal that corresponds to this objective.`)
+    
+    childNodeSdgLabel.setAttribute('id', `sdg1Label`)
+    childNodeSdgLabel.setAttribute('class', `black-small`)
+
     childNodeSdg.setAttribute('id', `sdg1`)
     childNodeSdg.setAttribute('name', `sdg1`)
     childNodeSdg.setAttribute('onchange', `filterTarget(1)`)
+
     childNodeTarget.setAttribute('id', `target1`)
+
     childNodeBr.setAttribute('id', `impact1Br`)
 
+    childNodeHr.setAttribute('id', `impact1Hr`)
+
+    impactWrapper.append(childNodeObjectiveLabel)
+    childNodeObjectiveLabel.innerHTML = `ระบุเป้าหมายที่ 1 Specify objective #1`
+
     impactWrapper.append(childNodeObjective)
+
+    impactWrapper.append(childNodeSdgLabel)
+    childNodeSdgLabel.innerHTML = `เลือก SDG Goal. Choose an SDG Goal.`
+
     impactWrapper.append(childNodeSdg)
 
     document.getElementById(`sdg1`).innerHTML = `
@@ -867,22 +888,44 @@ if (data.impact[0].sdg === "") {  // If no impact, create a blank impact group
 
     impactWrapper.append(childNodeTarget)
     impactWrapper.append(childNodeBr)
+    impactWrapper.append(childNodeHr)
 } else {  // If there's at least 1 filled impact
     for (let i=1; i <= data.impact.length; i++) {  // For each impact
+        const childNodeObjectiveLabel = document.createElement('p')
         const childNodeObjective = document.createElement('textarea')
+        const childNodeSdgLabel = document.createElement('p')
         const childNodeSdg = document.createElement('select')
         const childNodeTarget = document.createElement('div')
         const childNodeBr = document.createElement('br')
+        const childNodeHr = document.createElement('hr')
+
+        childNodeObjectiveLabel.setAttribute('id', `objective${i}Label`)
+        childNodeObjectiveLabel.setAttribute('class', `black-small`)
 
         childNodeObjective.setAttribute('id', `objective${i}`)
         childNodeObjective.setAttribute('placeholder', `ระบุเป้าหมายที่ ${i} แล้วเลือก SDG Goal ที่สอดคล้องกับเป้าหมายนี้ Specify objective #${i} then select an SDG goal that corresponds to this objective.`)
+        
+        childNodeSdgLabel.setAttribute('id', `sdg${i}Label`)
+        childNodeSdgLabel.setAttribute('class', `black-small`)
+
         childNodeSdg.setAttribute('id', `sdg${i}`)
         childNodeSdg.setAttribute('name', `sdg${i}`)
         childNodeSdg.setAttribute('onchange', `filterTarget(${i})`)
+        
         childNodeTarget.setAttribute('id', `target${i}`)
+        
         childNodeBr.setAttribute('id', `impact${i}Br`)
 
+        childNodeHr.setAttribute('id', `impact${i}Hr`)
+
+        impactWrapper.append(childNodeObjectiveLabel)
+        childNodeObjectiveLabel.innerHTML = `ระบุเป้าหมายที่ ${i} Specify objective #${i}`
+
         impactWrapper.append(childNodeObjective)
+
+        impactWrapper.append(childNodeSdgLabel)
+        childNodeSdgLabel.innerHTML = `เลือก SDG Goal. Choose an SDG Goal.`
+
         impactWrapper.append(childNodeSdg)
 
         document.getElementById(`sdg${i}`).innerHTML = `
@@ -908,6 +951,7 @@ if (data.impact[0].sdg === "") {  // If no impact, create a blank impact group
 
         impactWrapper.append(childNodeTarget)
         impactWrapper.append(childNodeBr)
+        impactWrapper.append(childNodeHr)
 
         // Prefill value
         document.getElementById(`objective${i}`).value = data.impact[i-1].objective
@@ -926,42 +970,79 @@ if (data.impact[0].sdg === "") {  // If no impact, create a blank impact group
 
 // Prefill team data
 if (data.team[0].name === "") {  // If no team, create a blank team group
+    const childNodeNameLabel = document.createElement('p')
     const childNodeName = document.createElement('input')
+    const childNodePositionLabel = document.createElement('p')
     const childNodePosition = document.createElement('input')
     const childNodeClear = document.createElement('div')
+    const childNodeHr = document.createElement('hr')
+
+    childNodeNameLabel.setAttribute('id', `team${teamNum+1}NameLabel`)
+    childNodeNameLabel.setAttribute('class', `black-small`)
 
     childNodeName.setAttribute('id', `team${teamNum+1}Name`)
     childNodeName.setAttribute('type', `text`)
     childNodeName.setAttribute('placeholder', `ชื่อ Name`)
+    
+    childNodePositionLabel.setAttribute('id', `team${teamNum+1}PositionLabel`)
+    childNodePositionLabel.setAttribute('class', `black-small`)
+
     childNodePosition.setAttribute('id', `team${teamNum+1}Position`)
     childNodePosition.setAttribute('type', `text`)
     childNodePosition.setAttribute('placeholder', `ตำแหน่ง Position`)
+    
     childNodeClear.setAttribute('id', `team${teamNum+1}Clear`)
     childNodeClear.setAttribute('class', 'clear')
 
+    childNodeHr.setAttribute('id', `team${teamNum+1}Hr`)
+
+    teamWrapper.append(childNodeNameLabel)
+    childNodeNameLabel.innerHTML = `ชื่อที่ ${teamNum+1} Name #${teamNum+1}`
+
     teamWrapper.append(childNodeName)
+    teamWrapper.append(childNodePositionLabel)
+    childNodePositionLabel.innerHTML = 'ตำแหน่ง Position'
     teamWrapper.append(childNodePosition)
     teamWrapper.append(childNodeClear)
+    teamWrapper.append(childNodeHr)
 } else {
     for (let i=1; i <= data.team.length; i++) {
+        const childNodeNameLabel = document.createElement('p')
         const childNodeName = document.createElement('input')
+        const childNodePositionLabel = document.createElement('p')
         const childNodePosition = document.createElement('input')
         const childNodeClear = document.createElement('div')
+        const childNodeHr = document.createElement('hr')
+
+        childNodeNameLabel.setAttribute('id', `team${i}NameLabel`)
+        childNodeNameLabel.setAttribute('class', `black-small`)
 
         childNodeName.setAttribute('id', `team${i}Name`)
         childNodeName.setAttribute('type', `text`)
         childNodeName.setAttribute('placeholder', `ชื่อ Name`)
         childNodeName.setAttribute('value', data.team[i-1].teamName)
+
+        childNodePositionLabel.setAttribute('id', `team${i}PositionLabel`)
+        childNodePositionLabel.setAttribute('class', `black-small`)
+        
         childNodePosition.setAttribute('id', `team${i}Position`)
         childNodePosition.setAttribute('type', `text`)
         childNodePosition.setAttribute('placeholder', `ตำแหน่ง Position`)
         childNodePosition.setAttribute('value', data.team[i-1].teamPosition)
+        
         childNodeClear.setAttribute('id', `team${i}Clear`)
         childNodeClear.setAttribute('class', 'clear')
 
+        childNodeHr.setAttribute('id', `team${i}Hr`)
+
+        teamWrapper.append(childNodeNameLabel)
+        childNodeNameLabel.innerHTML = `ชื่อที่ ${i} Name #${i}`
         teamWrapper.append(childNodeName)
+        teamWrapper.append(childNodePositionLabel)
+        childNodePositionLabel.innerHTML = 'ตำแหน่ง Position'
         teamWrapper.append(childNodePosition)
         teamWrapper.append(childNodeClear)
+        teamWrapper.append(childNodeHr)
     }
 }
 
@@ -976,20 +1057,41 @@ if (data.published === true) {
 let impactNum = data.impact.length  // Initial number of impact from existing data
 
 function impactAdd() {
+    const childNodeObjectiveLabel = document.createElement('p')
     const childNodeObjective = document.createElement('textarea')
+    const childNodeSdgLabel = document.createElement('p')
     const childNodeSdg = document.createElement('select')
     const childNodeTarget = document.createElement('div')
     const childNodeBr = document.createElement('br')
+    const childNodeHr = document.createElement('hr')
+
+    childNodeObjectiveLabel.setAttribute('id', `objective${impactNum+1}Label`)
+    childNodeObjectiveLabel.setAttribute('class', `black-small`)
 
     childNodeObjective.setAttribute('id', `objective${impactNum+1}`)
     childNodeObjective.setAttribute('placeholder', `ระบุเป้าหมายที่ ${impactNum+1} แล้วเลือก SDG Goal ที่สอดคล้องกับเป้าหมายนี้ Specify objective #${impactNum+1} then select an SDG goal that corresponds to this objective.`)
+    
+    childNodeSdgLabel.setAttribute('id', `sdg${impactNum+1}Label`)
+    childNodeSdgLabel.setAttribute('class', `black-small`)
+
     childNodeSdg.setAttribute('id', `sdg${impactNum+1}`)
     childNodeSdg.setAttribute('name', `sdg${impactNum+1}`)
     childNodeSdg.setAttribute('onchange', `filterTarget(${impactNum+1})`)
+    
     childNodeTarget.setAttribute('id', `target${impactNum+1}`)
+    
     childNodeBr.setAttribute('id', `impact${impactNum+1}Br`)
 
+    childNodeHr.setAttribute('id', `impact${impactNum+1}Hr`)
+
+    impactWrapper.append(childNodeObjectiveLabel)
+    childNodeObjectiveLabel.innerHTML = `ระบุเป้าหมายที่ ${impactNum+1} Specify objective #${impactNum+1}`
+
     impactWrapper.append(childNodeObjective)
+
+    impactWrapper.append(childNodeSdgLabel)
+    childNodeSdgLabel.innerHTML = `เลือก SDG Goal. Choose an SDG Goal.`
+
     impactWrapper.append(childNodeSdg)
 
     document.getElementById(`sdg${impactNum+1}`).innerHTML = `
@@ -1015,16 +1117,20 @@ function impactAdd() {
 
     impactWrapper.append(childNodeTarget)
     impactWrapper.append(childNodeBr)
+    impactWrapper.append(childNodeHr)
 
     impactNum += 1
 }
 
 function impactMinus() {
     if (impactNum > 1) {
+        impactWrapper.removeChild(document.getElementById(`objective${impactNum}Label`))
         impactWrapper.removeChild(document.getElementById(`objective${impactNum}`))
+        impactWrapper.removeChild(document.getElementById(`sdg${impactNum}Label`))
         impactWrapper.removeChild(document.getElementById(`sdg${impactNum}`))
         impactWrapper.removeChild(document.getElementById(`target${impactNum}`))
         impactWrapper.removeChild(document.getElementById(`impact${impactNum}Br`))
+        impactWrapper.removeChild(document.getElementById(`impact${impactNum}Hr`))
 
         impactNum -= 1
     }
@@ -1034,31 +1140,53 @@ function impactMinus() {
 let teamNum = data.team.length  // Initial number of team from existing data
 
 function teamAdd() {
+    const childNodeNameLabel = document.createElement('p')
     const childNodeName = document.createElement('input')
+    const childNodePositionLabel = document.createElement('p')
     const childNodePosition = document.createElement('input')
     const childNodeClear = document.createElement('div')
+    const childNodeHr = document.createElement('hr')
+
+    childNodeNameLabel.setAttribute('id', `team${teamNum+1}NameLabel`)
+    childNodeNameLabel.setAttribute('class', `black-small`)
 
     childNodeName.setAttribute('id', `team${teamNum+1}Name`)
     childNodeName.setAttribute('type', `text`)
     childNodeName.setAttribute('placeholder', `ชื่อ Name`)
+
+    childNodePositionLabel.setAttribute('id', `team${teamNum+1}PositionLabel`)
+    childNodePositionLabel.setAttribute('class', `black-small`)
+
     childNodePosition.setAttribute('id', `team${teamNum+1}Position`)
     childNodePosition.setAttribute('type', `text`)
     childNodePosition.setAttribute('placeholder', `ตำแหน่ง Position`)
+
     childNodeClear.setAttribute('id', `team${teamNum+1}Clear`)
     childNodeClear.setAttribute('class', 'clear')
 
+    childNodeHr.setAttribute('id', `team${teamNum+1}Hr`)
+
+    teamWrapper.append(childNodeNameLabel)
+    childNodeNameLabel.innerHTML = `ชื่อที่ ${teamNum+1} Name #${teamNum+1}`
+
     teamWrapper.append(childNodeName)
+    teamWrapper.append(childNodePositionLabel)
+    childNodePositionLabel.innerHTML = 'ตำแหน่ง Position'
     teamWrapper.append(childNodePosition)
     teamWrapper.append(childNodeClear)
+    teamWrapper.append(childNodeHr)
 
     teamNum += 1
 }
 
 function teamMinus() {
     if (teamNum > 1) {
+        teamWrapper.removeChild(document.getElementById(`team${teamNum}NameLabel`))
         teamWrapper.removeChild(document.getElementById(`team${teamNum}Name`))
+        teamWrapper.removeChild(document.getElementById(`team${teamNum}PositionLabel`))
         teamWrapper.removeChild(document.getElementById(`team${teamNum}Position`))
         teamWrapper.removeChild(document.getElementById(`team${teamNum}Clear`))
+        teamWrapper.removeChild(document.getElementById(`team${teamNum}Hr`))
 
         teamNum -= 1
     }
