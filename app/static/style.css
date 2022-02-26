@@ -323,7 +323,7 @@ td {
 }
 
 tr {
-
+    
 }
 
 .circle-with-text {
@@ -786,6 +786,7 @@ header {
 
 .homecard-inner-flex-img {
     flex: 1 1 auto;
+    padding: 10px 10px 0px 10px;
 }
 
 .homecard-inner-flex-content {
@@ -1030,6 +1031,7 @@ td.activity {
     width: 33%;
     overflow: hidden;
     padding-top: 7px;
+    padding-bottom: 20px;
 }
 
 .activity-index {

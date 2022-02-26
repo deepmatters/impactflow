@@ -28,7 +28,8 @@
             {% if editable %}
                 <div class="no-print">
                     <a class="no-decoration" href="/project/{{ project.id }}/edit"><img src="/static/edit.svg" alt="Edit"> <span class="edit-text-link"> Edit project</span></a>&nbsp;&nbsp;
-                    <a class="no-decoration" href="/project/{{ project.id }}/delete"><img src="/static/delete.svg" alt="Delete"></a>
+                    <a class="no-decoration" href="/project/{{ project.id }}/delete"><img src="/static/delete.svg" alt="Delete"></a> &nbsp;<span class="edit-text-link">|</span> &nbsp;
+                    <a class="no-decoration" href="#" onclick="projectPrint(); return false;"><span class="edit-text-link">Print project</span></a>
                     <br><br>
                 </div>
             {% endif %}
@@ -132,14 +133,6 @@
         {% endfor %}
     </div>
     <br>
-    {% if editable %}
-        <div class="passed-zone no-print">
-            <button id="print" class="button-edit" type="button" onclick="projectPrint()">พิมพ์โครงการ Print the project</button><br>
-            <span class="gray-small">หากต้องการเซฟเป็นไฟล์ PDF ให้กดปุ่มแล้วเลือก Save to PDF แทนที่จะเลือกเครื่องพิมพ์ Please select 'Save to PDF' if you want a PDF file.</span>
-        </div>
-        <br>
-        <hr>
-    {% endif %}
  
     <h2 class="form-section-title">โมเดลผลกระทบทางสังคม Impact Model</h2>
     <p class="no-print">แบบจำลองผลกระทบมีส่วนสนับสนุนกรอบการทำงานเพื่อแสดงให้เห็นว่าผลกระทบถูกสร้างขึ้นอย่างไรเมื่อคำนึงถึงผู้มีส่วนได้ส่วนเสียที่เกี่ยวข้องต่างๆ โดยอธิบายว่ากิจกรรม ผลผลิต ผลลัพธ์ และผลกระทบนั้นมีความสัมพันธ์กันอย่างมีเหตุผลและทำหน้าที่เป็นพื้นฐานสำหรับการรวบรวมและวิเคราะห์ข้อมูล</p>
@@ -171,24 +164,21 @@
         {% endif %}
     {% else %}
         <table>
-            <tr>
-                <th class="activity">กิจกรรม Activities</th>
-                <th class="activity">ผลผลิต Outputs</th>
-                <th class="activity">ผลลัพธ์ Outcomes</th>
-            </tr>
         {% for stakeholder in stakeholders %}
             <tr>
                 <td class="stakeholder" colspan="3">
+                    <br>
                     <div class="project-stakeholder-wrapper">
                         <div class="project-stakeholder-left">
                             <span class="gray-small">Stakeholder</span> &nbsp;&nbsp;&nbsp;<span><strong>{{ stakeholder['json']['stakeholder'] }}</strong></span><br>
                             <div class="spacer-big"></div>
-                            <span class="gray-small">Description</span> &nbsp;&nbsp;&nbsp;&nbsp;{{ stakeholder['json']['description'] }}
+                            <span class="gray-small">Description</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="black-small">{{ stakeholder['json']['description'] }}</span><br>
+                            <div class="spacer-big"></div>
                         </div>
                         <div class="project-stakeholder-right">
-                            <span class="gray-small">ประเภท Type of beneficiary </span> &nbsp;&nbsp;&nbsp;{{ stakeholder['json']['degree'] }}<br>
+                            <span class="gray-small">ประเภท Type of beneficiary </span> &nbsp;&nbsp;&nbsp;<span class="black-small">{{ stakeholder['json']['degree'] }}</span><br>
                             <div class="spacer-big"></div>
-                            <span class="gray-small">ความสำคัญ Importance</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ stakeholder['json']['importance'] }}<br>
+                            <span class="gray-small">ความสำคัญ Importance</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="black-small">{{ stakeholder['json']['importance'] }}</span><br>
                         </div>
                         
                         {% if editable %}
@@ -199,7 +189,13 @@
                             </div>
                         {% endif %}
                     </div>
+                    <br>
                 </td>
+            </tr>
+            <tr>
+                <th class="activity">กิจกรรม Activities</th>
+                <th class="activity">ผลผลิต Outputs</th>
+                <th class="activity">ผลลัพธ์ Outcomes</th>
             </tr>
             <tr>
                 <td class="activity">
