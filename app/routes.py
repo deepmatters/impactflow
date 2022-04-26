@@ -1288,9 +1288,11 @@ def indicator_api():
             indicators.append({
                 "category": result['category'], 
                 "subcategory": result['subcategory'], 
+                "indicator_th": result['indicator_th'], 
+                "source_th": result['source_th'], 
                 "indicator_en": result['indicator_en'], 
                 "source_en": result['source_en'], 
-                "content": result['subcategory'] + " : " + result['indicator_en'] + " (" + result['source_en'] + ")"
+                "content": result['subcategory'] + " : " + result['indicator_th'] + " (" + result['source_th'] + ") " + result['indicator_en'] + " (" + result['source_en'] + ")"
             })
 
         return jsonify(indicators)

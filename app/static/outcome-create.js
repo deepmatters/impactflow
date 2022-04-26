@@ -31,7 +31,7 @@ fetchSearch()
 
 function searchFill(searchArrayIndex) {
     document.getElementById(`indicatorCategory`).value = searchArrayGlobal[searchArrayIndex].obj.category
-    document.getElementById(`indicator`).value = `${searchArrayGlobal[searchArrayIndex].obj.indicator_en} (${searchArrayGlobal[searchArrayIndex].obj.source_en})`
+    document.getElementById(`indicator`).value = `${searchArrayGlobal[searchArrayIndex].obj.indicator_th} (${searchArrayGlobal[searchArrayIndex].obj.source_th}) / ${searchArrayGlobal[searchArrayIndex].obj.indicator_en} (${searchArrayGlobal[searchArrayIndex].obj.source_en})`
     searchClear()
 }
 
@@ -169,6 +169,7 @@ function searchSubmit() {
                     <div class="spacer-big"></div>
                     <span class="blue-em">${result.obj.category}</span><br>
                     ${result.obj.subcategory}<br>
+                    <p><strong>${result.obj.indicator_th}</strong> (${result.obj.source_th})</p>
                     <p><strong>${result.obj.indicator_en}</strong> (${result.obj.source_en})</p>
                 </div>
                 <button class="button" onclick="searchFill(${i})">เลือกใช้ตัวชี้วัดนี้ Use this indicator</button>
