@@ -87,6 +87,10 @@ def project_all():
 def about():
     return render_template('about.html')
 
+@app.route('/privacy')
+def privacy():
+	return render_template('privacy.html')
+    
 """
 Login and user sub-system
 """
